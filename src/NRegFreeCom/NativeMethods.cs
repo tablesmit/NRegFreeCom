@@ -6,17 +6,35 @@ using System.Text;
 
 namespace NRegFreeCom
 {
-    //[SuppressUnmanagedCodeSecurity]
+    [SuppressUnmanagedCodeSecurity]
     public static class NativeMethods
     {
+        [DllImport("Kernel32.dll", SetLastError = true)]
+        public static extern int GetModuleFileNameEx(IntPtr hProcess, IntPtr hModule, StringBuilder lpFilename, int nSize);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [PreserveSig]
+        public static extern uint GetModuleFileName
+        (
+            [In]
+    IntPtr hModule,
+
+            [Out] 
+    StringBuilder lpFilename,
+
+            [In]
+    [MarshalAs(UnmanagedType.U4)]
+    int nSize
+);
+
         ///<seealso href="http://search.microsoft.com/en-US/results.aspx?q=SetDllDirectory"/>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetDllDirectory(string lpPathName); 
+        public static extern bool SetDllDirectory(string lpPathName);
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto,SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern int LoadString(IntPtr hInstance, uint uID, StringBuilder lpBuffer, int nBufferMax);
-        
+
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr LockResource(IntPtr hResData);
 
@@ -26,13 +44,13 @@ namespace NRegFreeCom
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr FindResource(IntPtr hModule, uint lpName, uint lpType);
 
-        [DllImport("kernel32.dll", EntryPoint = "LoadAnyCpuLibrary",SetLastError = true)]
+        [DllImport("kernel32.dll", EntryPoint = "LoadAnyCpuLibrary", SetLastError = true)]
         public static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPStr)] string lpLibFileName);
 
-        [DllImport("kernel32.dll", EntryPoint = "GetProcAddress",SetLastError = true)]
+        [DllImport("kernel32.dll", EntryPoint = "GetProcAddress", SetLastError = true)]
         public static extern IntPtr GetProcAddress(IntPtr hModule, [MarshalAs(UnmanagedType.LPStr)] string lpProcName);
 
-        [DllImport("kernel32.dll", EntryPoint = "FreeLibrary",SetLastError = true)]
+        [DllImport("kernel32.dll", EntryPoint = "FreeLibrary", SetLastError = true)]
         public static extern bool FreeLibrary(int hModule);
 
         [DllImport("ole32.dll", CharSet = CharSet.Unicode, ExactSpelling = true, PreserveSig = false)]
@@ -57,7 +75,7 @@ namespace NRegFreeCom
           ENUMRESNAMEPROC lpEnumFunc,
           IntPtr lParam);
 
-    
+
 
         /// <summary>
         /// CoInitializeEx() can be used to set the apartment model of individual 
@@ -278,7 +296,7 @@ namespace NRegFreeCom
         [DllImport("oleaut32.dll")]
         public static extern int RevokeActiveObject(int register, IntPtr reserved);
 
-      
+
 
         [DllImport("ole32.dll")]
         public static extern int CreateClassMoniker([In] ref Guid rclsid,
