@@ -134,7 +134,7 @@ namespace CSExeCOMServer
             // if (REG_FREE)
             //{
             //            // reg free
-            //     RotWrapper rw = new RotWrapper();
+            //     RunningObjectTable rw = new RunningObjectTable();
             //     SimpleObject rc = new SimpleObject();
             //     if (rw.RegisterObject(rc, "CSExeCOMServer.SimpleObject") != 0)
             //    {

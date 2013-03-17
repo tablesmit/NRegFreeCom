@@ -23,7 +23,7 @@ namespace CSExeCOMServer
         {
             var t = new Thread(() =>
             {
-                using (RotWrapper rw = new RotWrapper())
+                using (RunningObjectTable rw = new RunningObjectTable())
                 {
                     IRegFreeComRotClass rc = new RegFreeComRotClass();
                     if (rw.RegisterObject(rc, typeof(IRegFreeComRotClass).FullName) != 0)

@@ -1,1 +1,8 @@
-﻿          1 file(s) copied.
+﻿  stdafx.cpp
+cl : Command line warning D9028: minimal rebuild failure, reverting to normal build
+  dllmain.cpp
+  Skipping... (no relevant changes detected)
+  RegFreeComNativeImplementer.cpp
+  Implementer.cpp
+  RegFreeComNativeImplementer.vcxproj -> C:\ci\co\CommonOffice\src\NRegFreeCom\src\..\build\Debug\Win32\RegFreeComNativeImplementer.dll
+          1 file(s) copied.

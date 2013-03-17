@@ -91,7 +91,7 @@ namespace RegFreeCom
         {
             get
             {
-                RegFreeHelper.PrintRot();
+                new RunningObjectTable().PrintRot();
                 return this.fField;
     
             }

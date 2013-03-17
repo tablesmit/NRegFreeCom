@@ -25,7 +25,7 @@ namespace NRegFreeCom
                 // Create "LocalServer32" under the CLSID key
                 using (RegistryKey subkey = keyCLSID.CreateSubKey("LocalServer32"))
                 {
-                    subkey.SetValue("", Assembly.GetExecutingAssembly().Location,
+                    subkey.SetValue("", System.Reflection.Assembly.GetExecutingAssembly().Location,
                                     RegistryValueKind.String);
                 }
             }

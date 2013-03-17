@@ -19,7 +19,7 @@ namespace CsComWin32
         [STAThread]
         static void Main(string[] args)
         {
-            var loader = new NativeAssemblySystem();
+            var loader = new AssemblySystem();
             var module = loader.LoadAnyCpuSubLibrary("RegFreeComNativeConsumer.dll");
 
             //
@@ -29,12 +29,11 @@ namespace CsComWin32
             var qwe = obj.GetType().GetMethod("Get", BindingFlags.Instance | BindingFlags.Public);
             var m = obj.GetType().GetMethods();
             var str = obj2.Get();
-            NRegFreeCom.ActivationContext.UsingAssemblyManifestDo(typeof(SimpleObject).Assembly, () =>
-            {
+     
                 _service = new SimpleObject();
                 _service.FloatProperty = 42;
                 _pointer = Marshal.GetIUnknownForObject(_service);
-            });
+    
             var initialize = module.GetDelegate<Initialize>();
             int error = initialize(_pointer);
             if (error != 0) throw new Exception();

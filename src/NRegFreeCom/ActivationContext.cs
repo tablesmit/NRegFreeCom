@@ -69,7 +69,7 @@ namespace NRegFreeCom
             }
         }
 
-        public static void UsingAssemblyManifestDo(Assembly assembly, doSomething action)
+        public static void UsingAssemblyManifestDo(System.Reflection.Assembly assembly, doSomething action)
         {
             var manifest = assembly.Location + ".manifest";
             UsingManifestDo(manifest, action);
