@@ -1,0 +1,122 @@
+﻿// Created by Microsoft (R) C/C++ Compiler Version 10.00.40219.01 (35b0cf7d).
+//
+// c:\ci\co\commonoffice\src\nregfreecom\src\regfreecomnativeimplementer\debug\regfreecom.interfaces.tlh
+//
+// C++ source equivalent of Win32 type library C:\ci\co\CommonOffice\src\NRegFreeCom\build\Debug\RegFreeCom.Interfaces.tlb
+// compiler-generated file created 03/17/13 at 11:38:11 - DO NOT EDIT!
+
+#pragma once
+#pragma pack(push, 8)
+
+#include <comdef.h>
+
+//
+// Forward references and typedefs
+//
+
+struct __declspec(uuid("84c290cb-b907-4006-a53d-3c60e4db30d6"))
+/* LIBID */ __RegFreeCom_Interfaces;
+struct __declspec(uuid("941d219b-7601-4375-b68a-61e23a4c8425"))
+/* dual interface */ ISimpleObject;
+struct __declspec(uuid("eee50cdf-d8ec-4f38-b986-c231ec45171e"))
+/* dispinterface */ IRegFreeCom;
+struct __declspec(uuid("014c067e-660d-4d20-9952-cd973ce50436"))
+/* dispinterface */ ISimpleObjectEvents;
+struct __declspec(uuid("a699bc89-96cf-476b-86f0-2cb63eb8c4e4"))
+/* dual interface */ IRegFreeComRotClass;
+struct __declspec(uuid("821b0f39-c5aa-47e8-b00c-2a96758d3b2d"))
+/* dual interface */ ILoadedByManagedImplementedByNative;
+
+//
+// Smart pointer typedef declarations
+//
+
+_COM_SMARTPTR_TYPEDEF(ISimpleObject, __uuidof(ISimpleObject));
+_COM_SMARTPTR_TYPEDEF(IRegFreeCom, __uuidof(IRegFreeCom));
+_COM_SMARTPTR_TYPEDEF(ISimpleObjectEvents, __uuidof(ISimpleObjectEvents));
+_COM_SMARTPTR_TYPEDEF(IRegFreeComRotClass, __uuidof(IRegFreeComRotClass));
+_COM_SMARTPTR_TYPEDEF(ILoadedByManagedImplementedByNative, __uuidof(ILoadedByManagedImplementedByNative));
+
+//
+// Type library items
+//
+
+struct __declspec(uuid("941d219b-7601-4375-b68a-61e23a4c8425"))
+ISimpleObject : IDispatch
+{
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_FloatProperty (
+        /*[out,retval]*/ float * pRetVal ) = 0;
+      virtual HRESULT __stdcall put_FloatProperty (
+        /*[in]*/ float pRetVal ) = 0;
+      virtual HRESULT __stdcall HelloWorld (
+        /*[out,retval]*/ BSTR * pRetVal ) = 0;
+      virtual HRESULT __stdcall GetProcessThreadID (
+        /*[out]*/ unsigned long * processId,
+        /*[out]*/ unsigned long * threadId ) = 0;
+      virtual HRESULT __stdcall get_ProcName (
+        /*[out,retval]*/ BSTR * pRetVal ) = 0;
+};
+
+struct __declspec(uuid("eee50cdf-d8ec-4f38-b986-c231ec45171e"))
+IRegFreeCom : IDispatch
+{};
+
+struct __declspec(uuid("014c067e-660d-4d20-9952-cd973ce50436"))
+ISimpleObjectEvents : IDispatch
+{};
+
+struct __declspec(uuid("a699bc89-96cf-476b-86f0-2cb63eb8c4e4"))
+IRegFreeComRotClass : IDispatch
+{
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_FloatProperty (
+        /*[out,retval]*/ float * pRetVal ) = 0;
+      virtual HRESULT __stdcall put_FloatProperty (
+        /*[in]*/ float pRetVal ) = 0;
+      virtual HRESULT __stdcall get_ProcName (
+        /*[out,retval]*/ BSTR * pRetVal ) = 0;
+      virtual HRESULT __stdcall Create (
+        /*[out,retval]*/ struct ISimpleObject * * pRetVal ) = 0;
+      virtual HRESULT __stdcall Execute (
+        /*[in]*/ SAFEARRAY * request,
+        /*[out,retval]*/ SAFEARRAY * * pRetVal ) = 0;
+};
+
+struct __declspec(uuid("821b0f39-c5aa-47e8-b00c-2a96758d3b2d"))
+ILoadedByManagedImplementedByNative : IDispatch
+{
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall Set (
+        /*[in]*/ long data ) = 0;
+      virtual HRESULT __stdcall Get (
+        /*[out,retval]*/ BSTR * pRetVal ) = 0;
+};
+
+//
+// Named GUID constants initializations
+//
+
+extern "C" const GUID __declspec(selectany) LIBID_RegFreeCom_Interfaces =
+    {0x84c290cb,0xb907,0x4006,{0xa5,0x3d,0x3c,0x60,0xe4,0xdb,0x30,0xd6}};
+extern "C" const GUID __declspec(selectany) IID_ISimpleObject =
+    {0x941d219b,0x7601,0x4375,{0xb6,0x8a,0x61,0xe2,0x3a,0x4c,0x84,0x25}};
+extern "C" const GUID __declspec(selectany) DIID_IRegFreeCom =
+    {0xeee50cdf,0xd8ec,0x4f38,{0xb9,0x86,0xc2,0x31,0xec,0x45,0x17,0x1e}};
+extern "C" const GUID __declspec(selectany) DIID_ISimpleObjectEvents =
+    {0x014c067e,0x660d,0x4d20,{0x99,0x52,0xcd,0x97,0x3c,0xe5,0x04,0x36}};
+extern "C" const GUID __declspec(selectany) IID_IRegFreeComRotClass =
+    {0xa699bc89,0x96cf,0x476b,{0x86,0xf0,0x2c,0xb6,0x3e,0xb8,0xc4,0xe4}};
+extern "C" const GUID __declspec(selectany) IID_ILoadedByManagedImplementedByNative =
+    {0x821b0f39,0xc5aa,0x47e8,{0xb0,0x0c,0x2a,0x96,0x75,0x8d,0x3b,0x2d}};
+
+#pragma pack(pop)

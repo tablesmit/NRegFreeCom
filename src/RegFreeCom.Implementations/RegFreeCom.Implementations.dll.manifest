@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1"
+  manifestVersion="1.0">
+  <assemblyIdentity
+       name="RegFreeCom.Implementations.dll"
+       version="1.0.0.0"
+       processorArchitecture="msil" />
+  <clrClass
+        clsid="{9C21B7EB-7E27-4405-BCE0-62B338DF83BB}"
+        progid="RegFreeCom.RegFreeLocalServer"
+        threadingModel="Both"
+        name="RegFreeCom.RegFreeLocalServer" >
+  </clrClass>
+  <clrClass
+      clsid="{DB9935C1-19C5-4ed2-ADD2-9A57E19F53A3}"
+      progid="RegFreeCom.SimpleObject"
+      threadingModel="Both"
+      name="RegFreeCom.SimpleObject" >
+  </clrClass>
+  <clrClass
+    clsid="{581FBD61-BD82-4E2A-8200-519D90BBB1F7}"
+    progid="RegFreeCom.RegFreeComRotClass"
+    threadingModel="Both"
+    name="RegFreeCom.RegFreeComRotClass" >
+  </clrClass>
+  <dependency>
+    <dependentAssembly>
+      <assemblyIdentity
+           name="RegFreeCom.Interfaces.dll"
+           version="1.0.0.0"
+           processorArchitecture="msil" />
+    </dependentAssembly>
+  </dependency>
+</assembly>

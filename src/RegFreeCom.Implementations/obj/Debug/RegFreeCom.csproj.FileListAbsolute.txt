@@ -1,0 +1,12 @@
+c:\ci\co\CommonOffice\src\NRegFreeCom\src\build\Debug\RegFreeCom.Interfaces.manifest
+c:\ci\co\CommonOffice\src\NRegFreeCom\src\build\Debug\RegFreeCom.manifest
+c:\ci\co\CommonOffice\src\NRegFreeCom\src\build\Debug\RegFreeCom.dll
+c:\ci\co\CommonOffice\src\NRegFreeCom\src\build\Debug\RegFreeCom.pdb
+c:\ci\co\CommonOffice\src\NRegFreeCom\src\RegFreeCom\obj\Debug\ResolveAssemblyReference.cache
+c:\ci\co\CommonOffice\src\NRegFreeCom\src\RegFreeCom\obj\Debug\RegFreeCom.dll
+c:\ci\co\CommonOffice\src\NRegFreeCom\src\RegFreeCom\obj\Debug\RegFreeCom.pdb
+c:\ci\co\CommonOffice\src\NRegFreeCom\build\Debug\RegFreeCom.dll
+c:\ci\co\CommonOffice\src\NRegFreeCom\build\Debug\RegFreeCom.pdb
+c:\ci\co\CommonOffice\src\NRegFreeCom\build\Debug\NRegFreeCom.dll.manifest
+c:\ci\co\CommonOffice\src\NRegFreeCom\build\Debug\RegFreeCom.Interfaces.dll.manifest
+c:\ci\co\CommonOffice\src\NRegFreeCom\build\Debug\RegFreeCom.dll.manifest

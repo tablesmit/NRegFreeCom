@@ -1,0 +1,114 @@
+﻿// Generated .IDL file (by the OLE/COM Object Viewer)
+// 
+// typelib filename: RegFreeCom.Interfaces.tlb
+
+[
+  uuid(84C290CB-B907-4006-A53D-3C60E4DB30D6),
+  version(1.0),
+  custom(90883F05-3D28-11D2-8F17-00A0C9A6186D, "RegFreeCom.Interfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null")
+
+]
+library RegFreeCom_Interfaces
+{
+    // TLib :     // TLib : OLE Automation : {00020430-0000-0000-C000-000000000046}
+    importlib("stdole2.tlb");
+
+    // Forward declare all types defined in this typelib
+    interface ISimpleObject;
+    dispinterface IRegFreeCom;
+    dispinterface ISimpleObjectEvents;
+    interface IRegFreeComRotClass;
+    interface ILoadedByManagedImplementedByNative;
+
+    [
+      odl,
+      uuid(941D219B-7601-4375-B68A-61E23A4C8425),
+      version(1.0),
+      dual,
+      oleautomation,
+      custom(0F21F359-AB84-41E8-9A78-36D110E6D2F9, "RegFreeCom.Interfaces.ISimpleObject")    
+
+    ]
+    interface ISimpleObject : IDispatch {
+        [id(0x60020000), propget]
+        HRESULT FloatProperty([out, retval] single* pRetVal);
+        [id(0x60020000), propput]
+        HRESULT FloatProperty([in] single pRetVal);
+        [id(0x60020002)]
+        HRESULT HelloWorld([out, retval] BSTR* pRetVal);
+        [id(0x60020003)]
+        HRESULT GetProcessThreadID(
+                        [out] unsigned long* processId, 
+                        [out] unsigned long* threadId);
+        [id(0x60020004), propget]
+        HRESULT ProcName([out, retval] BSTR* pRetVal);
+    };
+
+    [
+      uuid(EEE50CDF-D8EC-4F38-B986-C231EC45171E),
+      version(1.0),
+      custom(0F21F359-AB84-41E8-9A78-36D110E6D2F9, "RegFreeCom.Interfaces.IRegFreeCom")    
+
+    ]
+    dispinterface IRegFreeCom {
+        properties:
+        methods:
+            [id(0x60020000)]
+            BSTR GetString([in] long number);
+    };
+
+    [
+      uuid(014C067E-660D-4D20-9952-CD973CE50436),
+      version(1.0),
+      custom(0F21F359-AB84-41E8-9A78-36D110E6D2F9, "RegFreeCom.Interfaces.ISimpleObjectEvents")    
+
+    ]
+    dispinterface ISimpleObjectEvents {
+        properties:
+        methods:
+            [id(0x00000001)]
+            void FloatPropertyChanging(
+                            [in] single NewValue, 
+                            [in, out] VARIANT_BOOL* Cancel);
+    };
+
+    [
+      odl,
+      uuid(A699BC89-96CF-476B-86F0-2CB63EB8C4E4),
+      version(1.0),
+      dual,
+      oleautomation,
+      custom(0F21F359-AB84-41E8-9A78-36D110E6D2F9, "RegFreeCom.Interfaces.IRegFreeComRotClass")    
+
+    ]
+    interface IRegFreeComRotClass : IDispatch {
+        [id(0x60020000), propget]
+        HRESULT FloatProperty([out, retval] single* pRetVal);
+        [id(0x60020000), propput]
+        HRESULT FloatProperty([in] single pRetVal);
+        [id(0x60020002), propget]
+        HRESULT ProcName([out, retval] BSTR* pRetVal);
+        [id(0x60020003)]
+        HRESULT Create([out, retval] ISimpleObject** pRetVal);
+        [id(0x60020004)]
+        HRESULT Execute(
+                        [in] SAFEARRAY(unsigned char) request, 
+                        [out, retval] SAFEARRAY(unsigned char)* pRetVal);
+    };
+
+    [
+      odl,
+      uuid(821B0F39-C5AA-47E8-B00C-2A96758D3B2D),
+      version(1.0),
+      dual,
+      oleautomation,
+      custom(0F21F359-AB84-41E8-9A78-36D110E6D2F9, "RegFreeCom.Interfaces.ILoadedByManagedImplementedByNative")    
+
+    ]
+    interface ILoadedByManagedImplementedByNative : IDispatch {
+        [id(0x60020000)]
+        HRESULT Set([in] long data);
+        [id(0x60020001)]
+        HRESULT Get([out, retval] BSTR* pRetVal);
+    };
+};

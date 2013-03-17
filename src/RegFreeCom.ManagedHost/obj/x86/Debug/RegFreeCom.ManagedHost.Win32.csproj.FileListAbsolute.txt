@@ -1,0 +1,9 @@
+C:\ci\co\CommonOffice\src\NRegFreeCom\src\RegFreeCom.ManagedHost\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\ci\co\CommonOffice\src\NRegFreeCom\build\Debug\NRegFreeCom.dll.manifest
+C:\ci\co\CommonOffice\src\NRegFreeCom\build\Debug\RegFreeCom.Interfaces.dll.manifest
+C:\ci\co\CommonOffice\src\NRegFreeCom\build\Debug\RegFreeCom_Interfaces.idl
+C:\ci\co\CommonOffice\src\NRegFreeCom\build\Debug\RegFreeCom.ManagedHost.Win32.exe
+C:\ci\co\CommonOffice\src\NRegFreeCom\build\Debug\RegFreeCom.ManagedHost.Win32.pdb
+C:\ci\co\CommonOffice\src\NRegFreeCom\src\RegFreeCom.ManagedHost\obj\x86\Debug\RegFreeCom.ManagedHost.Win32.exe
+C:\ci\co\CommonOffice\src\NRegFreeCom\src\RegFreeCom.ManagedHost\obj\x86\Debug\RegFreeCom.ManagedHost.Win32.pdb
+C:\ci\co\CommonOffice\src\NRegFreeCom\build\Debug\RegFreeCom.Implementations.dll.manifest

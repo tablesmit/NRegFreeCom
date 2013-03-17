@@ -1,0 +1,105 @@
+REGEDIT4
+
+[HKEY_CLASSES_ROOT\RegFreeCom.SimpleObjectClassFactory]
+@="RegFreeCom.SimpleObjectClassFactory"
+
+[HKEY_CLASSES_ROOT\RegFreeCom.SimpleObjectClassFactory\CLSID]
+@="{8DE2AEA1-3C72-44F2-9690-0F9C64C305BA}"
+
+[HKEY_CLASSES_ROOT\CLSID\{8DE2AEA1-3C72-44F2-9690-0F9C64C305BA}]
+@="RegFreeCom.SimpleObjectClassFactory"
+
+[HKEY_CLASSES_ROOT\CLSID\{8DE2AEA1-3C72-44F2-9690-0F9C64C305BA}\InprocServer32]
+@="mscoree.dll"
+"ThreadingModel"="Both"
+"Class"="RegFreeCom.SimpleObjectClassFactory"
+"Assembly"="RegFreeCom.Implementations, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+"RuntimeVersion"="v2.0.50727"
+
+[HKEY_CLASSES_ROOT\CLSID\{8DE2AEA1-3C72-44F2-9690-0F9C64C305BA}\InprocServer32\1.0.0.0]
+"Class"="RegFreeCom.SimpleObjectClassFactory"
+"Assembly"="RegFreeCom.Implementations, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+"RuntimeVersion"="v2.0.50727"
+
+[HKEY_CLASSES_ROOT\CLSID\{8DE2AEA1-3C72-44F2-9690-0F9C64C305BA}\ProgId]
+@="RegFreeCom.SimpleObjectClassFactory"
+
+[HKEY_CLASSES_ROOT\CLSID\{8DE2AEA1-3C72-44F2-9690-0F9C64C305BA}\Implemented Categories\{62C8FE65-4EBB-45E7-B440-6E39B2CDBF29}]
+
+[HKEY_CLASSES_ROOT\RegFreeCom.SimpleObject]
+@="RegFreeCom.SimpleObject"
+
+[HKEY_CLASSES_ROOT\RegFreeCom.SimpleObject\CLSID]
+@="{DB9935C1-19C5-4ED2-ADD2-9A57E19F53A3}"
+
+[HKEY_CLASSES_ROOT\CLSID\{DB9935C1-19C5-4ED2-ADD2-9A57E19F53A3}]
+@="RegFreeCom.SimpleObject"
+
+[HKEY_CLASSES_ROOT\CLSID\{DB9935C1-19C5-4ED2-ADD2-9A57E19F53A3}\InprocServer32]
+@="mscoree.dll"
+"ThreadingModel"="Both"
+"Class"="RegFreeCom.SimpleObject"
+"Assembly"="RegFreeCom.Implementations, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+"RuntimeVersion"="v2.0.50727"
+
+[HKEY_CLASSES_ROOT\CLSID\{DB9935C1-19C5-4ED2-ADD2-9A57E19F53A3}\InprocServer32\1.0.0.0]
+"Class"="RegFreeCom.SimpleObject"
+"Assembly"="RegFreeCom.Implementations, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+"RuntimeVersion"="v2.0.50727"
+
+[HKEY_CLASSES_ROOT\CLSID\{DB9935C1-19C5-4ED2-ADD2-9A57E19F53A3}\ProgId]
+@="RegFreeCom.SimpleObject"
+
+[HKEY_CLASSES_ROOT\CLSID\{DB9935C1-19C5-4ED2-ADD2-9A57E19F53A3}\Implemented Categories\{62C8FE65-4EBB-45E7-B440-6E39B2CDBF29}]
+
+[HKEY_CLASSES_ROOT\RegFreeCom.RegFreeComRotClass]
+@="RegFreeCom.RegFreeComRotClass"
+
+[HKEY_CLASSES_ROOT\RegFreeCom.RegFreeComRotClass\CLSID]
+@="{581FBD61-BD82-4E2A-8200-519D90BBB1F7}"
+
+[HKEY_CLASSES_ROOT\CLSID\{581FBD61-BD82-4E2A-8200-519D90BBB1F7}]
+@="RegFreeCom.RegFreeComRotClass"
+
+[HKEY_CLASSES_ROOT\CLSID\{581FBD61-BD82-4E2A-8200-519D90BBB1F7}\InprocServer32]
+@="mscoree.dll"
+"ThreadingModel"="Both"
+"Class"="RegFreeCom.RegFreeComRotClass"
+"Assembly"="RegFreeCom.Implementations, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+"RuntimeVersion"="v2.0.50727"
+
+[HKEY_CLASSES_ROOT\CLSID\{581FBD61-BD82-4E2A-8200-519D90BBB1F7}\InprocServer32\1.0.0.0]
+"Class"="RegFreeCom.RegFreeComRotClass"
+"Assembly"="RegFreeCom.Implementations, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+"RuntimeVersion"="v2.0.50727"
+
+[HKEY_CLASSES_ROOT\CLSID\{581FBD61-BD82-4E2A-8200-519D90BBB1F7}\ProgId]
+@="RegFreeCom.RegFreeComRotClass"
+
+[HKEY_CLASSES_ROOT\CLSID\{581FBD61-BD82-4E2A-8200-519D90BBB1F7}\Implemented Categories\{62C8FE65-4EBB-45E7-B440-6E39B2CDBF29}]
+
+[HKEY_CLASSES_ROOT\RegFreeCom.RegFreeLocalServer]
+@="RegFreeCom.RegFreeLocalServer"
+
+[HKEY_CLASSES_ROOT\RegFreeCom.RegFreeLocalServer\CLSID]
+@="{9C21B7EB-7E27-4405-BCE0-62B338DF83BB}"
+
+[HKEY_CLASSES_ROOT\CLSID\{9C21B7EB-7E27-4405-BCE0-62B338DF83BB}]
+@="RegFreeCom.RegFreeLocalServer"
+
+[HKEY_CLASSES_ROOT\CLSID\{9C21B7EB-7E27-4405-BCE0-62B338DF83BB}\InprocServer32]
+@="mscoree.dll"
+"ThreadingModel"="Both"
+"Class"="RegFreeCom.RegFreeLocalServer"
+"Assembly"="RegFreeCom.Implementations, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+"RuntimeVersion"="v2.0.50727"
+
+[HKEY_CLASSES_ROOT\CLSID\{9C21B7EB-7E27-4405-BCE0-62B338DF83BB}\InprocServer32\1.0.0.0]
+"Class"="RegFreeCom.RegFreeLocalServer"
+"Assembly"="RegFreeCom.Implementations, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+"RuntimeVersion"="v2.0.50727"
+
+[HKEY_CLASSES_ROOT\CLSID\{9C21B7EB-7E27-4405-BCE0-62B338DF83BB}\ProgId]
+@="RegFreeCom.RegFreeLocalServer"
+
+[HKEY_CLASSES_ROOT\CLSID\{9C21B7EB-7E27-4405-BCE0-62B338DF83BB}\Implemented Categories\{62C8FE65-4EBB-45E7-B440-6E39B2CDBF29}]

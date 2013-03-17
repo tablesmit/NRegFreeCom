@@ -1,0 +1,183 @@
+﻿// Created by Microsoft (R) C/C++ Compiler Version 10.00.40219.01 (b1929a14).
+//
+// c:\ci\co\commonoffice\src\nregfreecom\src\regfreecomnativeconsumer\debug\regfreecom.interfaces.tlh
+//
+// C++ source equivalent of Win32 type library ..\..\build\Debug\RegFreeCom.Interfaces.tlb
+// compiler-generated file created 03/17/13 at 11:38:10 - DO NOT EDIT!
+
+#pragma once
+#pragma pack(push, 8)
+
+#include <comdef.h>
+
+namespace RegFreeCom_Interfaces {
+
+//
+// Forward references and typedefs
+//
+
+struct __declspec(uuid("84c290cb-b907-4006-a53d-3c60e4db30d6"))
+/* LIBID */ __RegFreeCom_Interfaces;
+struct __declspec(uuid("941d219b-7601-4375-b68a-61e23a4c8425"))
+/* dual interface */ ISimpleObject;
+struct __declspec(uuid("eee50cdf-d8ec-4f38-b986-c231ec45171e"))
+/* dispinterface */ IRegFreeCom;
+struct __declspec(uuid("014c067e-660d-4d20-9952-cd973ce50436"))
+/* dispinterface */ ISimpleObjectEvents;
+struct __declspec(uuid("a699bc89-96cf-476b-86f0-2cb63eb8c4e4"))
+/* dual interface */ IRegFreeComRotClass;
+struct __declspec(uuid("821b0f39-c5aa-47e8-b00c-2a96758d3b2d"))
+/* dual interface */ ILoadedByManagedImplementedByNative;
+
+//
+// Smart pointer typedef declarations
+//
+
+_COM_SMARTPTR_TYPEDEF(ISimpleObject, __uuidof(ISimpleObject));
+_COM_SMARTPTR_TYPEDEF(IRegFreeCom, __uuidof(IRegFreeCom));
+_COM_SMARTPTR_TYPEDEF(ISimpleObjectEvents, __uuidof(ISimpleObjectEvents));
+_COM_SMARTPTR_TYPEDEF(IRegFreeComRotClass, __uuidof(IRegFreeComRotClass));
+_COM_SMARTPTR_TYPEDEF(ILoadedByManagedImplementedByNative, __uuidof(ILoadedByManagedImplementedByNative));
+
+//
+// Type library items
+//
+
+struct __declspec(uuid("941d219b-7601-4375-b68a-61e23a4c8425"))
+ISimpleObject : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetFloatProperty,put=PutFloatProperty))
+    float FloatProperty;
+    __declspec(property(get=GetProcName))
+    _bstr_t ProcName;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    float GetFloatProperty ( );
+    void PutFloatProperty (
+        float pRetVal );
+    _bstr_t HelloWorld ( );
+    HRESULT GetProcessThreadID (
+        unsigned long * processId,
+        unsigned long * threadId );
+    _bstr_t GetProcName ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_FloatProperty (
+        /*[out,retval]*/ float * pRetVal ) = 0;
+      virtual HRESULT __stdcall put_FloatProperty (
+        /*[in]*/ float pRetVal ) = 0;
+      virtual HRESULT __stdcall raw_HelloWorld (
+        /*[out,retval]*/ BSTR * pRetVal ) = 0;
+      virtual HRESULT __stdcall raw_GetProcessThreadID (
+        /*[out]*/ unsigned long * processId,
+        /*[out]*/ unsigned long * threadId ) = 0;
+      virtual HRESULT __stdcall get_ProcName (
+        /*[out,retval]*/ BSTR * pRetVal ) = 0;
+};
+
+struct __declspec(uuid("eee50cdf-d8ec-4f38-b986-c231ec45171e"))
+IRegFreeCom : IDispatch
+{
+    //
+    // Wrapper methods for error-handling
+    //
+
+    // Methods:
+    _bstr_t GetString (
+        long number );
+};
+
+struct __declspec(uuid("014c067e-660d-4d20-9952-cd973ce50436"))
+ISimpleObjectEvents : IDispatch
+{
+    //
+    // Wrapper methods for error-handling
+    //
+
+    // Methods:
+    HRESULT FloatPropertyChanging (
+        float NewValue,
+        VARIANT_BOOL * Cancel );
+};
+
+struct __declspec(uuid("a699bc89-96cf-476b-86f0-2cb63eb8c4e4"))
+IRegFreeComRotClass : IDispatch
+{
+    //
+    // Property data
+    //
+
+    __declspec(property(get=GetFloatProperty,put=PutFloatProperty))
+    float FloatProperty;
+    __declspec(property(get=GetProcName))
+    _bstr_t ProcName;
+
+    //
+    // Wrapper methods for error-handling
+    //
+
+    float GetFloatProperty ( );
+    void PutFloatProperty (
+        float pRetVal );
+    _bstr_t GetProcName ( );
+    ISimpleObjectPtr Create ( );
+    SAFEARRAY * Execute (
+        SAFEARRAY * request );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall get_FloatProperty (
+        /*[out,retval]*/ float * pRetVal ) = 0;
+      virtual HRESULT __stdcall put_FloatProperty (
+        /*[in]*/ float pRetVal ) = 0;
+      virtual HRESULT __stdcall get_ProcName (
+        /*[out,retval]*/ BSTR * pRetVal ) = 0;
+      virtual HRESULT __stdcall raw_Create (
+        /*[out,retval]*/ struct ISimpleObject * * pRetVal ) = 0;
+      virtual HRESULT __stdcall raw_Execute (
+        /*[in]*/ SAFEARRAY * request,
+        /*[out,retval]*/ SAFEARRAY * * pRetVal ) = 0;
+};
+
+struct __declspec(uuid("821b0f39-c5aa-47e8-b00c-2a96758d3b2d"))
+ILoadedByManagedImplementedByNative : IDispatch
+{
+    //
+    // Wrapper methods for error-handling
+    //
+
+    HRESULT Set (
+        long data );
+    _bstr_t Get ( );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall raw_Set (
+        /*[in]*/ long data ) = 0;
+      virtual HRESULT __stdcall raw_Get (
+        /*[out,retval]*/ BSTR * pRetVal ) = 0;
+};
+
+//
+// Wrapper method implementations
+//
+
+#include "c:\ci\co\commonoffice\src\nregfreecom\src\regfreecomnativeconsumer\debug\regfreecom.interfaces.tli"
+
+} // namespace RegFreeCom_Interfaces
+
+#pragma pack(pop)
