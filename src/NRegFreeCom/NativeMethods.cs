@@ -9,6 +9,11 @@ namespace NRegFreeCom
     //[SuppressUnmanagedCodeSecurity]
     public static class NativeMethods
     {
+        ///<seealso href="http://search.microsoft.com/en-US/results.aspx?q=SetDllDirectory"/>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetDllDirectory(string lpPathName); 
+
         [DllImport("user32.dll", CharSet = CharSet.Auto,SetLastError = true)]
         public static extern int LoadString(IntPtr hInstance, uint uID, StringBuilder lpBuffer, int nBufferMax);
         

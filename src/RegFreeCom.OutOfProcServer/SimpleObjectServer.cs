@@ -36,6 +36,7 @@ using System.Text;
 using System.Threading;
 using NRegFreeCom;
 using RegFreeCom;
+using RegFreeCom.Implementations;
 using RegFreeCom.Interfaces;
 
 

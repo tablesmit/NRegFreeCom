@@ -1,6 +1,5 @@
 C:\ci\co\CommonOffice\src\NRegFreeCom\build\Debug\NRegFreeCom.dll.manifest
 C:\ci\co\CommonOffice\src\NRegFreeCom\build\Debug\RegFreeCom.Interfaces.dll.manifest
-C:\ci\co\CommonOffice\src\NRegFreeCom\build\Debug\RegFreeCom_Interfaces.idl
 C:\ci\co\CommonOffice\src\NRegFreeCom\build\Debug\RegFreeCom.Implementations.dll
 C:\ci\co\CommonOffice\src\NRegFreeCom\build\Debug\RegFreeCom.Implementations.pdb
 C:\ci\co\CommonOffice\src\NRegFreeCom\src\RegFreeCom.Implementations\obj\Debug\ResolveAssemblyReference.cache

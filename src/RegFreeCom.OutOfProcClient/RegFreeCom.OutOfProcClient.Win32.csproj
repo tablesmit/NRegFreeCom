@@ -15,7 +15,7 @@
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationManifest>CSExeCOMClient.exe.manifest</ApplicationManifest>
+    <ApplicationManifest>RegFreeCom.OutOfProcClient.Win32.exe.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -78,7 +78,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CSExeCOMClient.exe.manifest">
+    <Content Include="RegFreeCom.OutOfProcClient.Win32.exe.manifest">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>

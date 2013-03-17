@@ -49,8 +49,10 @@
     <Compile Include="ActivationContext.cs" />
     <Compile Include="CLSCTX.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="DEF.cs" />
     <Compile Include="ENUMRESNAMEPROC.cs" />
     <Compile Include="ERROR_CODES.cs" />
+    <Compile Include="FDW_REASONS.cs" />
     <Compile Include="IClassFactory.cs" />
     <Compile Include="IUnknown.cs" />
     <Compile Include="LOAD_LIBRARY_FLAGS.cs" />

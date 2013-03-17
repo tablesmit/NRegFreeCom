@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using RegFreeCom.Interfaces;
 
-namespace RegFreeCom
+namespace RegFreeCom.Implementations
 {
     [ComVisible(true)]
     [Guid("581FBD61-BD82-4E2A-8200-519D90BBB1F7")]

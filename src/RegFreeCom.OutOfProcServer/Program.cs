@@ -7,6 +7,7 @@ using System.Threading;
 using System.Windows.Forms;
 using NRegFreeCom;
 using RegFreeCom;
+using RegFreeCom.Implementations;
 using RegFreeCom.Interfaces;
 
 

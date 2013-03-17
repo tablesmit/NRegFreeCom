@@ -2,26 +2,26 @@
 <assembly xmlns="urn:schemas-microsoft-com:asm.v1"
   manifestVersion="1.0">
   <assemblyIdentity
-       name="RegFreeCom.Implementations.dll"
+       name="RegFreeCom.Implementations"
        version="1.0.0.0"
        processorArchitecture="msil" />
   <clrClass
         clsid="{9C21B7EB-7E27-4405-BCE0-62B338DF83BB}"
-        progid="RegFreeCom.RegFreeLocalServer"
+        progid="RegFreeCom.Implementations.RegFreeLocalServer"
         threadingModel="Both"
-        name="RegFreeCom.RegFreeLocalServer" >
+        name="RegFreeCom.Implementations.RegFreeLocalServer" >
   </clrClass>
   <clrClass
       clsid="{DB9935C1-19C5-4ed2-ADD2-9A57E19F53A3}"
-      progid="RegFreeCom.SimpleObject"
+      progid="RegFreeCom.Implementations.SimpleObject"
       threadingModel="Both"
-      name="RegFreeCom.SimpleObject" >
+      name="RegFreeCom.Implementations.SimpleObject" >
   </clrClass>
   <clrClass
     clsid="{581FBD61-BD82-4E2A-8200-519D90BBB1F7}"
-    progid="RegFreeCom.RegFreeComRotClass"
+    progid="RegFreeCom.Implementations.RegFreeComRotClass"
     threadingModel="Both"
-    name="RegFreeCom.RegFreeComRotClass" >
+    name="RegFreeCom.Implementations.RegFreeComRotClass" >
   </clrClass>
   <dependency>
     <dependentAssembly>

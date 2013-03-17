@@ -17,14 +17,14 @@ namespace CSExeCOMClient
 {
     class Program
     {
+     
+
         static void Main(string[] args)
         {
+  
             Console.WriteLine("==============================CreateOutOfProcServerByManifst====================");
             CreateOutOfProcServerByManifst();
-            Console.WriteLine("==============================CreateInProceServerByManifest====================");
-            CreateInProceServerByManifest();
-            Console.WriteLine("==============================CreateInProceServerByManifest2====================");
-            CreateInProceServerByManifest2();
+
             Console.WriteLine("==============================GetOutOfProcFromRot====================");
             GetOutOfProcFromRot();
             Console.WriteLine("==============================GetOutOfProcFromRot2====================");
@@ -174,53 +174,8 @@ namespace CSExeCOMClient
             }
 
         }
-        private static void CreateInProceServerByManifest2()
-        {
-            try
-            {
-                //var actCtxType = System.Type.GetTypeFromProgID("Microsoft.Windows.ActCtx");
-                //dynamic actCtx = System.Activator.CreateInstance(actCtxType);
-                var path = Path.Combine(Environment.CurrentDirectory, @"RegFreeCom.dll.manifest");
-                //actCtx.Manifest = path;
 
-                // var type = System.Type.GetTypeFromProgID("RegFreeCom.RegFreeLocalServer");
-                //var type = System.Type.GetTypeFromCLSID(new Guid("9C21B7EB-7E27-4405-BCE0-62B338DF83BB"));
-                var obj = NRegFreeCom.ActivationContext.CreateInstanceWithManifest(new Guid(SimpleObjectId.ClassId), path);
-                //object obj = System.Activator.CreateInstance(type);
-                var face = (ISimpleObject)obj;
-                Console.WriteLine(face.ProcName);
-            }
-            catch (Exception ex)
-            {
-                Console.Write("Failed to create by manifest");
-                Console.WriteLine(ex);
-            }
 
-        }
-
-        private static void CreateInProceServerByManifest()
-        {
-            try
-            {
-                //var actCtxType = System.Type.GetTypeFromProgID("Microsoft.Windows.ActCtx");
-                //dynamic actCtx = System.Activator.CreateInstance(actCtxType);
-                var path = Path.Combine(Environment.CurrentDirectory, @"RegFreeCom.dll.manifest");
-                //actCtx.Manifest = path;
-
-                // var type = System.Type.GetTypeFromProgID("RegFreeCom.RegFreeLocalServer");
-                //var type = System.Type.GetTypeFromCLSID(new Guid("9C21B7EB-7E27-4405-BCE0-62B338DF83BB"));
-                var obj = NRegFreeCom.ActivationContext.CreateInstanceWithManifest(new Guid("9C21B7EB-7E27-4405-BCE0-62B338DF83BB"), path);
-                //object obj = System.Activator.CreateInstance(type);
-                var face = (IRegFreeCom)obj;
-                Console.WriteLine(face.GetString(42));
-            }
-            catch (Exception ex)
-            {
-                Console.Write("Failed to create by manifest");
-                Console.WriteLine(ex);
-            }
-
-        }
 
 
     }

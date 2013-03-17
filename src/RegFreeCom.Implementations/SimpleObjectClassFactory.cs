@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using NRegFreeCom;
 using RegFreeCom.Interfaces;
 
-namespace RegFreeCom
+namespace RegFreeCom.Implementations
 {
     
 

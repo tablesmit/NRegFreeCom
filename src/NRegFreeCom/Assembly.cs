@@ -52,7 +52,8 @@ namespace NRegFreeCom
             where T : class,ISerializable, ICloneable
         {
             ThrowIfDisposed();
-            IntPtr fPtr = NativeMethods.GetProcAddress(_hModule, typeof(T).Name);
+            var name = typeof (T).Name;
+            IntPtr fPtr = NativeMethods.GetProcAddress(_hModule, name);
             if (fPtr == IntPtr.Zero) throw new Win32Exception(Marshal.GetLastWin32Error());
             var function = Marshal.GetDelegateForFunctionPointer(fPtr, typeof(T));
             return function as T;

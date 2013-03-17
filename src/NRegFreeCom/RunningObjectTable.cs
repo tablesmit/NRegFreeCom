@@ -5,8 +5,13 @@ using System.Runtime.InteropServices.ComTypes;
 
 namespace NRegFreeCom
 {
-    //https://sites.google.com/site/jozsefbekes/Home/windows-programming/dotnet-registering-an-object-to-the-running-object-table-from-a-non-com-project
-    //https://sites.google.com/site/jozsefbekes/Home/windows-programming/registering-an-object-to-the-running-object-table-from-a-non-com-project
+      
+
+    ///<summary>
+    /// Allows manipulations with Running Object Table like add and removing objects, enumerating registered. 
+    /// </summary>
+    ///<seealso href="https://sites.google.com/site/jozsefbekes/Home/windows-programming/dotnet-registering-an-object-to-the-running-object-table-from-a-non-com-project"/>
+    ///<seealso href="https://sites.google.com/site/jozsefbekes/Home/windows-programming/registering-an-object-to-the-running-object-table-from-a-non-com-project"/>
     public class RunningObjectTable : IDisposable
     {
         List<ObjectInRot> _RegisteredObjects = new List<ObjectInRot>();
@@ -24,7 +29,7 @@ namespace NRegFreeCom
 
                 IntPtr fetched = IntPtr.Zero;
                 IMoniker[] moniker = new IMoniker[1];
-
+                //TODO: returen MonikerInfo[] instead of direcly writing to file
                 var str = File.Create(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "CsExeComServer.log"));
 
 

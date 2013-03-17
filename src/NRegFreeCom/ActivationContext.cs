@@ -5,7 +5,11 @@ using System.Runtime.InteropServices;
 
 namespace NRegFreeCom
 {
-    //http://www.atalasoft.com/blogs/spikemclarty/february-2012/dynamically-testing-an-activex-control-from-c-and
+    ///<summary>
+    /// Used tune activation context stack of thread for intializing and loading SxS components.
+    /// </summary>
+    ///<seealso cref="Microsoft.Windows.ActCtx"/>
+    ///<seealso href="http://www.atalasoft.com/blogs/spikemclarty/february-2012/dynamically-testing-an-activex-control-from-c-and"/>
     public class ActivationContext
     {
 
@@ -24,6 +28,7 @@ namespace NRegFreeCom
                 {
                     // Get the type object associated with the CLSID.
                     Type T = Type.GetTypeFromCLSID(guid);
+                    
                     // Create an instance of the type:
                     comob = System.Activator.CreateInstance(T);
                 });
@@ -36,7 +41,9 @@ namespace NRegFreeCom
         {
             ACTCTX context = new ACTCTX();
             context.cbSize = Marshal.SizeOf(typeof(ACTCTX));
-            if (context.cbSize != 0x20)
+            bool wrongContextStructure = (context.cbSize != 0x20 && IntPtr.Size == 4) // ensure stucture is right on 32 bits
+                                  || (context.cbSize != 52 && IntPtr.Size == 8); // the same for 64 bits
+            if (wrongContextStructure)
             {
                 throw new Exception("ACTCTX.cbSize is wrong");
             }
