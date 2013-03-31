@@ -24,8 +24,8 @@ namespace RegFreeCom.Implementations
             }
 
             if (riid == new Guid(SimpleObjectId.ClassId) ||
-                riid == new Guid(NativeMethods.IID_IDispatch) ||
-                riid == new Guid(NativeMethods.IID_IUnknown) ||
+                riid == new Guid(WELL_KNOWN_IIDS.IID_IDispatch) ||
+                riid == new Guid(WELL_KNOWN_IIDS.IID_IUnknown) ||
                    riid == new Guid(SimpleObjectId.InterfaceId))
             {
                 // Create the instance of the .NET object

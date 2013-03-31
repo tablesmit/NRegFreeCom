@@ -169,17 +169,7 @@ namespace NRegFreeCom
 
 
 
-        /// <summary>
-        /// Interface Id of IUnknown
-        /// </summary>
-        public const string IID_IUnknown =
-            "00000000-0000-0000-C000-000000000046";
-
-        /// <summary>
-        /// Interface Id of IDispatch
-        /// </summary>
-        public const string IID_IDispatch =
-            "00020400-0000-0000-C000-000000000046";
+  
 
         /// <summary>
         /// Class does not support aggregation (or class object is remote)
@@ -322,8 +312,29 @@ namespace NRegFreeCom
         public static extern void CreateBindCtx(int reserved, out IBindCtx ppbc);
 
         [DllImport("ole32.dll")]
-
         public static extern int GetRunningObjectTable(int reserved, out IRunningObjectTable prot);
+
+        ///<summary>
+        ///http://msdn.microsoft.com/en-us/library/windows/desktop/ms678485.aspx
+///                HRESULT OleLoadPicturePath(
+///  _In_   LPOLESTR szURLorPath,
+///  _In_   LPUNKNOWN punkCaller,
+///  _In_   DWORD dwReserved,
+///  _In_   OLE_COLOR clrReserved,
+///  _In_   REFIID riid,
+///  _Out_  LPVOID *ppvRet
+///);
+     ///   </summary>
+         [DllImport("oleaut32.dll")]
+        public static extern int OleLoadPicturePath(
+             string szURLorPath,
+             IntPtr punkCaller,
+             uint dwReserved,
+             uint clrReserved,
+            ref Guid   riid,
+             out IUnknown unknown);
+
+
 
 
     }

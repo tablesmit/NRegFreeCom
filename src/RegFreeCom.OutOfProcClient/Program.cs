@@ -153,7 +153,7 @@ namespace CSExeCOMClient
                 // obj = System.Activator.CreateInstance(type);
                 NRegFreeCom.ActivationContext.UsingManifestDo(path,() =>
                     {
-                         obj = NRegFreeCom.NativeMethods.CoGetClassObject(clsid, CLSCTX.LOCAL_SERVER, IntPtr.Zero, new Guid(NativeMethods.IID_IUnknown));
+                        obj = NRegFreeCom.NativeMethods.CoGetClassObject(clsid, CLSCTX.LOCAL_SERVER, IntPtr.Zero, new Guid(WELL_KNOWN_IIDS.IID_IUnknown));
                     }
                     );
 

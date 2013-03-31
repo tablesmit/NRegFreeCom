@@ -67,6 +67,7 @@
     <Compile Include="RuntimeRegasm.cs" />
     <Compile Include="RunningObjectTable.cs" />
     <Compile Include="NativeMethods.cs" />
+    <Compile Include="WELL_KNOWN_IIDS.cs" />
     <Compile Include="WM.cs" />
   </ItemGroup>
   <ItemGroup>

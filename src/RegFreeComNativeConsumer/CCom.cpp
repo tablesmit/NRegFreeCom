@@ -23,10 +23,10 @@ CCOM_API HRESULT Initialize(IUnknown* service)
 
 	CoInitialize(NULL);
     RegFreeCom_Interfaces::ISimpleObjectPtr obj = (RegFreeCom_Interfaces::ISimpleObjectPtr)service;
-	std::cout << obj->FloatProperty << std::endl;
+	std::cout << obj->GetFloatProperty() << std::endl;
 	RegFreeCom_Interfaces::ISimpleObject* obj2;
 	auto result = service->QueryInterface<RegFreeCom_Interfaces::ISimpleObject>(&obj2);
-	std::cout << obj2->FloatProperty << std::endl;
+	std::cout << obj2->GetFloatProperty() << std::endl;
 	return S_OK;
 }
 

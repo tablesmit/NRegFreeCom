@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using NRegFreeCom;
@@ -20,6 +22,13 @@ namespace CsComWin32
         [STAThread]
         static void Main(string[] args)
         {
+           
+            //var pathToImage = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "picture.png");
+            //IUnknown unknown;
+            //var guid = new Guid("7BF80981-BF32-101A-8BBB-00AA00300CAB");
+            //var hLoad = NativeMethods.OleLoadPicturePath(pathToImage, IntPtr.Zero, 0, 0,ref guid, out unknown);
+            //Debug.Assert(hLoad == SYSTEM_ERROR_CODES.ERROR_SUCCESS);
+            //Debug.Assert(unknown !=null);
 
             // create native COM 
             var nativeImplementation = new Guid("538ECD5D-8A57-4F1C-AEB1-EBC425641F0B");
@@ -48,7 +57,6 @@ namespace CsComWin32
             // load resource
             var value = module.LoadCompiledResource(5435);
             Console.WriteLine(value);
-
         }
 
 
