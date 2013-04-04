@@ -4,7 +4,8 @@
 #include "resource.h"       // main symbols
 #include <stdio.h>
 #include <iostream>
-
+#include <Winbase.h>
+#include "..\NativeLibrary\NativeLibrary.h"
 #include "RegFreeComNativeImplementer_i.h"
 
 
@@ -66,6 +67,11 @@ public:
 	}
 	STDMETHOD(Get)(BSTR * pRetVal)
 	{
+		wchar_t* dir = (wchar_t*)malloc(255);
+		GetDllDirectoryW(255,dir);
+		std::cout << dir << std::endl;
+		auto uses = new CNativeLibrary();
+		
 		 *pRetVal = ::SysAllocString(_TEXT("I implemented managed interfaces"));
 		return S_OK;
 	}

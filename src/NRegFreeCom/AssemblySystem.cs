@@ -13,6 +13,8 @@ namespace NRegFreeCom
         public string Win32Directory = "Win32";
         public string x64Directory = "x64";
 
+        public bool AddDllDirectoryToSearchPath { get; set; }
+
         public Assembly LoadAnyCpuSubLibrary(string name)
         {
             return LoadAnyCpuLibrary(AppDomain.CurrentDomain.BaseDirectory, name);
@@ -26,6 +28,7 @@ namespace NRegFreeCom
             if (IntPtr.Size == 4)
             {
                 var directory = Path.Combine(directoryPath, Win32Directory);
+                AddSearchPath(directory);
                 path = Path.Combine(directory, name);
                 hModule = NativeMethods.LoadLibraryEx(path, IntPtr.Zero, 0);
                 if (hModule == IntPtr.Zero) throw new Win32Exception(Marshal.GetLastWin32Error());
@@ -33,6 +36,7 @@ namespace NRegFreeCom
             else if (IntPtr.Size == 8)
             {
                 var directory = Path.Combine(directoryPath, x64Directory);
+                AddSearchPath(directory);
                 path = Path.Combine(directory, name);
                 hModule = NativeMethods.LoadLibraryEx(path, IntPtr.Zero, 0);
                 if (hModule == IntPtr.Zero) throw new Win32Exception(Marshal.GetLastWin32Error());
@@ -41,8 +45,17 @@ namespace NRegFreeCom
             return new Assembly(hModule, name, path);
         }
 
+        private void AddSearchPath(string directory)
+        {
+            //NOTE: this is thread unsafe hack for Xp and Vista
+            //TODO: use Windows 7 features to fix right
+            if (AddDllDirectoryToSearchPath)
+                NativeMethods.SetDllDirectory(directory);
+        }
+
         public Assembly LoadLibrary(string path)
         {
+            AddSearchPath(Directory.GetParent(path).FullName);
             var hModule = NativeMethods.LoadLibraryEx(path, IntPtr.Zero, 0);
             //TODO: throws new BadImageFormatException() if manage or not that CPU
             if (hModule == IntPtr.Zero) throw new Win32Exception(Marshal.GetLastWin32Error());

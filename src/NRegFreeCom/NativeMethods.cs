@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Security;
 using System.Text;
+using DWORD = System.UInt32;
 
 namespace NRegFreeCom
 {
@@ -26,9 +27,25 @@ namespace NRegFreeCom
     [MarshalAs(UnmanagedType.U4)]
     int nSize
 );
+        ///<summary>
+        ///        DWORD WINAPI GetDllDirectory(
+        ///  _In_   DWORD nBufferLength,
+        ///  _Out_  LPTSTR lpBuffer
+        ///);
+        /// </summary>
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern int GetDllDirectory(int nBufferLength, StringBuilder lpBuffer);
+
+        ///<summary>
+        ///        DLL_DIRECTORY_COOKIE  WINAPI AddDllDirectory(
+        ///  _In_  PCWSTR NewDirectory
+        ///);
+        /// </summary>
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern IntPtr AddDllDirectory(string NewDirectory);
 
         ///<seealso href="http://search.microsoft.com/en-US/results.aspx?q=SetDllDirectory"/>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetDllDirectory(string lpPathName);
 
@@ -169,7 +186,7 @@ namespace NRegFreeCom
 
 
 
-  
+
 
         /// <summary>
         /// Class does not support aggregation (or class object is remote)
@@ -316,22 +333,22 @@ namespace NRegFreeCom
 
         ///<summary>
         ///http://msdn.microsoft.com/en-us/library/windows/desktop/ms678485.aspx
-///                HRESULT OleLoadPicturePath(
-///  _In_   LPOLESTR szURLorPath,
-///  _In_   LPUNKNOWN punkCaller,
-///  _In_   DWORD dwReserved,
-///  _In_   OLE_COLOR clrReserved,
-///  _In_   REFIID riid,
-///  _Out_  LPVOID *ppvRet
-///);
-     ///   </summary>
-         [DllImport("oleaut32.dll")]
+        ///                HRESULT OleLoadPicturePath(
+        ///  _In_   LPOLESTR szURLorPath,
+        ///  _In_   LPUNKNOWN punkCaller,
+        ///  _In_   DWORD dwReserved,
+        ///  _In_   OLE_COLOR clrReserved,
+        ///  _In_   REFIID riid,
+        ///  _Out_  LPVOID *ppvRet
+        ///);
+        ///   </summary>
+        [DllImport("oleaut32.dll")]
         public static extern int OleLoadPicturePath(
              string szURLorPath,
              IntPtr punkCaller,
              uint dwReserved,
              uint clrReserved,
-            ref Guid   riid,
+            ref Guid riid,
              out IUnknown unknown);
 
 
