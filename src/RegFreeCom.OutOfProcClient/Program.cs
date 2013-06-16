@@ -1,62 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using System.Windows.Forms;
+using System.Threading;
 using NRegFreeCom;
-using RegFreeCom;
 using RegFreeCom.Interfaces;
-using ActivationContext = NRegFreeCom.ActivationContext;
-using NativeMethods = NRegFreeCom.NativeMethods;
 
-namespace CSExeCOMClient
+namespace RegFreeCom.OutOfProcClient
 {
     class Program
     {
-     
-
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-  
-            Console.WriteLine("==============================CreateOutOfProcServerByManifst====================");
-            CreateOutOfProcServerByManifst();
-
-            Console.WriteLine("==============================GetOutOfProcFromRot====================");
-            GetOutOfProcFromRot();
-            Console.WriteLine("==============================GetOutOfProcFromRot2====================");
-            GetOutOfProcFromRot2();
+            Console.WriteLine("Calls Reg Free Out Of Proc object in other running process");
+            Console.WriteLine("==============================GetActiveObject====================");
+            GetActiveObject();
             Console.ReadKey();
-            return;
-
         }
 
-        private static void GetOutOfProcFromRot2()
-        {
-            try
-            {
-                var id = new Guid(SimpleObjectId.ClassId);
-                IMoniker clm;
-                NativeMethods.CreateClassMoniker(ref id, out clm);
-                object cl;
-                IRunningObjectTable rot;
-                NativeMethods.GetRunningObjectTable(0, out rot);
-                var res = rot.GetObject(clm, out cl);
-                var clo = Marshal.GetObjectForIUnknown((IntPtr)cl);
-                var client = (ISimpleObject)clo;
-                client.FloatProperty = 200;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-        }
-
-        private static void GetOutOfProcFromRot()
+        private static void GetActiveObject()
         {
             try
             {
@@ -65,70 +29,13 @@ namespace CSExeCOMClient
                 //ActivationContext.UsingManifestDo("RegFreeCom.dll.manifest", () =>
                 //{
                 obj = Microsoft.VisualBasic.Interaction.GetObject(typeof(IRegFreeComRotClass).FullName);
+                //obj = Marshal.GetActiveObject(typeof (IRegFreeComRotClass).FullName);
                 //});
-       
-                var i = (IUnknown)obj;
-                var g = new Guid(Rotguid.IID);
-                var face = obj as IRegFreeComRotClass;// QueryInterfaces
-                if (face == null)
-                {
-                    //Stack overflow
-                    //var ptr = i.QueryInterface(g);
-                   // var ooo = Marshal.GetObjectForIUnknown(ptr);
-                    //face = ooo as IRegFreeComRotClass;
-                }
-                NRegFreeCom.ActivationContext.UsingManifestDo("RegFreeCom.dll.manifest", () =>
-                    {
-                        if (face == null)
-                        {
-                            face = obj as IRegFreeComRotClass;
-                        }
-       
-                    });
-              
-                if (face != null)
-                {
-                    Console.WriteLine(typeof(IRegFreeComRotClass));
-                    Console.WriteLine(face.ProcName);
-                    try
-                    {
-                       ISimpleObject sf = face.Create();
-                       Console.WriteLine(typeof(ISimpleObject) + " " +sf.ProcName + " " +sf.FloatProperty );
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                        
-                    }
-                }
-                object face2 = null;
-                var path = Path.Combine(Environment.CurrentDirectory, @"RegFreeCom.dll.manifest");
-                NRegFreeCom.ActivationContext.UsingManifestDo(path,() =>
-                    {
-                        face2 = obj as IRegFreeComRotClass;
-                        Console.WriteLine("face2 =" + face2);
-                    }
-                    );
-                var prop = obj.GetType()
-                            .InvokeMember("ProcName", BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Instance, null,
-                                          obj, null);
-            
-                Console.WriteLine(string.Format("{0}", prop));
 
-                NRegFreeCom.ActivationContext.UsingManifestDo(path, () =>
-                    {
-                        object create = obj.GetType()
-                                           .InvokeMember("Create",
-                                                         BindingFlags.InvokeMethod | BindingFlags.Public |
-                                                         BindingFlags.Instance, null,
-                                                         obj, null);
-
-                        var si2 = create as ISimpleObject;
-                        Console.WriteLine("si2 " + si2  ?? si2.ProcName);
-                    }
-                    );
-
-
+                UsingUsafePointers(obj);
+                QueryInterfacesUsingManifest(obj);
+                UsingRealProxy(obj);
+                UsingReflection(obj);
             }
             catch (Exception ex)
             {
@@ -137,46 +44,87 @@ namespace CSExeCOMClient
             }
         }
 
-        private static void CreateOutOfProcServerByManifst()
+        private static void UsingUsafePointers(object obj)
         {
-            try
+            var i = (IUnknown)obj;
+            var g = new Guid(RotIds.IID);
+            var face = obj as IRegFreeComRotClass; // QueryInterfaces
+            if (face == null)
             {
-                //var actCtxType = System.Type.GetTypeFromProgID("Microsoft.Windows.ActCtx");
-                //dynamic actCtx = System.Activator.CreateInstance(actCtxType);
-                var path = Path.Combine(Environment.CurrentDirectory, @"RegFreeCom.dll.manifest");
-                //actCtx.Manifest = path;
-                Guid clsid= new Guid(SimpleObjectId.ClassId);
-                // var type = System.Type.GetTypeFromProgID("RegFreeCom.RegFreeLocalServer");
-                //var type = System.Type.GetTypeFromCLSID(clsid);
-                object obj = null;
-                // obj = RegFreeCom.ActivationContext.CreateInstanceWithManifest(clsid, path);
-                // obj = System.Activator.CreateInstance(type);
-                NRegFreeCom.ActivationContext.UsingManifestDo(path,() =>
-                    {
-                        obj = NRegFreeCom.NativeMethods.CoGetClassObject(clsid, CLSCTX.LOCAL_SERVER, IntPtr.Zero, new Guid(WELL_KNOWN_IIDS.IID_IUnknown));
-                    }
-                    );
-
-                
-                var face = obj as ISimpleObject;
-                if (face != null)
-                {
-                    uint pid, tid;
-
-                    Console.WriteLine(face.ProcName);
-                }
-                    
+                //Stack overflow
+                //var ptr = i.QueryInterface(g);
+                // var ooo = Marshal.GetObjectForIUnknown(ptr);
+                //face = ooo as IRegFreeComRotClass;
             }
-            catch (Exception ex)
-            {
-                Console.Write("Failed to create by manifest");
-                Console.WriteLine(ex);
-            }
-
         }
 
+        private static void UsingReflection(object obj)
+        {
+            Console.WriteLine(MethodBase.GetCurrentMethod().Name);
+            Console.WriteLine("---------------------------");
+            var path = Path.Combine(Environment.CurrentDirectory, @"RegFreeCom.Interfaces.dll.manifest");
 
 
+            var prop = obj.GetType()
+                          .InvokeMember("Info", BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Instance, null,
+                                        obj, null);
 
+            Console.WriteLine(string.Format("{0}", prop));
+
+            NRegFreeCom.ActivationContext.UsingManifestDo(path, () =>
+                {
+                    object create = obj.GetType()
+                                       .InvokeMember("Create",
+                                                     BindingFlags.InvokeMethod | BindingFlags.Public |
+                                                     BindingFlags.Instance, null,
+                                                     obj, null);
+
+                    var si2 = create as ISimpleObject;
+                    Console.WriteLine("si2 " + si2 ?? si2.Info);
+                }
+                );
+            Console.WriteLine("---------------------------");
+        }
+
+        private static void UsingRealProxy(object com)
+        {
+            Console.WriteLine(MethodBase.GetCurrentMethod().Name);
+            Console.WriteLine("---------------------------");
+            var regFreeInvoker = RotRegFreeComInvoker.ProxyInterface<IRegFreeComRotClass>(com);
+            Console.WriteLine(regFreeInvoker.Answer());
+            Console.WriteLine("---------------------------");
+        }
+
+        private static void QueryInterfacesUsingManifest(object obj)
+        {
+            Console.WriteLine(MethodBase.GetCurrentMethod().Name);
+            Console.WriteLine("---------------------------");
+            IRegFreeComRotClass face = null;
+            NRegFreeCom.ActivationContext.UsingManifestDo("RegFreeCom.Interfaces.dll.manifest", () =>
+                {
+
+                    face = obj as IRegFreeComRotClass;
+
+                });
+
+            if (face != null)
+            {
+                Console.WriteLine(typeof(IRegFreeComRotClass));
+                Console.WriteLine(face.Info);
+                face.Ping();
+                face.Request("Hello from " + Process.GetCurrentProcess().ProcessName);
+                try
+                {
+                    ISimpleObject sf = face.Create();
+                    Console.WriteLine(typeof(ISimpleObject) + " " + sf.Info + " " + sf.FloatProperty);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            }
+
+            Console.WriteLine("---------------------------");
+        }
     }
 }

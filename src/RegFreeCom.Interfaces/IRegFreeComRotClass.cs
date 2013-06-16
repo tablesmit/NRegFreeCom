@@ -2,23 +2,27 @@
 
 namespace RegFreeCom.Interfaces
 {
-    public class Rotguid
-    {
-        public const string IID = "A699BC89-96CF-476B-86F0-2CB63EB8C4E4";
-    }
-    [Guid(Rotguid.IID)]
+    [Guid(RotIds.IID)]
     [ComVisible(true)]
     [InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IRegFreeComRotClass
     {
 
-        float FloatProperty { get; set; }
+        [ComVisible(true)]
+        string Info { get; }
 
-        string ProcName { get; }
+        [ComVisible(true)]
+        void Request(string hello);
+
+        [ComVisible(true)]
+        void Ping();
+
+        [ComVisible(true)]
+        int Answer();
 
         ISimpleObject Create();
 
-        byte[] Execute(byte[] request);
+     
 
     }
 }

@@ -37,6 +37,9 @@
     <ClCompile Include="Implementer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ManualImplementer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -60,6 +63,9 @@
     <ClInclude Include="Implementer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ManualImplementer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="RegFreeComNativeImplementer.rc">
@@ -68,14 +74,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
-    <None Include="RegFreeComNativeImplementer.rgs">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="RegFreeComNativeImplementer.def">
       <Filter>Source Files</Filter>
-    </None>
-    <None Include="Implementer.rgs">
-      <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

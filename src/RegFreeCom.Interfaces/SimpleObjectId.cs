@@ -10,5 +10,9 @@
             "014C067E-660D-4d20-9952-CD973CE50436";
 
         public const string Factory = "8DE2AEA1-3C72-44F2-9690-0F9C64C305BA";
+
+        
+     public const string CustomEventsId =
+           "FE9B80F4-0932-4178-B40C-F43F9D4AF444";
     }
 }

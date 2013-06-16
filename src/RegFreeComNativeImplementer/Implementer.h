@@ -28,6 +28,9 @@ class ATL_NO_VTABLE CImplementer :
 public:
 	CImplementer()
 	{
+				wchar_t* dir = (wchar_t*)malloc(255);
+		GetDllDirectoryW(255,dir);
+		std::cout << dir << std::endl;
 	}
 
 	DECLARE_REGISTRY_RESOURCEID(IDR_IMPLEMENTER)

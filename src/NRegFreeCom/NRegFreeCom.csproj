@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\build\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -50,10 +50,13 @@
     <Compile Include="CLSCTX.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="DEF.cs" />
+    <Compile Include="DIRECTORY_FLAGS.cs" />
     <Compile Include="ENUMRESNAMEPROC.cs" />
     <Compile Include="ERROR_CODES.cs" />
     <Compile Include="FDW_REASONS.cs" />
+    <Compile Include="IBytesRequestResponse.cs" />
     <Compile Include="IClassFactory.cs" />
+    <Compile Include="IServiceProvider.cs" />
     <Compile Include="IUnknown.cs" />
     <Compile Include="LOAD_LIBRARY_FLAGS.cs" />
     <Compile Include="AssemblySystem.cs" />
@@ -64,6 +67,7 @@
     <Compile Include="REGCLS.cs" />
     <Compile Include="RESOURCE_TYPES.cs" />
     <Compile Include="ROTFLAGS.cs" />
+    <Compile Include="RotRegFreeComInvoker.cs" />
     <Compile Include="RuntimeRegasm.cs" />
     <Compile Include="RunningObjectTable.cs" />
     <Compile Include="NativeMethods.cs" />

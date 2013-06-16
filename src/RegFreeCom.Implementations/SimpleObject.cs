@@ -39,12 +39,12 @@ using RegFreeCom.Interfaces;
 
 namespace RegFreeCom.Implementations
 {
-    [ClassInterface(ClassInterfaceType.AutoDual)]         
+    [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComSourceInterfaces(typeof(ISimpleObjectEvents))]
     [Guid(SimpleObjectId.ClassId)]
     [ComDefaultInterface(typeof(ISimpleObject))]
     [ComVisible(true)]
-    public class SimpleObject :  ISimpleObject
+    public class SimpleObject : ISimpleObject
     {
         //[EditorBrowsable(EditorBrowsableState.Never)]
         //[ComRegisterFunction()]
@@ -78,13 +78,14 @@ namespace RegFreeCom.Implementations
 
         private float fField = 0;
 
+
         public float FloatProperty
         {
             get
             {
                 new RunningObjectTable().PrintRot();
                 return this.fField;
-    
+
             }
             set
             {
@@ -92,14 +93,90 @@ namespace RegFreeCom.Implementations
                 // Raise the event FloatPropertyChanging
                 if (null != FloatPropertyChanging)
                     FloatPropertyChanging(value, ref cancel);
+                if (Callbacks != null)
+                {
+                    Callbacks.FloatPropertyChanging(value, ref cancel);
+                }
                 if (!cancel)
                     this.fField = value;
             }
         }
 
+        public string Info
+        {
+            get
+            {
+                return
+                    string.Format("Type:{0}, ProcessName:{1}, ProcessId:{2},ThreadId:{3}",
+                   this.GetType().FullName, Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id, Thread.CurrentThread.ManagedThreadId);
+            }
+        }
 
+        public void RaisePassStruct()
+        {
+            var val = new MyCoolStuct { _Val = 123, _Val2 = "312" };
+            if (Callbacks != null)
+            {
+                Callbacks.PassStuct(val);
+            }
+            if (PassStuct != null)
+            {
+                PassStuct(val);
+            }
 
-        public string ProcName { get { return Process.GetCurrentProcess().ProcessName + " " + Process.GetCurrentProcess().Id + " " + Thread.CurrentThread.ManagedThreadId; } }
+        }
+
+        public ISimpleObjectEvents Callbacks { get; set; }
+
+        private IMyCoolClass _obj;
+        public void RaisePassClass()
+        {
+            _obj = new MyCoolClass();
+            if (Callbacks != null)
+            {
+                Callbacks.PassClass(_obj);
+            }
+            if (PassClass != null)
+            {
+                PassClass(_obj);
+            }
+        }
+
+        public void RaisePassString()
+        {
+            if (Callbacks != null)
+            {
+                Callbacks.PassString("Hello from managed");
+            }
+            if (PassString != null)
+            {
+                PassString("Hello from managed");
+            }
+        }
+
+        public void RaiseEnsureGCIsNotObstacle()
+        {
+            if (Callbacks != null)
+            {
+                Callbacks.EnsureGCIsNotObstacle();
+            }
+            if (EnsureGCIsNotObstacle != null)
+            {
+                EnsureGCIsNotObstacle();
+            }
+        }
+
+        public void RaiseEmptyEvent()
+        {
+            if (Callbacks != null)
+            {
+                Callbacks.SimpleEmptyEvent();
+            }
+            if (SimpleEmptyEvent != null)
+            {
+                SimpleEmptyEvent();
+            }
+        }
 
         public string HelloWorld()
         {
@@ -112,16 +189,33 @@ namespace RegFreeCom.Implementations
             threadId = NativeMethods.GetCurrentThreadId();
         }
 
- 
 
-     
+
+
+        [ComVisible(false)]
+        public delegate void PassStuctEventHandler(MyCoolStuct val);
+
+        public event PassStuctEventHandler PassStuct;
+
+        [ComVisible(false)]
+        public delegate void PassClassEventHandler(IMyCoolClass obj);
+        public event PassClassEventHandler PassClass;
+
+        [ComVisible(false)]
+        public delegate void PassStringEventHandler(string str);
+        public event PassStringEventHandler PassString;
 
         [ComVisible(false)]
         public delegate void FloatPropertyChangingEventHandler(float NewValue, ref bool Cancel);
         public event FloatPropertyChangingEventHandler FloatPropertyChanging;
 
-        
+        [ComVisible(false)]
+        public delegate void EnsureGCIsNotObstacleEventHandler();
+        public event EnsureGCIsNotObstacleEventHandler EnsureGCIsNotObstacle;
+          [ComVisible(false)]
+        public delegate void SimpleEmptyEventEventHandler();
+        public event SimpleEmptyEventEventHandler SimpleEmptyEvent;
+
+    
     }
-
-
 }

@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Release\</OutputPath>
+    <OutputPath>..\..\build\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -40,11 +40,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ILoadedByManagedImplementedByNative.cs" />
+    <Compile Include="IMyCoolClass.cs" />
     <Compile Include="IRegFreeCom.cs" />
     <Compile Include="IRegFreeComRotClass.cs" />
     <Compile Include="ISimpleObject.cs" />
     <Compile Include="ISimpleObjectEvents.cs" />
+    <Compile Include="MyCoolStuct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegFreeComIds.cs" />
+    <Compile Include="RotIds.cs" />
     <Compile Include="SimpleObjectId.cs" />
   </ItemGroup>
   <ItemGroup>

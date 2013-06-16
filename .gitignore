@@ -3,7 +3,10 @@
 *.bin
 *.obj
 *.user
+*.opensdf
 ipch
 build
 Debug
 Release
+bin
+obj

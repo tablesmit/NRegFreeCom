@@ -11,7 +11,7 @@
 #endif
 
 
-
+#include <comutil.h>
 extern NATIVELIBRARYCONSUMER_API int nNativeLibraryConsumer;
 
-NATIVELIBRARYCONSUMER_API int fnNativeLibraryConsumer();
+NATIVELIBRARYCONSUMER_API int fnNativeLibraryConsumer(SAFEARRAY** retval);

@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Release\</OutputPath>
+    <OutputPath>..\..\build\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MyCoolClass.cs" />
     <Compile Include="RegFreeComRotClass.cs" />
     <Compile Include="RegFreeLocalServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -60,6 +61,11 @@
       <Name>RegFreeCom.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Remove_RegFreeComRotClass.reg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>::echo Generate type library.
@@ -68,7 +74,10 @@ C:\Windows\Microsoft.NET\Framework\v2.0.50727\regasm.exe /tlb:"$(TargetName).tlb
 C:\Windows\Microsoft.NET\Framework\v2.0.50727\regasm.exe /regfile "$(TargetPath)"
 
 ::echo Unregister the component
-C:\Windows\Microsoft.NET\Framework\v2.0.50727\regasm.exe /u "$(TargetPath)"</PostBuildEvent>
+C:\Windows\Microsoft.NET\Framework\v2.0.50727\regasm.exe /u "$(TargetPath)"
+
+:: clean up registy not cleaned up by regasm
+regedit /s "$(ProjectDir)Remove_RegFreeComRotClass.reg"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -12,32 +12,35 @@ namespace RegFreeCom.Implementations
     [ComDefaultInterface(typeof(IRegFreeComRotClass))]
     public class RegFreeComRotClass : IRegFreeComRotClass
     {
-        private float _floatProperty = 100;
-        [ComVisible(false)]
-        public Func<byte[], byte[]> OnExecuted;
-
-        //public int TestFunc(ref System.Runtime.InteropServices.ComTypes.DISPPARAMS dispParams, out object varResult)
-        public object TestFunc(string a, int i)
+        public string Info
         {
-            return i + 1;
+            get
+            {
+                return
+                    string.Format("Type:{0}, ProcessName:{1}, ProcessId:{2},ThreadId:{3}",
+                   this.GetType().FullName, Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id, Thread.CurrentThread.ManagedThreadId);
+            }
         }
 
-        public float FloatProperty
+        public void Request(string hello)
         {
-            get { return _floatProperty; }
-            set { _floatProperty = value; }
+            Console.WriteLine("Request was done with:{0}", hello);
         }
 
-        public string ProcName { get { return Process.GetCurrentProcess().ProcessName + " " + Process.GetCurrentProcess().Id + " " + Thread.CurrentThread.ManagedThreadId; } }
+        public void Ping()
+        {
+            Console.WriteLine("Ping");
+        }
+
+        public int Answer()
+        {
+            return 42;
+        }
         public ISimpleObject Create()
         {
             return new SimpleObject();
         }
 
-        public byte[] Execute(byte[] request)
-        {
-            Func<byte[], byte[]> onExecuted = OnExecuted;
-            return onExecuted(request);
-        }
+ 
     }
 }

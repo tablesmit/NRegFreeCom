@@ -76,7 +76,7 @@
       <SubSystem>Windows</SubSystem>
       <ModuleDefinitionFile>.\RegFreeComNativeImplementer.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <RegisterOutput>true</RegisterOutput>
+      <RegisterOutput>false</RegisterOutput>
       <AdditionalDependencies>NativeLibrary.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -114,7 +114,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <RegisterOutput>true</RegisterOutput>
+      <RegisterOutput>false</RegisterOutput>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -127,6 +127,7 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Implementer.cpp" />
+    <ClCompile Include="ManualImplementer.cpp" />
     <ClCompile Include="RegFreeComNativeImplementer.cpp" />
     <ClCompile Include="RegFreeComNativeImplementer_i.c">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
@@ -152,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="dllmain.h" />
     <ClInclude Include="Implementer.h" />
+    <ClInclude Include="ManualImplementer.h" />
     <ClInclude Include="RegFreeComNativeImplementer_i.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -162,10 +164,8 @@
     <ResourceCompile Include="RegFreeComNativeImplementer.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Implementer.rgs" />
     <None Include="ReadMe.txt" />
     <None Include="RegFreeComNativeImplementer.def" />
-    <None Include="RegFreeComNativeImplementer.rgs" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="RegFreeComNativeImplementer.idl" />

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
 using RegFreeCom.Interfaces;
@@ -11,15 +12,31 @@ namespace RegFreeCom.Implementations
     public class RegFreeLocalServer : IRegFreeCom
     {
 
-        public RegFreeLocalServer(){}
-        public byte[] Do(byte[] data)
+
+
+        public string Info
         {
-            return new byte[]{1};
+            get
+            {
+                return
+                    string.Format("Type:{0}, ProcessName:{1}, ProcessId:{2},ThreadId:{3}",
+                   this.GetType().FullName, Process.GetCurrentProcess().ProcessName, Process.GetCurrentProcess().Id, Thread.CurrentThread.ManagedThreadId);
+            }
         }
-        public string ProcName { get { return Process.GetCurrentProcess().ProcessName + " " + Process.GetCurrentProcess().Id + " " + Thread.CurrentThread.ManagedThreadId; } }
-        public string GetString(int number)
+
+        public void Request(string hello)
         {
-            return ProcName + " "+ number;
+            Console.WriteLine("Request was done with:{0}", hello);
+        }
+
+        public void Ping()
+        {
+            Console.WriteLine("Ping");
+        }
+
+        public int Answer()
+        {
+            return 42;
         }
     }
 }

@@ -10,6 +10,8 @@ namespace NRegFreeCom
     [SuppressUnmanagedCodeSecurity]
     public static class NativeMethods
     {
+
+
         [DllImport("Kernel32.dll", SetLastError = true)]
         public static extern int GetModuleFileNameEx(IntPtr hProcess, IntPtr hModule, StringBuilder lpFilename, int nSize);
 
@@ -43,6 +45,24 @@ namespace NRegFreeCom
         /// </summary>
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern IntPtr AddDllDirectory(string NewDirectory);
+
+
+
+        ///<summary>
+        ///         BOOL  WINAPI SetDefaultDllDirectories(
+        ///  _In_  DWORD DirectoryFlags
+        ///);
+        /// </summary>
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern bool SetDefaultDllDirectories(DIRECTORY_FLAGS DirectoryFlags);
+
+        ///<summary>
+        ///       BOOL  WINAPI RemoveDllDirectory(
+        ///_In_  DLL_DIRECTORY_COOKIE Cookie
+        ///);
+        /// </summary>
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern bool RemoveDllDirectory(IntPtr Cookie);
 
         ///<seealso href="http://search.microsoft.com/en-US/results.aspx?q=SetDllDirectory"/>
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
@@ -78,8 +98,15 @@ namespace NRegFreeCom
            IntPtr pServerInfo,
            [In, MarshalAs(UnmanagedType.LPStruct)] Guid riid);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lpFileName"></param>
+        /// <param name="hFile"></param>
+        /// <param name="dwFlags">The action to be taken when loading the module. If no flags are specified, the behavior of this function is identical to that of the LoadLibrary function. This parameter can be one of the following values.</param>
+        /// <returns></returns>
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern IntPtr LoadLibraryEx(string lpFileName, IntPtr hFile, uint dwFlags);
+        public static extern IntPtr LoadLibraryEx(string lpFileName, IntPtr hFile, LOAD_LIBRARY_FLAGS dwFlags);
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool FreeLibrary(IntPtr hModule);

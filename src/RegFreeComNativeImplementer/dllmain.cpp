@@ -11,6 +11,8 @@ CRegFreeComNativeImplementerModule _AtlModule;
 // DLL Entry Point
 extern "C" BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 {
+		wchar_t* dir = (wchar_t*)malloc(255);
+		GetDllDirectoryW(255,dir);
 #ifdef _MERGE_PROXYSTUB
 	if (!PrxDllMain(hInstance, dwReason, lpReserved))
 		return FALSE;
@@ -18,3 +20,5 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpRes
 	hInstance;
 	return _AtlModule.DllMain(dwReason, lpReserved); 
 }
+
+
