@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 
@@ -14,7 +15,7 @@ namespace NRegFreeCom
         private string _name;
         private string _location;
 
-        internal Assembly(IntPtr hModule,string name,string location)
+        internal Assembly(IntPtr hModule, string name, string location)
         {
             Debug.Assert(hModule != IntPtr.Zero);
             _hModule = hModule;
@@ -34,7 +35,7 @@ namespace NRegFreeCom
         public string FullName
         {
             get { return _name; } //TODO: + Version? }
-       
+
         }
 
         public string Location
@@ -43,21 +44,27 @@ namespace NRegFreeCom
         }
 
         /// <summary>
-        /// 
+        /// Gets public method in native library.
         /// </summary>
         /// <typeparam name="T">delegate</typeparam>
-        /// <param name="hModule"></param>
         /// <returns></returns>
-        public T GetDelegate<T>()
-            where T : class,ISerializable, ICloneable
+        public T GetDelegate<T>(string defName = null)
+            where T : class,ISerializable, ICloneable // is delegate
         {
             ThrowIfDisposed();
-            var name = typeof (T).Name;
-            IntPtr fPtr = NativeMethods.GetProcAddress(_hModule, name);
-            if (fPtr == IntPtr.Zero) throw new Win32Exception(Marshal.GetLastWin32Error());
+            if (defName == null)
+                defName = typeof(T).Name;
+            IntPtr fPtr = NativeMethods.GetProcAddress(_hModule, defName);
+            if (fPtr == IntPtr.Zero)
+            {
+                var msg = string.Format("Failed to find {0} function in {1} module", defName, FullName);
+                throw new TargetInvocationException(msg, new Win32Exception(Marshal.GetLastWin32Error()));
+            }
             var function = Marshal.GetDelegateForFunctionPointer(fPtr, typeof(T));
             return function as T;
         }
+
+
 
         private void ThrowIfDisposed()
         {

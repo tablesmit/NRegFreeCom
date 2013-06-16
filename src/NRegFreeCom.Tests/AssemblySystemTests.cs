@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -100,6 +101,7 @@ namespace NRegFreeCom.Tests
         }
 
 
+
         [Test]
         public void Referenced()
         {
@@ -108,16 +110,34 @@ namespace NRegFreeCom.Tests
         }
 
         [Test]
-        public void TestDllsLoading()
+        public void TesNativeInvoke()
+        {
+            var module = TestDllsLoading();
+            var fn = module.GetDelegate<fnNativeLibrary>();
+            var fnString = module.GetDelegate<fnNativeLibrary>("fnNativeLibrary");
+            Assert.IsTrue(42 == fn());
+            Assert.IsTrue(42 == fnString());
+        }
+
+        [Test]
+        [ExpectedException(typeof(TargetInvocationException))]
+        public void TesNativeInvoke_noSuchFunction()
+        {
+            var module = TestDllsLoading();
+
+            var fn = module.GetDelegate<fnNativeLibrary>("noSuchFunction" + DateTime.Now.Ticks);
+            Assert.IsTrue(42 == fn());
+   
+        }
+
+        [Test]
+        public Assembly TestDllsLoading()
         {
             var loader = new AssemblySystem();
             var anyCpu = loader.GetAnyCpuPath(loader.BaseDirectory);
             loader.AddSearchPath(anyCpu);
-            var module = loader.LoadFrom(anyCpu, "NativeLibrary.dll");
-            var fn = module.GetDelegate<fnNativeLibrary>();
-            object[] retval;
-
-            Assert.IsTrue(42 == fn());
+            Assembly module = loader.LoadFrom(anyCpu, "NativeLibrary.dll");
+            return module;
         }
 
         [Test]

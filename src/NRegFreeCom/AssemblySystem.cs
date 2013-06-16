@@ -39,7 +39,7 @@ namespace NRegFreeCom
             else throw new NotSupportedException("It is 2033 year or some kind of embedded device. Both are not considered.");
         }
 
-    
+
         public string MakePathRooted(string path)
         {
             if (!Path.IsPathRooted(path))
@@ -64,23 +64,23 @@ namespace NRegFreeCom
                 var flags = LOAD_LIBRARY_FLAGS.LOAD_LIBRARY_SEARCH_DEFAULT_DIRS |
                             LOAD_LIBRARY_FLAGS.LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR;
                 hModule = NativeMethods.LoadLibraryEx(path, IntPtr.Zero, flags);
-               
+
             }
             else
             {
-                hModule = NativeMethods.LoadLibraryEx(path, IntPtr.Zero, 0 );
+                hModule = NativeMethods.LoadLibraryEx(path, IntPtr.Zero, 0);
             }
-            
+
             if (hModule == IntPtr.Zero)
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             return new Assembly(hModule, name, path);
-        
+
         }
         ///Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008: 
         ///  To use this function in an application, call GetProcAddress to retrieve the function's address from Kernel32.dll. 
         /// KB2533623 must be installed on the target platform.
         /// http://support.microsoft.com/kb/2533623
-        private static Version _goodWindowsRelease = new Version("7.0.6002");
+        private static Version _systemSupportsPatch = new Version("6.0.6002");
 
         private List<IntPtr> _dirCookies = new List<IntPtr>();
 
@@ -89,28 +89,64 @@ namespace NRegFreeCom
         /// NOTE: this is  unsafe hack for Xp and Vista. Works well on >= Win7
         /// </summary>
         /// <param name="directory"></param>
+        /// <seealso href="http://msdn.microsoft.com/en-us/library/ff919712.aspx"/>
+        /// <seealso href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms682586.aspx"/>
         public void AddSearchPath(string directory)
         {
-            var path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process);
             if (SupportsCustomSearch)
             {
-                //NativeMethods.SetDefaultDllDirectories(DIRECTORY_FLAGS.LOAD_LIBRARY_SEARCH_DEFAULT_DIRS);
-                var cookie = NativeMethods.AddDllDirectory(directory);
-                if (cookie == IntPtr.Zero)
-                    throw new Win32Exception(Marshal.GetLastWin32Error());
-                _dirCookies.Add(cookie);
+                IntPtr? cookie = IntPtr.Zero;
+                try
+                {
+                    cookie = NativeMethods.AddDllDirectory(directory);
+                }
+                catch(Exception ex) // system without patch
+                {
+                    Tracing.Source.TraceInformation(string.Format("Failed to AddDllDirectory with next error:{0}",ex));
+                    //addDllDirectoryToProcessEnvVars(directory);
+                    setDllDirectory(directory);
+                }
+
+                if (cookie.HasValue)
+                {
+                    if (cookie.Value == IntPtr.Zero)
+                        throw new Win32Exception(Marshal.GetLastWin32Error());
+                    _dirCookies.Add(cookie.Value);
+                }
+
             }
             else
             {
-              bool result =  NativeMethods.SetDllDirectory(directory);
-              if (!result)
-                  throw new Win32Exception(Marshal.GetLastWin32Error());
+                //addDllDirectoryToProcessEnvVars(directory);
+
+                setDllDirectory(directory);
             }
+        }
+
+        private static void setDllDirectory(string directory)
+        {
+            bool result = NativeMethods.SetDllDirectory(directory);
+            if (!result)
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+        }
+
+        // this is last chance usage - security breack because attacker could put its dll in some path
+        private static void addDllDirectoryToProcessEnvVars(string directory)
+        {
+            //TODO: managed added paths
+            directory = Path.GetFullPath(directory);
+            var path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process);
+            if (!path.Contains(directory)) //TODO: normalize pathes before search, what is impact on dulication?
+            {
+                path += directory + ";";
+                Environment.SetEnvironmentVariable("PATH", path, EnvironmentVariableTarget.Process);
+            }
+
         }
 
         private static bool SupportsCustomSearch
         {
-            get { return Environment.OSVersion.Version >= _goodWindowsRelease; }
+            get { return Environment.OSVersion.Version >= _systemSupportsPatch; }
         }
 
 
