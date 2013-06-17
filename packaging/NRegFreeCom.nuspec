@@ -7,7 +7,7 @@
     <owners>dzmitry_lahoda</owners>
     <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
     <projectUrl>https://github.com/asd-and-Rizzo/NRegFreeCom</projectUrl>
-    <iconUrl>NRegFreeCom.png</iconUrl>
+    <iconUrl>https://raw.github.com/asd-and-Rizzo/NRegFreeCom/master/packging/NRegFreeCom.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description></description>
     <releaseNotes></releaseNotes>
