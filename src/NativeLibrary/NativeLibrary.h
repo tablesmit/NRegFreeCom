@@ -5,7 +5,7 @@
 // NATIVELIBRARY_API functions as being imported from a DLL, whereas this DLL sees symbols
 // defined with this macro as being exported.
 #ifdef NATIVELIBRARY_EXPORTS
-#define NATIVELIBRARY_API __declspec(dllexport)
+#define NATIVELIBRARY_API __declspec(dllexport) 
 #else
 #define NATIVELIBRARY_API __declspec(dllimport)
 #endif
@@ -19,4 +19,4 @@ public:
 
 extern NATIVELIBRARY_API int nNativeLibrary;
 
-NATIVELIBRARY_API int fnNativeLibrary(void);
+NATIVELIBRARY_API  int  fnNativeLibrary(void);

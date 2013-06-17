@@ -58,7 +58,7 @@ namespace NRegFreeCom
             if (fPtr == IntPtr.Zero)
             {
                 var msg = string.Format("Failed to find {0} function in {1} module", defName, FullName);
-                throw new TargetInvocationException(msg, new Win32Exception(Marshal.GetLastWin32Error()));
+                throw new EntryPointNotFoundException(msg, new Win32Exception(Marshal.GetLastWin32Error()));
             }
             var function = Marshal.GetDelegateForFunctionPointer(fPtr, typeof(T));
             return function as T;

@@ -21,6 +21,16 @@ namespace NRegFreeCom
         //NOTE: not sure that using next directoy is good for base (may be some native methods are more proper)
         public string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
+        ///Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008: 
+        ///  To use this function in an application, call GetProcAddress to retrieve the function's address from Kernel32.dll. 
+        /// KB2533623 must be installed on the target platform.
+        /// http://support.microsoft.com/kb/2533623
+        private static Version _systemSupportsPatch = new Version("6.0.6002");
+        private bool _hasPatch = true;
+
+        private List<IntPtr> _dirCookies = new List<IntPtr>();
+  
+
         /// <summary>
         /// Should managed code to look into <see cref="Win32Directory"/> or <see cref="x64Directory"/> for native library suitable process bitness.
         /// </summary>
@@ -64,7 +74,6 @@ namespace NRegFreeCom
                 var flags = LOAD_LIBRARY_FLAGS.LOAD_LIBRARY_SEARCH_DEFAULT_DIRS |
                             LOAD_LIBRARY_FLAGS.LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR;
                 hModule = NativeMethods.LoadLibraryEx(path, IntPtr.Zero, flags);
-
             }
             else
             {
@@ -76,13 +85,7 @@ namespace NRegFreeCom
             return new Assembly(hModule, name, path);
 
         }
-        ///Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008: 
-        ///  To use this function in an application, call GetProcAddress to retrieve the function's address from Kernel32.dll. 
-        /// KB2533623 must be installed on the target platform.
-        /// http://support.microsoft.com/kb/2533623
-        private static Version _systemSupportsPatch = new Version("6.0.6002");
 
-        private List<IntPtr> _dirCookies = new List<IntPtr>();
 
 
         /// <summary>
@@ -95,14 +98,15 @@ namespace NRegFreeCom
         {
             if (SupportsCustomSearch)
             {
-                IntPtr? cookie = IntPtr.Zero;
+                IntPtr? cookie = null;
                 try
                 {
                     cookie = NativeMethods.AddDllDirectory(directory);
                 }
-                catch(Exception ex) // system without patch
+                catch (EntryPointNotFoundException ex) // system without patch 
                 {
-                    Tracing.Source.TraceInformation(string.Format("Failed to AddDllDirectory with next error:{0}",ex));
+                    Tracing.Source.TraceInformation(string.Format("Failed to AddDllDirectory with next error:{0}", ex));
+                    _hasPatch = false;
                     //addDllDirectoryToProcessEnvVars(directory);
                     setDllDirectory(directory);
                 }
@@ -144,9 +148,9 @@ namespace NRegFreeCom
 
         }
 
-        private static bool SupportsCustomSearch
+        private bool SupportsCustomSearch
         {
-            get { return Environment.OSVersion.Version >= _systemSupportsPatch; }
+            get { return Environment.OSVersion.Version >= _systemSupportsPatch && _hasPatch; }
         }
 
 

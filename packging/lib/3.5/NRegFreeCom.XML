@@ -39,6 +39,12 @@
             Instance methods are not thread safe.
             </remarks>
         </member>
+        <member name="F:NRegFreeCom.AssemblySystem._systemSupportsPatch">
+            Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008: 
+              To use this function in an application, call GetProcAddress to retrieve the function's address from Kernel32.dll. 
+             KB2533623 must be installed on the target platform.
+             http://support.microsoft.com/kb/2533623
+        </member>
         <member name="M:NRegFreeCom.AssemblySystem.GetAnyCpuPath(System.String)">
             <summary>
             Should managed code to look into <see cref="F:NRegFreeCom.AssemblySystem.Win32Directory"/> or <see cref="F:NRegFreeCom.AssemblySystem.x64Directory"/> for native library suitable process bitness.
@@ -46,17 +52,13 @@
             <param name="directoryPath"></param>
             <returns></returns>
         </member>
-        <member name="F:NRegFreeCom.AssemblySystem._goodWindowsRelease">
-            Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008: 
-              To use this function in an application, call GetProcAddress to retrieve the function's address from Kernel32.dll. 
-             KB2533623 must be installed on the target platform.
-             http://support.microsoft.com/kb/2533623
-        </member>
         <member name="M:NRegFreeCom.AssemblySystem.AddSearchPath(System.String)">
             <summary>
             NOTE: this is  unsafe hack for Xp and Vista. Works well on >= Win7
             </summary>
             <param name="directory"></param>
+            <seealso href="http://msdn.microsoft.com/en-us/library/ff919712.aspx"/>
+            <seealso href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms682586.aspx"/>
         </member>
         <member name="M:NRegFreeCom.IBytesRequestResponse.Execute(System.Byte[])">
             <summary>
@@ -77,12 +79,11 @@
             <seealso href="https://sites.google.com/site/jozsefbekes/Home/windows-programming/dotnet-registering-an-object-to-the-running-object-table-from-a-non-com-project"/>
             <seealso href="https://sites.google.com/site/jozsefbekes/Home/windows-programming/registering-an-object-to-the-running-object-table-from-a-non-com-project"/>
         </member>
-        <member name="M:NRegFreeCom.Assembly.GetDelegate``1">
+        <member name="M:NRegFreeCom.Assembly.GetDelegate``1(System.String)">
             <summary>
-            
+            Gets public method in native library.
             </summary>
             <typeparam name="T">delegate</typeparam>
-            <param name="hModule"></param>
             <returns></returns>
         </member>
         <member name="M:NRegFreeCom.Ole.NativeMethods.OleLoadPicturePath(System.String,System.IntPtr,System.UInt32,System.UInt32,System.Guid@,NRegFreeCom.IUnknown@)">

@@ -77,14 +77,14 @@ namespace NRegFreeCom.Tests
 
 
         [UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall)]
-        public delegate short fnNativeLibraryConsumer(
+        public delegate Int32 fnNativeLibraryConsumer(
             // marshal generic array of items
         [MarshalAs(UnmanagedType.SafeArray,
            SafeArraySubType = VarEnum.VT_VARIANT
             )]out object[] retval);
 
         [UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall)]
-        public delegate short fnNativeLibrary();
+        public delegate int fnNativeLibrary();
 
 
         [Test]
@@ -112,7 +112,7 @@ namespace NRegFreeCom.Tests
         [Test]
         public void TesNativeInvoke()
         {
-            var module = TestDllsLoading();
+            var module = LoadDll();
             var fn = module.GetDelegate<fnNativeLibrary>();
             var fnString = module.GetDelegate<fnNativeLibrary>("fnNativeLibrary");
             Assert.IsTrue(42 == fn());
@@ -120,10 +120,10 @@ namespace NRegFreeCom.Tests
         }
 
         [Test]
-        [ExpectedException(typeof(TargetInvocationException))]
+        [ExpectedException(typeof(EntryPointNotFoundException))]
         public void TesNativeInvoke_noSuchFunction()
         {
-            var module = TestDllsLoading();
+            var module = LoadDll();
 
             var fn = module.GetDelegate<fnNativeLibrary>("noSuchFunction" + DateTime.Now.Ticks);
             Assert.IsTrue(42 == fn());
@@ -131,7 +131,12 @@ namespace NRegFreeCom.Tests
         }
 
         [Test]
-        public Assembly TestDllsLoading()
+        public void TestDllsLoading()
+        {
+             LoadDll();
+        }
+
+        private static Assembly LoadDll()
         {
             var loader = new AssemblySystem();
             var anyCpu = loader.GetAnyCpuPath(loader.BaseDirectory);
