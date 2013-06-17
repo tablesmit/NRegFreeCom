@@ -20,7 +20,7 @@ namespace NRegFreeCom.Tests
             var pathToImage = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "picture.png");
             IUnknown unknown;
             var guid = new Guid("7BF80981-BF32-101A-8BBB-00AA00300CAB");
-            var hLoad = NativeMethods.OleLoadPicturePath(pathToImage, IntPtr.Zero, 0, 0, ref guid, out unknown);
+            var hLoad =  Ole.NativeMethods.OleLoadPicturePath(pathToImage, IntPtr.Zero, 0, 0, ref guid, out unknown);
             Assert.IsTrue(hLoad == SYSTEM_ERROR_CODES.ERROR_SUCCESS);
             Assert.IsTrue(unknown != null);
         }

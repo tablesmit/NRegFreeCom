@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Messaging;
 using System.Runtime.Remoting.Proxies;
 
@@ -12,6 +14,17 @@ namespace NRegFreeCom
     /// </summary>
     public class RotRegFreeComInvoker : RealProxy
     {
+
+        public static T GetRealObjectByProxy<T>(object instance)
+        {
+            Guid typeIdd = typeof(T).GUID;
+            IntPtr unknownPointer = Marshal.GetIUnknownForObject(instance);
+            IntPtr realPointer = IntPtr.Zero;
+            int result = Marshal.QueryInterface(unknownPointer, ref typeIdd, out realPointer);
+            if (result != SYSTEM_ERROR_CODES.ERROR_SUCCESS)
+                throw new Win32Exception(result);
+            return (T)Marshal.GetObjectForIUnknown(realPointer);
+        }
 
         public static T ProxyInterface<T>(object com)
         {

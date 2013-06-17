@@ -13,4 +13,6 @@ namespace NRegFreeCom
         public uint time;
         public POINT pt;
     }
+
+
 }

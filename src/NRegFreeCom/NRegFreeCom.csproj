@@ -55,13 +55,27 @@
     <Compile Include="ERROR_CODES.cs" />
     <Compile Include="FDW_REASONS.cs" />
     <Compile Include="IBytesRequestResponse.cs" />
+    <Compile Include="ICallFrameEvents.cs" />
+    <Compile Include="ICallInterceptor.cs" />
     <Compile Include="IClassFactory.cs" />
+    <Compile Include="IGlobalInterfaceTable.cs" />
+    <Compile Include="IMessageFilter.cs" />
+    <Compile Include="INTERFACEINFO.cs" />
+    <Compile Include="Ole\NativeMethods.cs" />
+    <Compile Include="Ole\COMRECT.cs" />
+    <Compile Include="Ole\IEnumOLEVERB.cs" />
+    <Compile Include="Ole\IOleClientSite.cs" />
     <Compile Include="IServiceProvider.cs" />
     <Compile Include="IUnknown.cs" />
     <Compile Include="LOAD_LIBRARY_FLAGS.cs" />
     <Compile Include="AssemblySystem.cs" />
     <Compile Include="MSG.cs" />
     <Compile Include="Assembly.cs" />
+    <Compile Include="Ole\IOleContainer.cs" />
+    <Compile Include="Ole\LOGPALETTE.cs" />
+    <Compile Include="Ole\IOleObject.cs" />
+    <Compile Include="Ole\OLEVERB.cs" />
+    <Compile Include="Ole\SIZEL.cs" />
     <Compile Include="POINT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="REGCLS.cs" />
@@ -71,6 +85,7 @@
     <Compile Include="RuntimeRegasm.cs" />
     <Compile Include="RunningObjectTable.cs" />
     <Compile Include="NativeMethods.cs" />
+    <Compile Include="StaComCrossThreadInvoker.cs" />
     <Compile Include="WELL_KNOWN_IIDS.cs" />
     <Compile Include="WM.cs" />
   </ItemGroup>

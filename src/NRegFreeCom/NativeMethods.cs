@@ -11,6 +11,18 @@ namespace NRegFreeCom
     public static class NativeMethods
     {
 
+        [DllImport("ole32.dll")]
+        public static extern int CoRegisterMessageFilter(
+            IMessageFilter lpMessageFilter,
+            out IMessageFilter lplpMessageFilter);
+
+        [DllImport("ole32.dll")]
+        public static extern int CoMarshalInterThreadInterfaceInStream([In] ref Guid riid,
+           [MarshalAs(UnmanagedType.IUnknown)] object pUnk, out IStream ppStm);
+
+        [DllImport("ole32.dll")]
+        public static extern int CoGetInterfaceAndReleaseStream(IStream pStm, [In] ref
+   Guid riid, [MarshalAs(UnmanagedType.IUnknown)] out object ppv);
 
         [DllImport("Kernel32.dll", SetLastError = true)]
         public static extern int GetModuleFileNameEx(IntPtr hProcess, IntPtr hModule, StringBuilder lpFilename, int nSize);
@@ -29,6 +41,7 @@ namespace NRegFreeCom
     [MarshalAs(UnmanagedType.U4)]
     int nSize
 );
+
         ///<summary>
         ///        DWORD WINAPI GetDllDirectory(
         ///  _In_   DWORD nBufferLength,
@@ -358,25 +371,6 @@ namespace NRegFreeCom
         [DllImport("ole32.dll")]
         public static extern int GetRunningObjectTable(int reserved, out IRunningObjectTable prot);
 
-        ///<summary>
-        ///http://msdn.microsoft.com/en-us/library/windows/desktop/ms678485.aspx
-        ///                HRESULT OleLoadPicturePath(
-        ///  _In_   LPOLESTR szURLorPath,
-        ///  _In_   LPUNKNOWN punkCaller,
-        ///  _In_   DWORD dwReserved,
-        ///  _In_   OLE_COLOR clrReserved,
-        ///  _In_   REFIID riid,
-        ///  _Out_  LPVOID *ppvRet
-        ///);
-        ///   </summary>
-        [DllImport("oleaut32.dll")]
-        public static extern int OleLoadPicturePath(
-             string szURLorPath,
-             IntPtr punkCaller,
-             uint dwReserved,
-             uint clrReserved,
-            ref Guid riid,
-             out IUnknown unknown);
 
 
 
