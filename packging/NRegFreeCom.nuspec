@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>NRegFreeCom</id>
+    <version>0.0.2.0</version>
+    <authors>dzmitry_lahoda</authors>
+    <owners>dzmitry_lahoda</owners>
+    <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
+    <projectUrl>https://github.com/asd-and-Rizzo/NRegFreeCom</projectUrl>
+    <iconUrl>NRegFreeCom.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description></description>
+    <releaseNotes></releaseNotes>
+    <copyright>@->---</copyright>
+    <tags>com c interop</tags>
+  </metadata>
+</package>

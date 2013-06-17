@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace ThomsonReuters.CommonOffice.Wrappers.Office
+namespace NRegFreeCom
 {
     public static class COMExceptionChecker
     {

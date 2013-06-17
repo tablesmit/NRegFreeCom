@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\build\Debug\NRegFreeCom.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\build\Release\NRegFreeCom.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -48,6 +50,7 @@
     <Compile Include="ACTCTX.cs" />
     <Compile Include="ActivationContext.cs" />
     <Compile Include="CLSCTX.cs" />
+    <Compile Include="ComExceptionChecker.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="DEF.cs" />
     <Compile Include="DIRECTORY_FLAGS.cs" />

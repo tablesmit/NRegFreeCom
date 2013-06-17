@@ -1,0 +1,444 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NRegFreeCom</name>
+    </assembly>
+    <members>
+        <member name="T:NRegFreeCom.ActivationContext">
+            <summary>
+             Used tune activation context stack of thread for intializing and loading SxS components.
+             </summary>
+            <seealso cref="!:Microsoft.Windows.ActCtx"/>
+            <seealso href="http://www.atalasoft.com/blogs/spikemclarty/february-2012/dynamically-testing-an-activex-control-from-c-and"/>
+        </member>
+        <member name="M:NRegFreeCom.ActivationContext.CreateInstanceWithManifest(System.Guid,System.String)">
+            <summary>
+            Create an instance of a COM object given the GUID of its class
+            and a filepath of a client manifest (AKA an application manifest.)
+            </summary>
+            <param name="guid">GUID = CLSID of the COM object, {NNNN...NNN}</param>
+            <param name="manifest">full path of manifest to activate, should list the
+            desired COM class as a dependentAssembly.</param>
+            <returns>An instance of the specified COM class, or null.</returns>
+        </member>
+        <member name="F:NRegFreeCom.WELL_KNOWN_IIDS.IID_IUnknown">
+            <summary>
+            Interface Id of IUnknown
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.WELL_KNOWN_IIDS.IID_IDispatch">
+            <summary>
+            Interface Id of IDispatch
+            </summary>
+        </member>
+        <member name="T:NRegFreeCom.AssemblySystem">
+            <summary>
+            
+            </summary>
+            <remarks>
+            Instance methods are not thread safe.
+            </remarks>
+        </member>
+        <member name="M:NRegFreeCom.AssemblySystem.GetAnyCpuPath(System.String)">
+            <summary>
+            Should managed code to look into <see cref="F:NRegFreeCom.AssemblySystem.Win32Directory"/> or <see cref="F:NRegFreeCom.AssemblySystem.x64Directory"/> for native library suitable process bitness.
+            </summary>
+            <param name="directoryPath"></param>
+            <returns></returns>
+        </member>
+        <member name="F:NRegFreeCom.AssemblySystem._goodWindowsRelease">
+            Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008: 
+              To use this function in an application, call GetProcAddress to retrieve the function's address from Kernel32.dll. 
+             KB2533623 must be installed on the target platform.
+             http://support.microsoft.com/kb/2533623
+        </member>
+        <member name="M:NRegFreeCom.AssemblySystem.AddSearchPath(System.String)">
+            <summary>
+            NOTE: this is  unsafe hack for Xp and Vista. Works well on >= Win7
+            </summary>
+            <param name="directory"></param>
+        </member>
+        <member name="M:NRegFreeCom.IBytesRequestResponse.Execute(System.Byte[])">
+            <summary>
+            Allows to request COM object with bytes and be responded with bytes.
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="T:NRegFreeCom.ACTCTX">
+            <summary>
+            Activation context structure
+            </summary>
+        </member>
+        <member name="T:NRegFreeCom.RunningObjectTable">
+            <summary>
+             Allows manipulations with Running Object Table like add and removing objects, enumerating registered. 
+             </summary>
+            <seealso href="https://sites.google.com/site/jozsefbekes/Home/windows-programming/dotnet-registering-an-object-to-the-running-object-table-from-a-non-com-project"/>
+            <seealso href="https://sites.google.com/site/jozsefbekes/Home/windows-programming/registering-an-object-to-the-running-object-table-from-a-non-com-project"/>
+        </member>
+        <member name="M:NRegFreeCom.Assembly.GetDelegate``1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T">delegate</typeparam>
+            <param name="hModule"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NRegFreeCom.Ole.NativeMethods.OleLoadPicturePath(System.String,System.IntPtr,System.UInt32,System.UInt32,System.Guid@,NRegFreeCom.IUnknown@)">
+            <summary>
+            http://msdn.microsoft.com/en-us/library/windows/desktop/ms678485.aspx
+                            HRESULT OleLoadPicturePath(
+              _In_   LPOLESTR szURLorPath,
+              _In_   LPUNKNOWN punkCaller,
+              _In_   DWORD dwReserved,
+              _In_   OLE_COLOR clrReserved,
+              _In_   REFIID riid,
+              _Out_  LPVOID *ppvRet
+            );
+               </summary>
+        </member>
+        <member name="M:NRegFreeCom.RuntimeRegasm.RegasmRegisterLocalServer(System.Type)">
+            <summary>
+            Register the component as a local server.
+            </summary>
+            <param name="t"></param>
+        </member>
+        <member name="M:NRegFreeCom.RuntimeRegasm.RegasmUnregisterLocalServer(System.Type)">
+            <summary>
+            Unregister the component.
+            </summary>
+            <param name="t"></param>
+        </member>
+        <member name="T:NRegFreeCom.StaComCrossThreadInvoker">
+            <summary>
+             Rejected COM calls will retry automatically in current thread when instance of this object is used.
+             </summary>
+            <example>   
+             Clients of STA COM servers (Excel,Word,etc.) should use it before calling any methods from thread other then in which COM was created.
+             <code>
+             using (new StaComCrossThreadInvoker())
+             {     
+                 ...
+             }
+             </code>
+             </example>
+            <remarks>
+             Provides <see cref="T:NRegFreeCom.IMessageFilter"/> implementation with interface oriented on .NET CLIENTS to COM STA SERVERS only.
+             </remarks>
+            <seealso href="http://blogs.msdn.com/b/andreww/archive/2008/11/19/implementing-imessagefilter-in-an-office-add-in.aspx"/>
+             <seealso href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms693740.aspx"/>
+        </member>
+        <member name="M:NRegFreeCom.StaComCrossThreadInvoker.#ctor">
+            <summary>
+            Creates and registers this filter.
+            </summary>
+        </member>
+        <member name="M:NRegFreeCom.StaComCrossThreadInvoker.#ctor(System.UInt32)">
+            <summary>
+            Creates and registers this filter.
+            </summary>
+            <param name="maximumTotalWaitTimeInMilliseconds">
+            Number of milliseconds before message filter stops spin waiting call to finish, call canceled and COM exceptions popup.
+            </param>
+        </member>
+        <member name="M:NRegFreeCom.StaComCrossThreadInvoker.Dispose">
+            <summary>
+            Unregisters common filter and returns back previous one.
+            </summary>
+        </member>
+        <member name="M:NRegFreeCom.StaComCrossThreadInvoker.ShouldRetry(System.UInt32)">
+            <summary>
+            Override to provide custom logic when retry happens. Can be used to show some notification to user.
+            </summary>
+            <param name="elpasedTotalWaitTimeInMilliseconds">Total time user already waited call to finish in milliseconds</param>
+            <returns></returns>
+        </member>
+        <member name="P:NRegFreeCom.StaComCrossThreadInvoker.AffinedThreadId">
+            <summary>
+            <see cref="P:System.Threading.Thread.ManagedThreadId"/> were this object was created, can be used and should be disposed.
+            </summary>
+        </member>
+        <member name="T:NRegFreeCom.IServiceProvider">
+            <seealso href="http://msdn.microsoft.com/en-us/library/cc678965.aspx"/>
+        </member>
+        <member name="T:NRegFreeCom.RotRegFreeComInvoker">
+            <summary>
+            Allows to invoke Out of Proc COM object if Windows registy does  contains zero info about COM class and interfaces.
+            Adds some layer of indirection with some overhead comparable with ovehead 
+            add by routing usual .NET call from C# to usual native COM via interop assembly.
+            </summary>
+        </member>
+        <member name="T:NRegFreeCom.REGCLS">
+            <summary>
+            The REGCLS enumeration defines values used in CoRegisterClassObject to 
+            control the type of connections to a class object.
+            </summary>
+        </member>
+        <member name="T:NRegFreeCom.DEF.DllMain">
+            <seealso href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms682583.aspx"/>
+        </member>
+        <member name="F:NRegFreeCom.Constants.IID_IClassFactory">
+            <summary>
+            Interface Id of IClassFactory
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.NativeMethods.CLASS_E_NOAGGREGATION">
+            <summary>
+            Class does not support aggregation (or class object is remote)
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.NativeMethods.E_NOINTERFACE">
+            <summary>
+            No such interface supported
+            </summary>
+        </member>
+        <member name="M:NRegFreeCom.NativeMethods.GetDllDirectory(System.Int32,System.Text.StringBuilder)">
+            <summary>
+                    DWORD WINAPI GetDllDirectory(
+              _In_   DWORD nBufferLength,
+              _Out_  LPTSTR lpBuffer
+            );
+             </summary>
+        </member>
+        <member name="M:NRegFreeCom.NativeMethods.AddDllDirectory(System.String)">
+            <summary>
+                    DLL_DIRECTORY_COOKIE  WINAPI AddDllDirectory(
+              _In_  PCWSTR NewDirectory
+            );
+             </summary>
+        </member>
+        <member name="M:NRegFreeCom.NativeMethods.SetDefaultDllDirectories(NRegFreeCom.DIRECTORY_FLAGS)">
+            <summary>
+                     BOOL  WINAPI SetDefaultDllDirectories(
+              _In_  DWORD DirectoryFlags
+            );
+             </summary>
+        </member>
+        <member name="M:NRegFreeCom.NativeMethods.RemoveDllDirectory(System.IntPtr)">
+            <summary>
+                   BOOL  WINAPI RemoveDllDirectory(
+            _In_  DLL_DIRECTORY_COOKIE Cookie
+            );
+             </summary>
+        </member>
+        <member name="M:NRegFreeCom.NativeMethods.SetDllDirectory(System.String)">
+            <seealso href="http://search.microsoft.com/en-US/results.aspx?q=SetDllDirectory"/>
+        </member>
+        <member name="M:NRegFreeCom.NativeMethods.LoadLibraryEx(System.String,System.IntPtr,NRegFreeCom.LOAD_LIBRARY_FLAGS)">
+            <summary>
+            
+            </summary>
+            <param name="lpFileName"></param>
+            <param name="hFile"></param>
+            <param name="dwFlags">The action to be taken when loading the module. If no flags are specified, the behavior of this function is identical to that of the LoadLibrary function. This parameter can be one of the following values.</param>
+            <returns></returns>
+        </member>
+        <member name="M:NRegFreeCom.NativeMethods.CoInitializeEx(System.IntPtr,System.UInt32)">
+            <summary>
+            CoInitializeEx() can be used to set the apartment model of individual 
+            threads.
+            </summary>
+            <param name="pvReserved">Must be NULL</param>
+            <param name="dwCoInit">
+            The concurrency model and initialization options for the thread
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:NRegFreeCom.NativeMethods.CoUninitialize">
+            <summary>
+            CoUninitialize() is used to uninitialize a COM thread.
+            </summary>
+        </member>
+        <member name="M:NRegFreeCom.NativeMethods.CoRegisterClassObject(System.Guid@,NRegFreeCom.IClassFactory,NRegFreeCom.CLSCTX,NRegFreeCom.REGCLS,System.UInt32@)">
+            <summary>
+            Registers an EXE class object with OLE so other applications can 
+            connect to it. EXE object applications should call 
+            CoRegisterClassObject on startup. It can also be used to register 
+            internal objects for use by the same EXE or other code (such as DLLs)
+            that the EXE uses.
+            </summary>
+            <param name="rclsid">CLSID to be registered</param>
+            <param name="pUnk">
+            Pointer to the IUnknown interface on the class object whose 
+            availability is being published.
+            </param>
+            <param name="dwClsContext">
+            Context in which the executable code is to be run.
+            </param>
+            <param name="flags">
+            How connections are made to the class object.
+            </param>
+            <param name="lpdwRegister">
+            Pointer to a value that identifies the class object registered; 
+            </param>
+            <returns></returns>
+            <remarks>
+            PInvoking CoRegisterClassObject to register COM objects is not 
+            supported.
+            </remarks>
+        </member>
+        <member name="M:NRegFreeCom.NativeMethods.CoRevokeClassObject(System.UInt32)">
+            <summary>
+            Informs OLE that a class object, previously registered with the 
+            CoRegisterClassObject function, is no longer available for use.
+            </summary>
+            <param name="dwRegister">
+            Token previously returned from the CoRegisterClassObject function
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:NRegFreeCom.NativeMethods.CoResumeClassObjects">
+            <summary>
+            Called by a server that can register multiple class objects to inform 
+            the SCM about all registered classes, and permits activation requests 
+            for those class objects.
+            </summary>
+            <returns></returns>
+            <remarks>
+            Servers that can register multiple class objects call 
+            CoResumeClassObjects once, after having first called 
+            CoRegisterClassObject, specifying REGCLS_LOCAL_SERVER | 
+            REGCLS_SUSPENDED for each CLSID the server supports. This function 
+            causes OLE to inform the SCM about all the registered classes, and 
+            begins letting activation requests into the server process.
+            
+            This reduces the overall registration time, and thus the server 
+            application startup time, by making a single call to the SCM, no 
+            matter how many CLSIDs are registered for the server. Another 
+            advantage is that if the server has multiple apartments with 
+            different CLSIDs registered in different apartments, or is a free-
+            threaded server, no activation requests will come in until the server 
+            calls CoResumeClassObjects. This gives the server a chance to 
+            register all of its CLSIDs and get properly set up before having to 
+            deal with activation requests, and possibly shutdown requests. 
+            </remarks>
+        </member>
+        <member name="M:NRegFreeCom.NativeMethods.GetCurrentThreadId">
+            <summary>
+            Get current thread ID.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NRegFreeCom.NativeMethods.GetCurrentProcessId">
+            <summary>
+            Get current process ID.
+            </summary>
+        </member>
+        <member name="M:NRegFreeCom.NativeMethods.GetMessage(NRegFreeCom.MSG@,System.IntPtr,System.UInt32,System.UInt32)">
+            <summary>
+            The GetMessage function retrieves a message from the calling thread's 
+            message queue. The function dispatches incoming sent messages until a 
+            posted message is available for retrieval. 
+            </summary>
+            <param name="lpMsg">
+            Pointer to an MSG structure that receives message information from 
+            the thread's message queue.
+            </param>
+            <param name="hWnd">
+            Handle to the window whose messages are to be retrieved.
+            </param>
+            <param name="wMsgFilterMin">
+            Specifies the integer value of the lowest message value to be 
+            retrieved. 
+            </param>
+            <param name="wMsgFilterMax">
+            Specifies the integer value of the highest message value to be 
+            retrieved.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:NRegFreeCom.NativeMethods.TranslateMessage(NRegFreeCom.MSG@)">
+            <summary>
+            The TranslateMessage function translates virtual-key messages into 
+            character messages. The character messages are posted to the calling 
+            thread's message queue, to be read the next time the thread calls the 
+            GetMessage or PeekMessage function.
+            </summary>
+            <param name="lpMsg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NRegFreeCom.NativeMethods.DispatchMessage(NRegFreeCom.MSG@)">
+            <summary>
+            The DispatchMessage function dispatches a message to a window 
+            procedure. It is typically used to dispatch a message retrieved by 
+            the GetMessage function.
+            </summary>
+            <param name="lpMsg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NRegFreeCom.NativeMethods.PostThreadMessage(System.UInt32,System.UInt32,System.UIntPtr,System.IntPtr)">
+            <summary>
+            The PostThreadMessage function posts a message to the message queue 
+            of the specified thread. It returns without waiting for the thread to 
+            process the message.
+            </summary>
+            <param name="idThread">
+            Identifier of the thread to which the message is to be posted.
+            </param>
+            <param name="Msg">Specifies the type of message to be posted.</param>
+            <param name="wParam">
+            Specifies additional message-specific information.
+            </param>
+            <param name="lParam">
+            Specifies additional message-specific information.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:NRegFreeCom.NativeMethods.GetRunningObjectTable(System.UInt32,System.Runtime.InteropServices.ComTypes.IRunningObjectTable@)">
+            <summary>
+            Returns a pointer to the IRunningObjectTable
+            interface on the local running object table (ROT).
+            </summary>
+            <param name="reserved">This parameter is reserved and must be 0.</param>
+            <param name="prot">The address of an IRunningObjectTable* pointer variable
+            that receives the interface pointer to the local ROT. When the function is
+            successful, the caller is responsible for calling Release on the interface
+            pointer. If an error occurs, *pprot is undefined.</param>
+            <returns>This function can return the standard return values E_UNEXPECTED and S_OK.</returns>
+        </member>
+        <member name="T:NRegFreeCom.IClassFactory">
+            <summary>
+            You must implement this interface for every class that you register in 
+            the system registry and to which you assign a CLSID, so objects of that
+            class can be created.
+            http://msdn.microsoft.com/en-us/library/ms694364.aspx
+            </summary>
+        </member>
+        <member name="M:NRegFreeCom.IClassFactory.CreateInstance(System.IntPtr,System.Guid@,System.IntPtr@)">
+            <summary>
+            Creates an uninitialized object.
+            </summary>
+            <param name="pUnkOuter"></param>
+            <param name="riid">
+            Reference to the identifier of the interface to be used to 
+            communicate with the newly created object. If pUnkOuter is NULL, this
+            parameter is frequently the IID of the initializing interface.
+            </param>
+            <param name="ppvObject">
+            Address of pointer variable that receives the interface pointer 
+            requested in riid. 
+            </param>
+            <returns>S_OK means success.</returns>
+        </member>
+        <member name="M:NRegFreeCom.IClassFactory.LockServer(System.Boolean)">
+            <summary>
+            Locks object application open in memory.
+            </summary>
+            <param name="fLock">
+            If TRUE, increments the lock count; 
+            if FALSE, decrements the lock count.
+            </param>
+            <returns>S_OK means success.</returns>
+        </member>
+        <member name="T:NRegFreeCom.CLSCTX">
+            <summary>
+            Values from the CLSCTX enumeration are used in activation calls to 
+            indicate the execution contexts in which an object is to be run. These
+            values are also used in calls to CoRegisterClassObject to indicate the
+            set of execution contexts in which a class object is to be made available
+            for requests to construct instances.
+            </summary>
+        </member>
+    </members>
+</doc>
