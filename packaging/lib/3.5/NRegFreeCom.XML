@@ -99,6 +99,16 @@
             );
                </summary>
         </member>
+        <member name="F:NRegFreeCom.SYSTEM_ERROR_CODES.ERROR_ENVVAR_NOT_FOUND">
+            <summary>
+            The system could not find the environment option that was entered (203).
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.SYSTEM_ERROR_CODES.ERROR_INVALID_PARAMETER">
+            <summary>
+            The parameter is incorrect (87).
+            </summary>
+        </member>
         <member name="M:NRegFreeCom.RuntimeRegasm.RegasmRegisterLocalServer(System.Type)">
             <summary>
             Register the component as a local server.

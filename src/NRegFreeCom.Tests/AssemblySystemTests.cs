@@ -21,7 +21,7 @@ namespace NRegFreeCom.Tests
         public void LoadingDll_noSuchDll_clrAndNativeErrorAreTheSame()
         {
             Exception clrEx = null;
-            var noSuchDll = Guid.NewGuid().ToString("N") + "_" + DateTime.Now.Ticks + ".dll";
+            var noSuchDll = Path.GetFullPath(Guid.NewGuid().ToString("N") + "_" + DateTime.Now.Ticks + ".dll");
             try
             {
                 System.Reflection.Assembly.LoadFrom(noSuchDll);
@@ -49,7 +49,7 @@ namespace NRegFreeCom.Tests
         public void LoadingDll_notDll_clrAndNativeErrorAreTheSame()
         {
             Exception clrEx = null;
-            var notDll = Guid.NewGuid().ToString("N") + "_" + DateTime.Now.Ticks + ".dll";
+            var notDll = Path.GetFullPath(Guid.NewGuid().ToString("N") + "_" + DateTime.Now.Ticks + ".dll");
             File.Create(notDll).Close();
             try
             {

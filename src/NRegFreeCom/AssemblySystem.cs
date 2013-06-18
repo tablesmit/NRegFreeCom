@@ -38,6 +38,7 @@ namespace NRegFreeCom
         /// <returns></returns>
         public string GetAnyCpuPath(string directoryPath)
         {
+            //TODO: check not only bits by arch (e.g. COM on ARM or Itanium)
             if (IntPtr.Size == 4)
             {
                 return Path.Combine(directoryPath, Win32Directory);
@@ -62,17 +63,20 @@ namespace NRegFreeCom
 
         public Assembly LoadFrom(string directoryPath, string name)
         {
-            //TODO: check not only bits by arch (e.g. COM on ARM or Itanium)
-            IntPtr hModule = IntPtr.Zero;
-            string path;
-            var directory = directoryPath;
 
-            path = Path.Combine(directory, name);
-            //TODO: throw new BadImageFormatException() if managed or not that CPU
+            string path = Path.Combine(directoryPath, name);
+            return LoadFrom(path);
+        }
+
+        public Assembly LoadFrom(string path)
+        {
+            path = normalize(path);//fixes problem with dot C:/.
+            IntPtr hModule;
             if (SupportsCustomSearch)
             {
                 var flags = LOAD_LIBRARY_FLAGS.LOAD_LIBRARY_SEARCH_DEFAULT_DIRS |
                             LOAD_LIBRARY_FLAGS.LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR;
+                
                 hModule = NativeMethods.LoadLibraryEx(path, IntPtr.Zero, flags);
             }
             else
@@ -81,10 +85,19 @@ namespace NRegFreeCom
             }
 
             if (hModule == IntPtr.Zero)
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-            return new Assembly(hModule, name, path);
-
+            {
+                var error = Marshal.GetLastWin32Error();
+                var ex = new Win32Exception(error);
+                if (error == SYSTEM_ERROR_CODES.ERROR_MOD_NOT_FOUND || error == SYSTEM_ERROR_CODES.ERROR_ENVVAR_NOT_FOUND)
+                    throw new System.IO.FileNotFoundException("Failed to find dll", path, ex);
+                if (error == SYSTEM_ERROR_CODES.ERROR_BAD_EXE_FORMAT || error == SYSTEM_ERROR_CODES.ERROR_INVALID_PARAMETER)
+                    throw new BadImageFormatException("Failed to load dll", path, ex);
+                throw ex;
+            }
+            return new Assembly(hModule, Path.GetFileName(path), path);
         }
+
+
 
         private string normalize(string path)
         {
@@ -138,15 +151,22 @@ namespace NRegFreeCom
         // this is last chance usage - security breach because attacker could put its dll in some path
         private void addDllDirectoryToProcessEnvVars(string directory)
         {
-            //TODO: manage added paths
-            directory = normalize(Path.GetFullPath(directory));
-            var paths = getProcessPaths();
-            if (!paths.Contains(directory)) //TODO: normalize paths before search, what is impact on dulication?
+            try
             {
-                paths += directory + ";";
-                setProcessPaths(paths);
+                //TODO: manage added paths
+                directory = normalize(Path.GetFullPath(directory));
+                var paths = getProcessPaths();
+                if (!paths.Contains(directory)) //TODO: normalize paths before search, what is impact on dulication?
+                {
+                    paths += directory + ";";
+                    setProcessPaths(paths);
+                }
             }
-
+            catch (Exception ex) 
+            {
+                // consider it OK for for trace analysys (like fusion log analysys)
+                Tracing.Source.TraceInformation(string.Format("Failed to add {0} to PATH:{1}", directory,ex));
+            }
         }
 
         private static void setProcessPaths(string paths)
@@ -168,21 +188,6 @@ namespace NRegFreeCom
         }
 
 
-        public Assembly LoadFrom(string path)
-        {
-            //TODO: throw new BadImageFormatException() if managed or not that CPU
-            var hModule = NativeMethods.LoadLibraryEx(path, IntPtr.Zero, 0);
-            if (hModule == IntPtr.Zero)
-            {
-                var error = Marshal.GetLastWin32Error();
-                var ex = new Win32Exception(error);
-                if (error == SYSTEM_ERROR_CODES.ERROR_MOD_NOT_FOUND)
-                    throw new System.IO.FileNotFoundException("Failed to find dll", path, ex);
-                if (error == SYSTEM_ERROR_CODES.ERROR_BAD_EXE_FORMAT)
-                    throw new BadImageFormatException("Failed to load dll", path, ex);
-                throw ex;
-            }
-            return new Assembly(hModule, Path.GetFileName(path), path);
-        }
+
     }
 }
