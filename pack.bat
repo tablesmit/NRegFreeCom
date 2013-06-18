@@ -1,0 +1,1 @@
+packages\nuget.exe pack packaging\NRegFreeCom.nuspec

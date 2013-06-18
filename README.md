@@ -16,13 +16,13 @@ Managed code have AppDomains with dll search and memory isolation, striving to d
 ## Build and deployment
 
 * `NRegFreeCom` is redistributable managed library, can be build in Release and Debug mode ShardDevelop or Visual Studio 2010 SP1. Is build for `Any Cpu`
-* Tested on XP SP3 and Windows 7 SP2
+* Library testing is done on XP SP3 and Windows 7 SP2
 
-### Samples
+### Samples 
 
 * Vistual Studio 2010 SP1 (needs Visual C++)
 * Debug x86 
-* Windows 7 SP 1, not tested on other systems
+* Windows 7 SP 2
 
 
 ## TODO:

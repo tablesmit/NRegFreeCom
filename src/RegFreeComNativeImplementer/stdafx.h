@@ -23,4 +23,4 @@
 #include <atlbase.h>
 #include <atlcom.h>
 #include <atlctl.h>
-#import "C:\ci\co\CommonOffice\src\NRegFreeCom\build\Debug\RegFreeCom.Interfaces.tlb" raw_interfaces_only, raw_native_types, no_namespace, named_guids, auto_search
+#import "RegFreeCom.Interfaces.tlb" raw_interfaces_only, raw_native_types, no_namespace, named_guids, auto_search

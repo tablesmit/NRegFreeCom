@@ -28,8 +28,8 @@ namespace NRegFreeCom
         private static Version _systemSupportsPatch = new Version("6.0.6002");
         private bool _hasPatch = true;
 
-        private List<IntPtr> _dirCookies = new List<IntPtr>();
-  
+        private Dictionary<IntPtr, string> _dirCookies = new Dictionary<IntPtr, string>();
+
 
         /// <summary>
         /// Should managed code to look into <see cref="Win32Directory"/> or <see cref="x64Directory"/> for native library suitable process bitness.
@@ -86,7 +86,10 @@ namespace NRegFreeCom
 
         }
 
-
+        private string normalize(string path)
+        {
+            return new Uri(path, UriKind.RelativeOrAbsolute).LocalPath;
+        }
 
         /// <summary>
         /// NOTE: this is  unsafe hack for Xp and Vista. Works well on >= Win7
@@ -98,54 +101,65 @@ namespace NRegFreeCom
         {
             if (SupportsCustomSearch)
             {
-                IntPtr? cookie = null;
                 try
                 {
-                    cookie = NativeMethods.AddDllDirectory(directory);
+                    directory = normalize(directory);
+                    IntPtr cookie = NativeMethods.AddDllDirectory(directory);
+                    if (cookie == IntPtr.Zero)
+                        throw new Win32Exception(Marshal.GetLastWin32Error());
+                    _dirCookies.Add(cookie, directory);
                 }
                 catch (EntryPointNotFoundException ex) // system without patch 
                 {
                     Tracing.Source.TraceInformation(string.Format("Failed to AddDllDirectory with next error:{0}", ex));
                     _hasPatch = false;
-                    //addDllDirectoryToProcessEnvVars(directory);
+
+                    // xp and vista without patch
+                    addDllDirectoryToProcessEnvVars(directory);
                     setDllDirectory(directory);
                 }
-
-                if (cookie.HasValue)
-                {
-                    if (cookie.Value == IntPtr.Zero)
-                        throw new Win32Exception(Marshal.GetLastWin32Error());
-                    _dirCookies.Add(cookie.Value);
-                }
-
             }
             else
             {
-                //addDllDirectoryToProcessEnvVars(directory);
-
+                // xp and vista without patch
+                addDllDirectoryToProcessEnvVars(directory);
                 setDllDirectory(directory);
             }
         }
 
-        private static void setDllDirectory(string directory)
+        private void setDllDirectory(string directory)
         {
+            directory = normalize(directory);
             bool result = NativeMethods.SetDllDirectory(directory);
             if (!result)
                 throw new Win32Exception(Marshal.GetLastWin32Error());
         }
 
-        // this is last chance usage - security breack because attacker could put its dll in some path
-        private static void addDllDirectoryToProcessEnvVars(string directory)
+        // this is last chance usage - security breach because attacker could put its dll in some path
+        private void addDllDirectoryToProcessEnvVars(string directory)
         {
-            //TODO: managed added paths
-            directory = Path.GetFullPath(directory);
-            var path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process);
-            if (!path.Contains(directory)) //TODO: normalize pathes before search, what is impact on dulication?
+            //TODO: manage added paths
+            directory = normalize(Path.GetFullPath(directory));
+            var paths = getProcessPaths();
+            if (!paths.Contains(directory)) //TODO: normalize paths before search, what is impact on dulication?
             {
-                path += directory + ";";
-                Environment.SetEnvironmentVariable("PATH", path, EnvironmentVariableTarget.Process);
+                paths += directory + ";";
+                setProcessPaths(paths);
             }
 
+        }
+
+        private static void setProcessPaths(string paths)
+        {
+            Environment.SetEnvironmentVariable("PATH", paths, EnvironmentVariableTarget.Process);
+        }
+
+        private static string getProcessPaths()
+        {
+            var paths = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process);
+            if (String.IsNullOrEmpty(paths))
+                paths = string.Empty;
+            return paths;
         }
 
         private bool SupportsCustomSearch

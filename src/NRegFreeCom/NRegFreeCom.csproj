@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="ACTCTX.cs" />
     <Compile Include="ActivationContext.cs" />
+    <Compile Include="Properties\PackagingInfo.cs" />
     <Compile Include="Tracing.cs" />
     <Compile Include="CLSCTX.cs" />
     <Compile Include="ComExceptionChecker.cs" />

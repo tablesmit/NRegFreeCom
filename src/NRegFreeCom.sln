@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRegFreeCom", "NRegFreeCom\NRegFreeCom.csproj", "{F7B5AE2C-7A0E-4496-A03B-9065C9A9A1C6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RegFreeComNativeImplementer", "RegFreeComNativeImplementer\RegFreeComNativeImplementer.vcxproj", "{78AF6FE7-FC6A-4B13-A42F-06B4CCD434F9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{318D444F-8E6D-4823-9F14-9F61F7698B68} = {318D444F-8E6D-4823-9F14-9F61F7698B68}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegFreeCom.Interfaces", "RegFreeCom.Interfaces\RegFreeCom.Interfaces.csproj", "{318D444F-8E6D-4823-9F14-9F61F7698B68}"
 EndProject
@@ -12,6 +15,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegFreeCom.Implementations", "RegFreeCom.Implementations\RegFreeCom.Implementations.csproj", "{F3F9979A-65FE-4098-920D-9FB075BC3C7E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RegFreeComNativeConsumer", "RegFreeComNativeConsumer\RegFreeComNativeConsumer.vcxproj", "{6623CA71-25DF-4A93-9688-152CE7C24908}"
+	ProjectSection(ProjectDependencies) = postProject
+		{318D444F-8E6D-4823-9F14-9F61F7698B68} = {318D444F-8E6D-4823-9F14-9F61F7698B68}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegFreeCom.OutOfProcClient.Win32", "RegFreeCom.OutOfProcClient\RegFreeCom.OutOfProcClient.Win32.csproj", "{246BA468-AF8A-4BEE-B89D-A76BC87639B3}"
 EndProject
