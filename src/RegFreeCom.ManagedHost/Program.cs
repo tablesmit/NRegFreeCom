@@ -17,7 +17,7 @@ using Assembly = NRegFreeCom.Assembly;
 
 namespace CsComWin32
 {
-  
+
     class Program
     {
         private static ISimpleObject _service;
@@ -25,6 +25,10 @@ namespace CsComWin32
 
         [UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall)]
         public delegate int Initialize(IntPtr service);
+
+        [UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall)]
+        public delegate int GetComInterface(out IntPtr service);
+
 
         [UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         public delegate void GetStringResult(
@@ -68,6 +72,15 @@ namespace CsComWin32
             var str = Marshal.PtrToStringUni(strPtr);
             Marshal.FreeBSTR(strPtr);
             Console.WriteLine(str);
+
+            var com = loader.LoadFrom(loader.GetAnyCpuPath(loader.BaseDirectory), "RegFreeComNativeImplementer");
+            var servicesGetter = com.GetDelegate<GetComInterface>();
+            IntPtr services;
+            servicesGetter(out services);
+           var srv = (RegFreeComNativeInterfacesLib.IMyService) Marshal.GetObjectForIUnknown(services);
+            IntPtr otherHandle;
+            srv.GetSomeHanlde(out otherHandle);
+            var srvRepeat = (RegFreeComNativeInterfacesLib.IMyService)Marshal.GetObjectForIUnknown(otherHandle);
             Console.ReadKey();
         }
 
@@ -80,10 +93,10 @@ namespace CsComWin32
             GC.Collect();
         }
 
-     
 
 
- 
+
+
 
 
     }

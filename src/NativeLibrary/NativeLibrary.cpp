@@ -9,7 +9,7 @@
 NATIVELIBRARY_API int nNativeLibrary=0;
 
 // This is an example of an exported function.
-NATIVELIBRARY_API int fnNativeLibrary(void)
+NATIVELIBRARY_API STDAPI fnNativeLibrary(void)
 {
 	return 42;
 }
@@ -20,3 +20,7 @@ CNativeLibrary::CNativeLibrary()
 {
 	return;
 }
+
+
+
+

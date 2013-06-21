@@ -42,6 +42,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)..\build\$(Configuration)\$(Platform)\</OutDir>
     <LibraryPath>$(OutDir);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)..\RegFreeComNativeInterfaces;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
@@ -78,7 +79,7 @@
       <ModuleDefinitionFile>.\RegFreeComNativeImplementer.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <RegisterOutput>false</RegisterOutput>
-      <AdditionalDependencies>NativeLibrary.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>NativeLibrary.lib;h:\src\NRegFreeCom\build\Debug\Win32\RegFreeComNativeInterfaces.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy $(ProjectDir)\$(AssemblyName).dll.manifest $(SolutionDir)..\build\$(Configuration)\$(Platform)\</Command>
@@ -170,7 +171,9 @@
     <None Include="RegFreeComNativeImplementer.def" />
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="RegFreeComNativeImplementer.idl" />
+    <Midl Include="RegFreeComNativeImplementer.idl">
+      <HeaderFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">RegFreeComNativeImplementer.h</HeaderFileName>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="RegFreeComNativeImplementer.dll.manifest" />

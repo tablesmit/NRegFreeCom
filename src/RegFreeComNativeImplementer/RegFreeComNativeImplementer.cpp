@@ -6,7 +6,7 @@
 #include "RegFreeComNativeImplementer_i.h"
 #include "dllmain.h"
 #include "xdlldata.h"
-
+#include "ManualImplementer.h"
 
 // Used to determine whether the DLL can be unloaded by OLE.
 STDAPI DllCanUnloadNow(void)
@@ -88,3 +88,7 @@ STDAPI DllInstall(BOOL bInstall, LPCWSTR pszCmdLine)
 }
 
 
+EXTERN_C STDAPI GetComInterface(IUnknown** com){
+	*com = new MyUnk(); 
+	return S_OK;
+}

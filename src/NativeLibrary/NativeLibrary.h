@@ -19,4 +19,6 @@ public:
 
 extern NATIVELIBRARY_API int nNativeLibrary;
 
-NATIVELIBRARY_API  int  fnNativeLibrary(void);
+NATIVELIBRARY_API  STDAPI  fnNativeLibrary(void);
+
+

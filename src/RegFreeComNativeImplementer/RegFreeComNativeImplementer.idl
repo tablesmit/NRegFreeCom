@@ -6,6 +6,7 @@
 
 import "oaidl.idl";
 import "ocidl.idl";
+import "RegFreeComNativeInterfaces.idl";
 
 [
 	object,
@@ -29,6 +30,16 @@ library RegFreeComNativeImplementerLib
 	coclass Implementer
 	{
 		[default] interface IImplementer;
+	};
+
+
+	[
+		uuid(878CCCCB-8F7C-46A6-A5C7-6BA4248C1E6E)		
+	]
+	coclass MyService
+	{
+		[default] interface IUnknown;
+
 	};
 };
 

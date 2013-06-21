@@ -66,6 +66,17 @@
       <Name>RegFreeCom.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="RegFreeComNativeInterfacesLib">
+      <Guid>{1A9DEA2C-DA60-46CE-B352-4282CB407B3A}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

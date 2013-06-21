@@ -1,9 +1,11 @@
 ## NRegFreeCom
 
-COM is good for native interop and easy IPC, but lacks clean coded way to do such interaction without registry in .NET.
-This library contains samples and reusable patters of such interation without registration.
-Managed code is XCOPY on 32/64. Making native interlop also XCOPY by using pattern of deploying both versions of native libs and deciding in runtime, like OS libraries PInvokes work.
-Managed code have AppDomains with dll search and memory isolation, striving to do the same of native COM.
+ COM is good for native interop and easy IPC, but lacks clean coded way to do such interaction without registry in .NET.
+
+ This library contains samples and reusable patters of such interation without registration.
+
+ Managed code is XCOPY on 32/64. Making native interlop also XCOPY by using pattern of deploying both versions of native libs and deciding in runtime, like OS libraries PInvokes work.
+ Managed code have AppDomains with dll search and memory isolation, striving to do the same of native COM.
 
 ## Content
 * PInvokes used to work with native libraries and reg free COM objects
@@ -24,6 +26,9 @@ Managed code have AppDomains with dll search and memory isolation, striving to d
 * Debug x86 
 * Windows 7 SP 2
 
+##Notes
+
+* C libs loaded better to provide STDAPI exports with COM memory roof methods to be similar to COM lifecylte functions exported. 
 
 ## TODO:
 * write documentation, describe samples, use cases
@@ -35,6 +40,7 @@ Managed code have AppDomains with dll search and memory isolation, striving to d
 * Add PE code (detecting managed headers, DEF and COM headers).
 
 ## Other semi automaic approaches of doing native interop
-* SWIG
-* CXXI
 * C++/CLI
+* IDL COM
+* SWIG
+* CXXI (Linux tech)

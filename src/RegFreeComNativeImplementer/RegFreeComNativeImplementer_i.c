@@ -6,7 +6,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0555 */
-/* at Tue Jun 18 09:54:10 2013
+/* at Fri Jun 21 12:24:33 2013
  */
 /* Compiler settings for RegFreeComNativeImplementer.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 7.00.0555 
@@ -74,6 +74,9 @@ MIDL_DEFINE_GUID(IID, LIBID_RegFreeComNativeImplementerLib,0xDA4AE577,0xB161,0x4
 
 
 MIDL_DEFINE_GUID(CLSID, CLSID_Implementer,0x538ECD5D,0x8A57,0x4F1C,0xAE,0xB1,0xEB,0xC4,0x25,0x64,0x1F,0x0B);
+
+
+MIDL_DEFINE_GUID(CLSID, CLSID_MyService,0x878CCCCB,0x8F7C,0x46A6,0xA5,0xC7,0x6B,0xA4,0x24,0x8C,0x1E,0x6E);
 
 #undef MIDL_DEFINE_GUID
 

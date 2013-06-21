@@ -1,0 +1,27 @@
+// RegFreeComNativeInterfaces.idl : IDL source for RegFreeComNativeInterfaces
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (RegFreeComNativeInterfaces.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+
+[
+	uuid(1A9DEA2C-DA60-46CE-B352-4282CB407B3A),
+	version(1.0),
+]
+library RegFreeComNativeInterfacesLib
+{
+	
+[
+	object,
+	uuid(C304A65A-79AF-407E-9598-EB1909A62161)
+]
+interface IMyService : IUnknown
+{
+	HRESULT GetSomeHandle([out] void** someHandle);
+}
+};
+
