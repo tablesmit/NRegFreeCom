@@ -7,6 +7,9 @@
 #include "dllmain.h"
 #include "xdlldata.h"
 #include "ManualImplementer.h"
+#include <atlsafe.h>
+#include <Unknwn.h>
+#include <comutil.h>
 
 // Used to determine whether the DLL can be unloaded by OLE.
 STDAPI DllCanUnloadNow(void)
@@ -88,7 +91,13 @@ STDAPI DllInstall(BOOL bInstall, LPCWSTR pszCmdLine)
 }
 
 
-EXTERN_C STDAPI GetComInterface(IUnknown** com){
-	*com = new MyUnk(); 
+EXTERN_C STDAPI GetComInterface(SAFEARRAY** coms){
+	
+	ATL::CComSafeArray<IUnknown*>* arr = new ATL::CComSafeArray<IUnknown*>(1);	
+
+	auto com = new MyUnk();
+	
+	arr->SetAt(0,com);
+	*coms = *(arr->GetSafeArrayPtr());
 	return S_OK;
 }

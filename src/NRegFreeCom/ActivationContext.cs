@@ -37,7 +37,12 @@ namespace NRegFreeCom
 
         public delegate void doSomething();
 
-        static public void UsingManifestDo(string manifest, doSomething thingToDo)
+        /// <summary>
+        /// Applies content of <paramref name="manifest"/> file to current context, invokes <paramref name="thingToDo"/> delegate, deactives applied context.
+        /// </summary>
+        /// <param name="manifest"></param>
+        /// <param name="thingToDo"></param>
+        public static void UsingManifestDo(string manifest, doSomething thingToDo)
         {
             ACTCTX context = new ACTCTX();
             context.cbSize = Marshal.SizeOf(typeof(ACTCTX));
@@ -76,6 +81,12 @@ namespace NRegFreeCom
             }
         }
 
+        /// <summary>
+        /// Given CLR assembly search manifest of it located in the same folder with .manifest suffix.
+        /// Activates maniest found, invokes <paramref name="thingToDo"/> delegate, deactives applied context. 
+        /// </summary>
+        /// <param name="assembly"></param>
+        /// <param name="action"></param>
         public static void UsingAssemblyManifestDo(System.Reflection.Assembly assembly, doSomething action)
         {
             var manifest = assembly.Location + ".manifest";

@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="ACTCTX.cs" />
     <Compile Include="ActivationContext.cs" />
+    <Compile Include="IAssemblySystem.cs" />
     <Compile Include="Properties\PackagingInfo.cs" />
     <Compile Include="Tracing.cs" />
     <Compile Include="CLSCTX.cs" />
@@ -92,7 +93,6 @@
     <Compile Include="NativeMethods.cs" />
     <Compile Include="StaComCrossThreadInvoker.cs" />
     <Compile Include="WELL_KNOWN_IIDS.cs" />
-    <Compile Include="WM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="NRegFreeCom.dll.manifest">

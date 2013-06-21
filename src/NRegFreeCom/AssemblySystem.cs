@@ -9,33 +9,39 @@ using System.Text;
 namespace NRegFreeCom
 {
     /// <summary>
-    /// 
+    /// Makes working with native dlls as with .NET ones. Helps define search pathes and transform errors to .NET friednly.
+    /// Hides differences of windows versions. 
     /// </summary>
     /// <remarks>
+    /// Potential usages - runtime search and invokation of C routines; .NET plugin model extended with native dlls.
     /// Instance methods are not thread safe.
     /// </remarks>
-    public class AssemblySystem
+    public class AssemblySystem : IAssemblySystem,IDisposable
     {
+        /// <summary>
+        /// Default subdirectoy to search 32 bit x86  dlls for <see cref="GetAnyCpuPath"/> .
+        /// </summary>
         public string Win32Directory = "Win32";
+
+        /// <summary>
+        /// Default subdirectoy to search 64 bit x86  dlls for <see cref="GetAnyCpuPath"/> .
+        /// </summary>
         public string x64Directory = "x64";
+
         //NOTE: not sure that using next directoy is good for base (may be some native methods are more proper)
         public string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
         ///Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008: 
         ///  To use this function in an application, call GetProcAddress to retrieve the function's address from Kernel32.dll. 
         /// KB2533623 must be installed on the target platform.
-        /// http://support.microsoft.com/kb/2533623
         private static Version _systemSupportsPatch = new Version("6.0.6002");
         private bool _hasPatch = true;
 
         private Dictionary<IntPtr, string> _dirCookies = new Dictionary<IntPtr, string>();
+        private List<string> _directories = new List<string>();
 
 
-        /// <summary>
-        /// Should managed code to look into <see cref="Win32Directory"/> or <see cref="x64Directory"/> for native library suitable process bitness.
-        /// </summary>
-        /// <param name="directoryPath"></param>
-        /// <returns></returns>
+        ///<inheritdoc/>
         public string GetAnyCpuPath(string directoryPath)
         {
             //TODO: check not only bits by arch (e.g. COM on ARM or Itanium)
@@ -51,7 +57,7 @@ namespace NRegFreeCom
         }
 
 
-        public string MakePathRooted(string path)
+        private string makePathRooted(string path)
         {
             if (!Path.IsPathRooted(path))
             {
@@ -60,7 +66,7 @@ namespace NRegFreeCom
             return path;
         }
 
-
+        ///<inheritdoc/>
         public Assembly LoadFrom(string directoryPath, string name)
         {
 
@@ -68,11 +74,12 @@ namespace NRegFreeCom
             return LoadFrom(path);
         }
 
+        ///<inheritdoc/>
         public Assembly LoadFrom(string path)
         {
-            path = normalize(path);//fixes problem with dot C:/.
+            path = normalize(path);//fixes problem with dot in paths like "C:/."
             IntPtr hModule;
-            if (SupportsCustomSearch)
+            if (supportsCustomSearch)
             {
                 var flags = LOAD_LIBRARY_FLAGS.LOAD_LIBRARY_SEARCH_DEFAULT_DIRS |
                             LOAD_LIBRARY_FLAGS.LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR;
@@ -88,9 +95,11 @@ namespace NRegFreeCom
             {
                 var error = Marshal.GetLastWin32Error();
                 var ex = new Win32Exception(error);
-                if (error == SYSTEM_ERROR_CODES.ERROR_MOD_NOT_FOUND || error == SYSTEM_ERROR_CODES.ERROR_ENVVAR_NOT_FOUND)
+                if (error == SYSTEM_ERROR_CODES.ERROR_MOD_NOT_FOUND 
+                    || error == SYSTEM_ERROR_CODES.ERROR_ENVVAR_NOT_FOUND)//TODO: change exeption - this happens if path not rooted 
                     throw new System.IO.FileNotFoundException("Failed to find dll", path, ex);
-                if (error == SYSTEM_ERROR_CODES.ERROR_BAD_EXE_FORMAT || error == SYSTEM_ERROR_CODES.ERROR_INVALID_PARAMETER)
+                if (error == SYSTEM_ERROR_CODES.ERROR_BAD_EXE_FORMAT
+                    || error == SYSTEM_ERROR_CODES.ERROR_INVALID_PARAMETER)//TODO: change exeption - this happens if path not rooted 
                     throw new BadImageFormatException("Failed to load dll", path, ex);
                 throw ex;
             }
@@ -104,15 +113,10 @@ namespace NRegFreeCom
             return new Uri(path, UriKind.RelativeOrAbsolute).LocalPath;
         }
 
-        /// <summary>
-        /// NOTE: this is  unsafe hack for Xp and Vista. Works well on >= Win7
-        /// </summary>
-        /// <param name="directory"></param>
-        /// <seealso href="http://msdn.microsoft.com/en-us/library/ff919712.aspx"/>
-        /// <seealso href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms682586.aspx"/>
+        ///<inheritdoc/>
         public void AddSearchPath(string directory)
         {
-            if (SupportsCustomSearch)
+            if (supportsCustomSearch)
             {
                 try
                 {
@@ -128,6 +132,7 @@ namespace NRegFreeCom
                     _hasPatch = false;
 
                     // xp and vista without patch
+                    _directories.Add(directory);
                     addDllDirectoryToProcessEnvVars(directory);
                     setDllDirectory(directory);
                 }
@@ -135,6 +140,7 @@ namespace NRegFreeCom
             else
             {
                 // xp and vista without patch
+                _directories.Add(directory);
                 addDllDirectoryToProcessEnvVars(directory);
                 setDllDirectory(directory);
             }
@@ -182,12 +188,16 @@ namespace NRegFreeCom
             return paths;
         }
 
-        private bool SupportsCustomSearch
+        private bool supportsCustomSearch
         {
             get { return Environment.OSVersion.Version >= _systemSupportsPatch && _hasPatch; }
         }
 
 
-
+        public void Dispose()
+        {
+            //TODO: clean up cookies
+            //TODO: rememeber and dispose all native handles
+        }
     }
 }

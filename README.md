@@ -28,7 +28,11 @@
 
 ##Notes
 
-* C libs loaded better to provide STDAPI exports with COM memory roof methods to be similar to COM lifecylte functions exported. 
+In order to ease integration of C++ and C# I think could be good to:
+
+* C libs loaded to provide STDAPI exports with COM memory management methods used to be similar to COM lifecylte functions exported. 
+* COM interfaces to be as simple as possible so these could be implemented manually (without wizards) by developer with low C++ skill.
+* Strive to have expericene of new WinRT (*.winmd, C++/CX, WRL).
 
 ## TODO:
 * write documentation, describe samples, use cases
@@ -40,7 +44,9 @@
 * Add PE code (detecting managed headers, DEF and COM headers).
 
 ## Other semi automaic approaches of doing native interop
+
 * C++/CLI
-* IDL COM
+* IDL COM ATL Wizards
+* C++/CX, WRL
 * SWIG
 * CXXI (Linux tech)

@@ -27,7 +27,11 @@ namespace CsComWin32
         public delegate int Initialize(IntPtr service);
 
         [UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall)]
-        public delegate int GetComInterface(out IntPtr service);
+        public delegate int GetComInterface( // marshal generic array of items
+        [MarshalAs(UnmanagedType.SafeArray,
+           SafeArraySubType = VarEnum.VT_UNKNOWN
+            )]out object[] retval)
+            ;
 
 
         [UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, CharSet = CharSet.Unicode)]
@@ -73,14 +77,17 @@ namespace CsComWin32
             Marshal.FreeBSTR(strPtr);
             Console.WriteLine(str);
 
+            // return array of COM servics which return pointers
             var com = loader.LoadFrom(loader.GetAnyCpuPath(loader.BaseDirectory), "RegFreeComNativeImplementer");
             var servicesGetter = com.GetDelegate<GetComInterface>();
-            IntPtr services;
+            object[] services;
             servicesGetter(out services);
-           var srv = (RegFreeComNativeInterfacesLib.IMyService) Marshal.GetObjectForIUnknown(services);
+            var srv = (RegFreeComNativeInterfacesLib.IMyService) services[0];
             IntPtr otherHandle;
             srv.GetSomeHanlde(out otherHandle);
             var srvRepeat = (RegFreeComNativeInterfacesLib.IMyService)Marshal.GetObjectForIUnknown(otherHandle);
+            // pointer to itself was used to simplify testing
+            Assert.AreEqual(services[0],srvRepeat);
             Console.ReadKey();
         }
 

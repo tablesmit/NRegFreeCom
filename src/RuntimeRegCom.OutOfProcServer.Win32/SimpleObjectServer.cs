@@ -298,7 +298,7 @@ namespace CSExeCOMServer
             {
                 // Post the WM_QUIT message to the main thread
                 if (IPC_GC)
-                    NativeMethods.PostThreadMessage(_nMainThreadID, WM.WM_QUIT, UIntPtr.Zero, IntPtr.Zero);
+                    NativeMethods.PostThreadMessage(_nMainThreadID, Constants.WM_QUIT, UIntPtr.Zero, IntPtr.Zero);
             }
 
             return nRet;
