@@ -19,14 +19,14 @@
         /// <param name="directoryPath">Full path to directory where dll located.</param>
         /// <param name="name">Name with extension of dll to load.</param>
         /// <returns></returns>
-        Assembly LoadFrom(string directoryPath, string name);
+        IAssembly LoadFrom(string directoryPath, string name);
 
         /// <summary>
         /// Loads native dll into process.
         /// </summary>
         /// <param name="path">Full path to dll file.</param>
         /// <returns></returns>
-        Assembly LoadFrom(string path);
+        IAssembly LoadFrom(string path);
 
         /// <summary>
         /// Adds directoy to search pathes. 

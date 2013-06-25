@@ -25,7 +25,6 @@
 extern "C"{
 #endif 
 
-
 #include <rpc.h>
 #include <rpcndr.h>
 

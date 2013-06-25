@@ -67,7 +67,7 @@ namespace NRegFreeCom
         }
 
         ///<inheritdoc/>
-        public Assembly LoadFrom(string directoryPath, string name)
+        public IAssembly LoadFrom(string directoryPath, string name)
         {
 
             string path = Path.Combine(directoryPath, name);
@@ -75,7 +75,7 @@ namespace NRegFreeCom
         }
 
         ///<inheritdoc/>
-        public Assembly LoadFrom(string path)
+        public IAssembly LoadFrom(string path)
         {
             path = normalize(path);//fixes problem with dot in paths like "C:/."
             IntPtr hModule;

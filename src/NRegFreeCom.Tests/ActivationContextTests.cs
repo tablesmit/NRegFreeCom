@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using NUnit.Framework;
-
+using NUnit.Framework.Constraints;
 using RegFreeCom.Interfaces;
 
 namespace NRegFreeCom.Tests
@@ -15,7 +15,7 @@ namespace NRegFreeCom.Tests
     public class ActivationContextTests
     {
         [Test]
-        public  void CreateInProcServerByManifest()
+        public void CreateInProcServerByManifest()
         {
             var path = Path.Combine(Environment.CurrentDirectory, @"RegFreeCom.Implementations.dll.manifest");
             var guid = new Guid(RegFreeComIds.CLSID);
@@ -26,11 +26,11 @@ namespace NRegFreeCom.Tests
             Assert.IsTrue(result == 42);
         }
 
- 
+
 
         [Test(Description = "Ensures that class is not registered and does not works without manifest")]
         [ExpectedException(typeof(COMException))]
-        public  void CreateInProcServerWithoutManifest()
+        public void CreateInProcServerWithoutManifest()
         {
             var guid = new Guid(RegFreeComIds.CLSID);
             Type T = Type.GetTypeFromCLSID(guid);
@@ -38,7 +38,7 @@ namespace NRegFreeCom.Tests
         }
 
         [Test()]
-        public  void CreateInProcServerWithManifestByProgId()
+        public void CreateInProcServerWithManifestByProgId()
         {
             var path = Path.Combine(Environment.CurrentDirectory, @"RegFreeCom.Implementations.dll.manifest");
             object obj = null;
@@ -50,6 +50,53 @@ namespace NRegFreeCom.Tests
                 });
             var inf = (IRegFreeCom)obj;
             Assert.IsNotNull(inf);
+        }
+
+
+        [Test()]
+        public void UsingManifestDo_GetTypeFromProgID_noSuchType()
+        {
+            var path = Path.Combine(Environment.CurrentDirectory, @"RegFreeCom.Implementations.dll.manifest");
+            Type type = null;
+            ActivationContext.UsingManifestDo(path, () =>
+            {
+                type = System.Type.GetTypeFromProgID("NotSuchType" + DateTime.Now.Ticks);
+
+            });
+
+            Assert.IsNull(type);
+        }
+
+
+
+        [Test()]
+        public void UsingManifestDo_noSuchDll()
+        {
+            Assert.Fail();
+        }
+
+        [Test()]
+        public void UsingManifestDo_noSuchManifest()
+        {
+            Exception net = null;
+            try
+            {
+                System.Activator.CreateInstance("NoSuchAssembly" + DateTime.Now.Ticks, "NoSuchType");
+            }
+            catch (Exception ex)
+            {
+                net = ex;
+            }
+            Exception native = null;
+            try
+            {
+                ActivationContext.UsingManifestDo("NoSuchManifest" + DateTime.Now.Ticks, () => { });
+            }
+            catch (Exception ex)
+            {
+                native = ex;
+            }
+            Assert.AreEqual(net.GetType(), native.GetType());
         }
 
         [Test]

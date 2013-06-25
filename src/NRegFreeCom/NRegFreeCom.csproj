@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="ACTCTX.cs" />
     <Compile Include="ActivationContext.cs" />
+    <Compile Include="IAssembly.cs" />
     <Compile Include="IAssemblySystem.cs" />
     <Compile Include="Properties\PackagingInfo.cs" />
     <Compile Include="Tracing.cs" />
@@ -58,7 +59,7 @@
     <Compile Include="DEF.cs" />
     <Compile Include="DIRECTORY_FLAGS.cs" />
     <Compile Include="ENUMRESNAMEPROC.cs" />
-    <Compile Include="ERROR_CODES.cs" />
+    <Compile Include="SYSTEM_ERROR_CODES.cs" />
     <Compile Include="FDW_REASONS.cs" />
     <Compile Include="IBytesRequestResponse.cs" />
     <Compile Include="ICallFrameEvents.cs" />

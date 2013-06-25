@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 
 namespace NRegFreeCom
 {
-    public class Assembly : IDisposable
+    public class Assembly : IAssembly
     {
         private readonly IntPtr _hModule;
         private bool _disposed;

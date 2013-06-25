@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -42,6 +43,7 @@ namespace NRegFreeCom
         /// </summary>
         /// <param name="manifest"></param>
         /// <param name="thingToDo"></param>
+        /// <exception cref="FileNotFoundException"></exception>
         public static void UsingManifestDo(string manifest, doSomething thingToDo)
         {
             ACTCTX context = new ACTCTX();
@@ -55,16 +57,21 @@ namespace NRegFreeCom
             context.lpSource = manifest;
 
             IntPtr hActCtx = NativeMethods.CreateActCtx(ref context);
-            if (hActCtx == (IntPtr)(-1))
+            if (hActCtx == Constants.INVALID_HANDLE_VALUE)
             {
-                throw new Win32Exception();
+                var error = Marshal.GetLastWin32Error();
+                if (error == SYSTEM_ERROR_CODES.ERROR_FILE_NOT_FOUND)
+                {
+                    throw new System.IO.FileNotFoundException("Failed to find manifest", manifest);
+                }
+                throw new Win32Exception(error);
             }
             try // with valid hActCtx
             {
                 IntPtr cookie = IntPtr.Zero;
                 if (!NativeMethods.ActivateActCtx(hActCtx, out cookie))
                 {
-                    throw new Win32Exception();
+                    throw new Win32Exception(Marshal.GetLastWin32Error());
                 }
                 try // with activated context
                 {

@@ -4,6 +4,7 @@
 // This file will be processed by the MIDL tool to
 // produce the type library (RegFreeComNativeInterfaces.tlb) and marshalling code.
 
+
 import "oaidl.idl";
 import "ocidl.idl";
 
@@ -14,14 +15,14 @@ import "ocidl.idl";
 ]
 library RegFreeComNativeInterfacesLib
 {
-	
-[
-	object,
-	uuid(C304A65A-79AF-407E-9598-EB1909A62161)
-]
-interface IMyService : IUnknown
-{
-	HRESULT GetSomeHandle([out] void** someHandle);
-}
+
+	[
+		object,
+		uuid(C304A65A-79AF-407E-9598-EB1909A62161)
+	]
+	interface IMyService : IUnknown
+	{
+		HRESULT GetSomeHandle([out] void** someHandle);
+	}
 };
 
