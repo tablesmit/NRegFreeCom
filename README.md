@@ -20,17 +20,56 @@
 * `NRegFreeCom` is redistributable managed library, can be build in Release and Debug mode ShardDevelop or Visual Studio 2010 SP1. Is build for `Any Cpu`
 * Library testing is done on XP SP3 and Windows 7 SP2
 
-### Samples 
+### Samples build
 
 * Vistual Studio 2010 SP1 (needs Visual C++)
 * Debug x86 
 * Windows 7 SP 2
 
+
+## Samles
+
+```csharp
+
+       [Test]
+		[Description("Creates and calls managed registration free object")]
+        public void CreateInstanceWithManifest_inProcessManagedServer_OK()
+        {		    
+            var path = Path.Combine(Environment.CurrentDirectory, @"RegFreeCom.Implementations.dll.manifest");
+            var guid = new Guid(RegFreeComIds.CLSID);
+
+            var obj = ActivationContext.CreateInstanceWithManifest(guid, path);
+            var inf = (IRegFreeCom)obj;
+            var result = inf.Answer();
+			
+            Assert.IsTrue(result == 42);
+        }
+		
+		[Test]
+        [Description("Loads library from subfolder with dependencies searched in this subfolder")]
+        public void TestDllDependenciesLoading()
+        {
+            var loader = new AssemblySystem();
+
+            // C# loads C++ from Win32 or x64 subfolder
+            var anyCpu = loader.GetAnyCpuPath(loader.BaseDirectory);
+            loader.AddSearchPath(anyCpu);
+            var module = loader.LoadFrom(anyCpu, "NativeLibraryConsumer.dll");
+            var fn = module.GetDelegate<fnNativeLibraryConsumer>();
+            object[] retval;
+
+            Assert.IsTrue(42 == fn(out retval));
+            loader.Dispose();
+        }
+
+```
+See tests and samples in code for other functional.
+
 ##Notes
 
 In order to ease integration of C++ and C# I think could be good to:
 
-* C libs loaded to provide STDAPI exports with COM memory management methods used to be similar to COM lifecylte functions exported. 
+* C libs loaded to provide HRESULT STDAPICALLTYPE exports with COM memory management methods used to be similar to COM lifecylte functions exported for uniformity of calls. 
 * COM interfaces to be as simple as possible so these could be implemented manually (without wizards) by developer with low C++ skill.
 * Strive to have expericene of new WinRT (*.winmd, C++/CX, WRL).
 

@@ -43,11 +43,7 @@ namespace NRegFreeCom
             get { return _location; }
         }
 
-        /// <summary>
-        /// Gets public method in native library.
-        /// </summary>
-        /// <typeparam name="T">delegate</typeparam>
-        /// <returns></returns>
+        ///<inheritdoc/>
         public T GetDelegate<T>(string defName = null)
             where T : class,ISerializable, ICloneable // is delegate
         {

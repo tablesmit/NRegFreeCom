@@ -88,9 +88,12 @@ namespace NRegFreeCom.Tests
 
 
         [Test]
+        [NUnit.Framework.Description("Loads library from subfolder with dependencies searched in this subfolder")]
         public void TestDllDependenciesLoading()
         {
             var loader = new AssemblySystem();
+
+            // C# loads C++ from Win32 or x64 subfolder
             var anyCpu = loader.GetAnyCpuPath(loader.BaseDirectory);
             loader.AddSearchPath(anyCpu);
             var module = loader.LoadFrom(anyCpu, "NativeLibraryConsumer.dll");
@@ -98,6 +101,7 @@ namespace NRegFreeCom.Tests
             object[] retval;
 
             Assert.IsTrue(42 == fn(out retval));
+            loader.Dispose();
         }
 
 
@@ -136,12 +140,12 @@ namespace NRegFreeCom.Tests
              LoadDll();
         }
 
-        private static Assembly LoadDll()
+        private static IAssembly LoadDll()
         {
             var loader = new AssemblySystem();
             var anyCpu = loader.GetAnyCpuPath(loader.BaseDirectory);
             loader.AddSearchPath(anyCpu);
-            Assembly module = loader.LoadFrom(anyCpu, "NativeLibrary.dll");
+            var module = loader.LoadFrom(anyCpu, "NativeLibrary.dll");
             return module;
         }
 
