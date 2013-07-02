@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
+using System.Threading;
 using NRegFreeCom;
 using RegFreeCom.Interfaces;
 
@@ -12,14 +14,42 @@ namespace RuntimeRegCom.OutOfProcClient.Win32
 {
     class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
-
+            Console.WriteLine("Thread {0}, Process:{1}, ProcesName:{2}",Thread.CurrentThread.ManagedThreadId,Process.GetCurrentProcess().Id,Process.GetCurrentProcess().ProcessName);
+            Console.WriteLine("==============================GetRegistrationServices====================");
+            //GetRegistrationServices();
             Console.WriteLine("==============================CreateOutOfProcServerByManifst====================");
             //CreateOutOfProcServerByManifst();
+            Console.ReadKey();
             Console.WriteLine("==============================GetOutOfProcFromRot2====================");
-            //GetOutOfProcFromRot2();
+            GetOutOfProcFromRot2();
         }
+
+        private static void GetRegistrationServices()
+        {
+            try
+            {
+               NativeMethods.CoInitializeEx(IntPtr.Zero, CoInit.MultiThreaded);
+                var clsid = new Guid(SimpleObjectId.ClassId);
+                 var iid = new Guid(SimpleObjectId.InterfaceId);
+                object obj;
+               //hangs
+                NativeMethods.CoCreateInstance(clsid,null,CLSCTX.LOCAL_SERVER,iid,out obj);
+                var type = Type.GetTypeFromCLSID(clsid);
+                //hangs
+                //var obj = System.Activator.CreateInstance(type);
+                Console.WriteLine(type.GUID);
+                Console.WriteLine(obj);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
         private static void GetOutOfProcFromRot2()
         {
             try

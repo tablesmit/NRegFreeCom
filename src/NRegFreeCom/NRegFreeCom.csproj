@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NRegFreeCom</RootNamespace>
     <AssemblyName>NRegFreeCom</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,8 +50,12 @@
   <ItemGroup>
     <Compile Include="ACTCTX.cs" />
     <Compile Include="ActivationContext.cs" />
+    <Compile Include="ClassStyles.cs" />
+    <Compile Include="CoInit.cs" />
+    <Compile Include="Dispatcher.cs" />
     <Compile Include="IAssembly.cs" />
     <Compile Include="IAssemblySystem.cs" />
+    <Compile Include="IDispatcher.cs" />
     <Compile Include="Properties\PackagingInfo.cs" />
     <Compile Include="Tracing.cs" />
     <Compile Include="CLSCTX.cs" />
@@ -94,6 +99,11 @@
     <Compile Include="NativeMethods.cs" />
     <Compile Include="StaComCrossThreadInvoker.cs" />
     <Compile Include="WELL_KNOWN_IIDS.cs" />
+    <Compile Include="WindowStyles.cs" />
+    <Compile Include="WindowStylesEx.cs" />
+    <Compile Include="WM.cs" />
+    <Compile Include="WNDCLASS.cs" />
+    <Compile Include="WndProc.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="NRegFreeCom.dll.manifest">

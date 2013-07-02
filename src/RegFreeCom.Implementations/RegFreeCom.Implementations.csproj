@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RegFreeCom.Implementations</RootNamespace>
     <AssemblyName>RegFreeCom.Implementations</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -69,12 +70,12 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>::echo Generate type library.
-C:\Windows\Microsoft.NET\Framework\v2.0.50727\regasm.exe /tlb:"$(TargetName).tlb" "$(TargetPath)"
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe /tlb:"$(TargetName).tlb" "$(TargetPath)"
 ::echo Create reg for custom registration
-C:\Windows\Microsoft.NET\Framework\v2.0.50727\regasm.exe /regfile "$(TargetPath)"
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe /regfile "$(TargetPath)"
 
 ::echo Unregister the component
-C:\Windows\Microsoft.NET\Framework\v2.0.50727\regasm.exe /u "$(TargetPath)"
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe /u "$(TargetPath)"
 
 :: clean up registy not cleaned up by regasm
 regedit /s "$(ProjectDir)Remove_RegFreeComRotClass.reg"</PostBuildEvent>

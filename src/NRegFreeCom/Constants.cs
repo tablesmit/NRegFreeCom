@@ -12,7 +12,6 @@ namespace NRegFreeCom
 
         public static IntPtr INVALID_HANDLE_VALUE = (IntPtr)(-1);
 
-        public const UInt32 WM_CLOSE = 0x0010;
-        public const UInt32 WM_QUIT = 0x0012;
+    
     }
 }

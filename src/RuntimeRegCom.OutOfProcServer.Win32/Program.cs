@@ -1,6 +1,6 @@
 ﻿
 using System;
-
+using System.Runtime.InteropServices;
 using System.Threading;
 
 
@@ -15,6 +15,17 @@ namespace CSExeCOMServer
         [STAThread]
         static void Main(string[] args)
         {
+
+            var regServices = new RegistrationServices();
+            
+            int cookie = regServices.RegisterTypeForComClients(
+                typeof(RegFreeCom.Implementations.SimpleObject),
+                RegistrationClassContext.LocalServer | RegistrationClassContext.RemoteServer,
+                RegistrationConnectionType.MultipleUse);
+
+            Console.WriteLine("Ready"); Console.ReadKey();
+
+            regServices.UnregisterTypeForComClients(cookie);
 
             var t2 = new Thread(() =>
 {

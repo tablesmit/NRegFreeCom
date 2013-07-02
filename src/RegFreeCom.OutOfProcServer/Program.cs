@@ -45,7 +45,7 @@ namespace RegFreeCom.OutOfProcServer
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
             t.Join();
-
+            Console.ReadKey();
 
         }
     }
