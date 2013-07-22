@@ -67,11 +67,21 @@ See tests and samples in code for other functional.
 
 ##Notes
 
-In order to ease integration of C++ and C# I think could be good to:
+### In order to ease integration of C++ and C# I think could be good to:
 
 * C libs loaded to provide HRESULT STDAPICALLTYPE exports with COM memory management methods used to be similar to COM lifecylte functions exported for uniformity of calls. 
 * COM interfaces to be as simple as possible so these could be implemented manually (without wizards) by developer with low C++ skill.
 * Strive to have expericene of new WinRT (*.winmd, C++/CX, WRL).
+
+
+### Isolation and integration
+
+ Native code does not have AppDomains, but there are 3 technologies which helps to solve problems of conflicting components:
+* Windows provided features like Activation Contexts, application `manifest`s, `dll.2.config`, dynamic and controlled libraries loading and symbols binding, SxS
+* Multiprocess architecture
+* There are Dependency Injection and Inversion of Control tools for C++, but because of lack of runtime metadata in native code by default not so powerful as in .NET
+
+This lib strives to make .NET engine to load native code in isolated maner.
 
 ## TODO:
 * write documentation, describe samples, use cases
