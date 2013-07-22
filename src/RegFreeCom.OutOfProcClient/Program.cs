@@ -17,6 +17,8 @@ namespace RegFreeCom.OutOfProcClient
             Console.WriteLine("Calls Reg Free Out Of Proc object in other running process");
             Console.WriteLine("==============================GetActiveObject====================");
             GetActiveObject();
+            //Console.WriteLine("==============================GetOutOfProcFromRot2====================");
+            //GetOutOfProcFromRot2();
             Console.ReadKey();
         }
 
@@ -34,7 +36,6 @@ namespace RegFreeCom.OutOfProcClient
 
                 UsingUsafePointers(obj);
                 QueryInterfacesUsingManifest(obj);
-                UsingRealProxy(obj);
                 UsingReflection(obj);
             }
             catch (Exception ex)
@@ -58,26 +59,45 @@ namespace RegFreeCom.OutOfProcClient
             }
         }
 
+
+        private static void GetOutOfProcFromRot2()
+        {
+            try
+            {
+                var id = new Guid(SimpleObjectId.ClassId);
+                IMoniker clm;
+                NativeMethods.CreateClassMoniker(ref id, out clm);
+                object cl;
+                IRunningObjectTable rot;
+                NativeMethods.GetRunningObjectTable(0, out rot);
+                var res = rot.GetObject(clm, out cl);
+                var clo = Marshal.GetObjectForIUnknown((IntPtr)cl);
+                var client = (ISimpleObject)clo;
+                client.FloatProperty = 200;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
         private static void UsingReflection(object obj)
         {
             Console.WriteLine(MethodBase.GetCurrentMethod().Name);
             Console.WriteLine("---------------------------");
             var path = Path.Combine(Environment.CurrentDirectory, @"RegFreeCom.Interfaces.dll.manifest");
 
+            var regFreeInvoker = RotRegFreeComInvoker.ProxyInterface<IRegFreeComRotClass>(obj);
+            Console.WriteLine(regFreeInvoker.Answer());
 
-            var prop = obj.GetType()
-                          .InvokeMember("Info", BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Instance, null,
-                                        obj, null);
+            var prop = regFreeInvoker.Info;
 
             Console.WriteLine(string.Format("{0}", prop));
 
             NRegFreeCom.ActivationContext.UsingManifestDo(path, () =>
                 {
-                    object create = obj.GetType()
-                                       .InvokeMember("Create",
-                                                     BindingFlags.InvokeMethod | BindingFlags.Public |
-                                                     BindingFlags.Instance, null,
-                                                     obj, null);
+                    object create = regFreeInvoker.Create();
 
                     var si2 = create as ISimpleObject;
                     Console.WriteLine("si2 " + si2 ?? si2.Info);
@@ -86,14 +106,7 @@ namespace RegFreeCom.OutOfProcClient
             Console.WriteLine("---------------------------");
         }
 
-        private static void UsingRealProxy(object com)
-        {
-            Console.WriteLine(MethodBase.GetCurrentMethod().Name);
-            Console.WriteLine("---------------------------");
-            var regFreeInvoker = RotRegFreeComInvoker.ProxyInterface<IRegFreeComRotClass>(com);
-            Console.WriteLine(regFreeInvoker.Answer());
-            Console.WriteLine("---------------------------");
-        }
+
 
         private static void QueryInterfacesUsingManifest(object obj)
         {

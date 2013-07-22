@@ -19,7 +19,7 @@ using namespace RegFreeCom_Interfaces;
 using namespace ATL;
 
 // can subscribe custom object withou using ATL (copy paste atlcom.h)
-static HRESULT __stdcall  MyEventAdvise(
+static HRESULT STDAPICALLTYPE  MyEventAdvise(
 	_Inout_ IUnknown* pUnkCP,
 	_Inout_opt_ IUnknown* pUnk,
 	_In_ const IID& iid,
@@ -38,12 +38,12 @@ static HRESULT __stdcall  MyEventAdvise(
 	return hRes;
 }
 
-CCOM_API void GetStringResult(BSTR* str){
+CCOM_API void STDAPICALLTYPE GetStringResult(BSTR* str){
    *str =  ::SysAllocString(_TEXT("C string"));
 }
 
 
-CCOM_API HRESULT Initialize(IUnknown* service)
+CCOM_API  HRESULT STDAPICALLTYPE	Initialize(IUnknown* service)
 {
 
 	CoInitialize(NULL);

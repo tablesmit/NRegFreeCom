@@ -55,7 +55,7 @@ namespace CsComWin32
             //if (!result) throw new Exception("Failed to init dll");
 
             // push managed COM service into native method
-            _service = new SimpleObject();
+            _service = new RegFreeSimpleObject();
             _service.FloatProperty = 42;
             _pointer = Marshal.GetIUnknownForObject(_service);
             var initialize = module.GetDelegate<Initialize>();

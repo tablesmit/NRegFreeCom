@@ -19,6 +19,6 @@ public:
 
 extern CCOM_API int nCCom;
 
-CCOM_API HRESULT Initialize(IUnknown* service);
-CCOM_API void GetStringResult(BSTR* str);
+CCOM_API HRESULT STDAPICALLTYPE Initialize(IUnknown* service);
+CCOM_API void STDAPICALLTYPE GetStringResult(BSTR* str);
 

@@ -32,23 +32,51 @@ namespace NRegFreeCom
         }
 
         private readonly object _com;
+        private Type _type;
 
         internal RotRegFreeComInvoker(object com, Type type)
             : base(type)
         {
             _com = com;
+            _type = _com.GetType();
         }
 
         public override IMessage Invoke(IMessage msg)
         {
-            var input = (IMethodCallMessage) msg;
-            //TODO: fix exception and properties
-            var result = _com.GetType()
-                             .InvokeMember(input.MethodName,
-                                           BindingFlags.InvokeMethod | BindingFlags.Public |
-                                           BindingFlags.Instance, null,
-                                           _com,input.InArgs);
-            return new ReturnMessage(result,null,0,input.LogicalCallContext,input);
+            var input = (IMethodCallMessage)msg;
+            try
+            {
+    
+                if (input.MethodName.StartsWith("get_"))
+                {
+     
+                    var result = _type.InvokeMember(input.MethodName.Remove(0,4),
+        BindingFlags.GetProperty, null,
+         _com, null);
+                    return new ReturnMessage(result, null, 0, input.LogicalCallContext, input);
+                }
+                if (input.MethodName.StartsWith("set_"))
+                {
+                    var result = _type.InvokeMember(input.MethodName.Remove(0,4),
+       BindingFlags.SetProperty, null,
+         _com, input.InArgs);
+                    return new ReturnMessage(result, null, 0, input.LogicalCallContext, input);
+                }
+                else
+                {
+                    var result = _type.InvokeMember(input.MethodName,
+                            BindingFlags.Public | BindingFlags.Instance | BindingFlags.InvokeMethod, null,
+                             _com, input.InArgs);
+                    return new ReturnMessage(result, null, 0, input.LogicalCallContext, input);
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                return new ReturnMessage(ex, input);
+            }
+
         }
     }
 }

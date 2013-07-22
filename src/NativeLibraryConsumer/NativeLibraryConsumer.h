@@ -14,4 +14,4 @@
 #include <comutil.h>
 extern NATIVELIBRARYCONSUMER_API int nNativeLibraryConsumer;
 
-NATIVELIBRARYCONSUMER_API int fnNativeLibraryConsumer(SAFEARRAY** retval);
+NATIVELIBRARYCONSUMER_API int STDAPICALLTYPE fnNativeLibraryConsumer(SAFEARRAY** retval);

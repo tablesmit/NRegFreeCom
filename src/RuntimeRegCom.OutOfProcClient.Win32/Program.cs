@@ -17,60 +17,47 @@ namespace RuntimeRegCom.OutOfProcClient.Win32
         [STAThread]
         static void Main(string[] args)
         {
-            Console.WriteLine("Thread {0}, Process:{1}, ProcesName:{2}",Thread.CurrentThread.ManagedThreadId,Process.GetCurrentProcess().Id,Process.GetCurrentProcess().ProcessName);
+            Console.WriteLine("Thread {0}, Process:{1}, ProcesName:{2}", Thread.CurrentThread.ManagedThreadId, Process.GetCurrentProcess().Id, Process.GetCurrentProcess().ProcessName);
             Console.WriteLine("==============================GetRegistrationServices====================");
-            //GetRegistrationServices();
+            GetRegistrationServices();
             Console.WriteLine("==============================CreateOutOfProcServerByManifst====================");
             //CreateOutOfProcServerByManifst();
             Console.ReadKey();
-            Console.WriteLine("==============================GetOutOfProcFromRot2====================");
-            GetOutOfProcFromRot2();
+
         }
 
         private static void GetRegistrationServices()
         {
             try
             {
-               NativeMethods.CoInitializeEx(IntPtr.Zero, CoInit.MultiThreaded);
+                NativeMethods.CoInitializeEx(IntPtr.Zero, CoInit.MultiThreaded);
                 var clsid = new Guid(SimpleObjectId.ClassId);
-                 var iid = new Guid(SimpleObjectId.InterfaceId);
+                var iid = new Guid(SimpleObjectId.InterfaceId);
                 object obj;
-               //hangs
-                NativeMethods.CoCreateInstance(clsid,null,CLSCTX.LOCAL_SERVER,iid,out obj);
+                //hangs if Enterprise Services registration
+                //  NativeMethods.CoCreateInstance(clsid,null,CLSCTX.LOCAL_SERVER,iid,out obj);
                 var type = Type.GetTypeFromCLSID(clsid);
-                //hangs
-                //var obj = System.Activator.CreateInstance(type);
+                //hangs if Enterprise Services registration
+                obj = System.Activator.CreateInstance(type);
+
                 Console.WriteLine(type.GUID);
                 Console.WriteLine(obj);
+                var inf = (ISimpleObject)obj;
+
+                Console.WriteLine(inf.Info);
+                Marshal.ReleaseComObject(obj);
+                Marshal.ReleaseComObject(inf);
+                Marshal.FinalReleaseComObject(obj);
+                Marshal.FinalReleaseComObject(inf);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
 
-        }
-
-        private static void GetOutOfProcFromRot2()
-        {
-            try
-            {
-                var id = new Guid(SimpleObjectId.ClassId);
-                IMoniker clm;
-                NativeMethods.CreateClassMoniker(ref id, out clm);
-                object cl;
-                IRunningObjectTable rot;
-                NativeMethods.GetRunningObjectTable(0, out rot);
-                var res = rot.GetObject(clm, out cl);
-                var clo = Marshal.GetObjectForIUnknown((IntPtr)cl);
-                var client = (ISimpleObject)clo;
-                client.FloatProperty = 200;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
 
         }
+
 
         private static void CreateOutOfProcServerByManifst()
         {
@@ -80,7 +67,7 @@ namespace RuntimeRegCom.OutOfProcClient.Win32
                 //dynamic actCtx = System.Activator.CreateInstance(actCtxType);
                 var path = Path.Combine(Environment.CurrentDirectory, @"RegFreeCom.dll.manifest");
                 //actCtx.Manifest = path;
-                Guid clsid = new Guid(SimpleObjectId.ClassId);
+                var clsid = new Guid(SimpleObjectId.ClassId);
                 // var type = System.Type.GetTypeFromProgID("RegFreeCom.RegFreeLocalServer");
                 //var type = System.Type.GetTypeFromCLSID(clsid);
                 object obj = null;

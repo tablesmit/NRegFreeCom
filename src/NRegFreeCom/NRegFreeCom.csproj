@@ -57,6 +57,7 @@
     <Compile Include="IAssemblySystem.cs" />
     <Compile Include="IDispatcher.cs" />
     <Compile Include="Properties\PackagingInfo.cs" />
+    <Compile Include="ReferenceCountedObject.cs" />
     <Compile Include="Tracing.cs" />
     <Compile Include="CLSCTX.cs" />
     <Compile Include="ComExceptionChecker.cs" />
@@ -94,7 +95,7 @@
     <Compile Include="RESOURCE_TYPES.cs" />
     <Compile Include="ROTFLAGS.cs" />
     <Compile Include="RotRegFreeComInvoker.cs" />
-    <Compile Include="RuntimeRegasm.cs" />
+    <Compile Include="Regasm.cs" />
     <Compile Include="RunningObjectTable.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="StaComCrossThreadInvoker.cs" />

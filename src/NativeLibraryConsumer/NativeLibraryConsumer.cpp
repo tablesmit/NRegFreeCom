@@ -13,7 +13,7 @@ NATIVELIBRARYCONSUMER_API int nNativeLibraryConsumer=0;
 CNativeLibrary* uses;
 
 // This is an example of an exported function.
-NATIVELIBRARYCONSUMER_API int fnNativeLibraryConsumer(SAFEARRAY** retval)
+NATIVELIBRARYCONSUMER_API int STDAPICALLTYPE fnNativeLibraryConsumer(SAFEARRAY** retval)
 {
 	//sample of returning array from C++
 	CComSafeArray<VARIANT>* arr = new CComSafeArray<VARIANT>(2);	

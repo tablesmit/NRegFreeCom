@@ -38,7 +38,7 @@ namespace RegFreeCom.Implementations
         }
         public ISimpleObject Create()
         {
-            return new SimpleObject();
+            return new RegFreeSimpleObject();
         }
 
  
