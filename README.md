@@ -27,7 +27,7 @@
 * Windows 7 SP 2
 
 
-## Samles
+## Samples
 
 ```csharp
 
@@ -80,6 +80,7 @@ See tests and samples in code for other functional.
 * Windows provided features like Activation Contexts, application `manifest`s, `dll.2.config`, dynamic and controlled libraries loading and symbols binding, SxS
 * Multiprocess architecture
 * There are Dependency Injection and Inversion of Control tools for C++, but because of lack of runtime metadata in native code by default not so powerful as in .NET
+* EasyHook - The reinvention of Windows API Hooking https://easyhook.codeplex.com/
 
 This lib strives to make .NET engine to load native code in isolated maner.
 
