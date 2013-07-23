@@ -19,7 +19,7 @@ namespace NRegFreeCom
             {
                 throw new ArgumentException("The CLR type must be specified.", "t");
             }
-
+            //TODO: ensure that most resticed is used, may be HKEY_CURRENT_USER\Software\Classes\Interface
             // Open the CLSID key of the component.
             using (RegistryKey keyCLSID = Registry.ClassesRoot.OpenSubKey(
                 @"CLSID\" + t.GUID.ToString("B"), /*writable*/true))

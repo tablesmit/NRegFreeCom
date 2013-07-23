@@ -11,6 +11,7 @@ namespace RegFreeCom.Implementations
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComDefaultInterface(typeof(IRegFreeComRotClass))]
     public class RegFreeComRotClass : IRegFreeComRotClass
+        , ICustomQueryInterface
     {
         public string Info
         {
@@ -41,6 +42,17 @@ namespace RegFreeCom.Implementations
             return new RegFreeSimpleObject();
         }
 
- 
+       // NOTE: is called and returned, but not helps with ROT calls with NO registration of interfaces.
+        //NOTE: deleting registy after server running does not helps, mean client side issue.
+        public CustomQueryInterfaceResult GetInterface(ref Guid iid, out IntPtr ppv)
+        {
+            if (new Guid(RotIds.IID) == iid)
+            {
+                ppv = Marshal.GetComInterfaceForObject(this, typeof (IRegFreeComRotClass),CustomQueryInterfaceMode.Ignore);
+                return CustomQueryInterfaceResult.Handled;
+            }
+            ppv = IntPtr.Zero;
+            return CustomQueryInterfaceResult.NotHandled;
+        }
     }
 }

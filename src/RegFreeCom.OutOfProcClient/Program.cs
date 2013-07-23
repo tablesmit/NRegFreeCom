@@ -113,13 +113,19 @@ namespace RegFreeCom.OutOfProcClient
             Console.WriteLine(MethodBase.GetCurrentMethod().Name);
             Console.WriteLine("---------------------------");
             IRegFreeComRotClass face = null;
-            NRegFreeCom.ActivationContext.UsingManifestDo("RegFreeCom.Interfaces.dll.manifest", () =>
+
+            face = obj as IRegFreeComRotClass;
+            if (face == null)
+            {
+                NRegFreeCom.ActivationContext.UsingManifestDo("RegFreeCom.Interfaces.dll.manifest", () =>
                 {
 
                     face = obj as IRegFreeComRotClass;
 
                 });
 
+            }
+  
             if (face != null)
             {
                 Console.WriteLine(typeof(IRegFreeComRotClass));

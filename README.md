@@ -61,17 +61,52 @@
             Assert.IsTrue(42 == fn(out retval));
             loader.Dispose();
         }
+		
+        [Test]
+        [Description("Tests basic workflow of custom Dispatcher")]
+        public void GetAndRunDispatcher_invokeAndShutdown_invocationInDispatcherDone()
+        {
+            //start custom Dispatcher for Windows Message Pump
+            NRegFreeCom.IDispatcher disp = null;
+            var created = new ManualResetEvent(false);
+            var t = new Thread(x =>
+            {
+                disp = NRegFreeCom.Dispatcher.CurrentDispatcher;
+                created.Set();
+                NRegFreeCom.Dispatcher.Run();
+            });
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();
+            created.WaitOne();
+
+            // run custom Dispatcher
+            int threadId = -1;
+            bool wasAct = false;
+            Action act = () =>
+            {
+                wasAct = true;
+                threadId = Thread.CurrentThread.ManagedThreadId;
+            };
+            disp.Invoke(act);
+            disp.InvokeShutdown();
+
+            // invocation in Dispatcher thread was done
+            Assert.AreEqual(threadId, t.ManagedThreadId);
+            Assert.That(wasAct, Is.True);
+        }
 
 ```
-See tests and samples in code for other functional.
+
+See tests and samples in code for other functional (like inter process communication without server Windows registry entry; loading and initializing native libraries, methods and COM objects).
 
 ##Notes
 
 ### In order to ease integration of C++ and C# I think could be good to:
 
 * C libs loaded to provide HRESULT STDAPICALLTYPE exports with COM memory management methods used to be similar to COM lifecylte functions exported for uniformity of calls. 
+* Strive to have expericene of new WinRT (*.winmd, C++/CX, WRL). No Windows registy involved. XCOPY deployment. 
 * COM interfaces to be as simple as possible so these could be implemented manually (without wizards) by developer with low C++ skill.
-* Strive to have expericene of new WinRT (*.winmd, C++/CX, WRL).
+
 
 
 ### Isolation and integration
@@ -85,11 +120,13 @@ See tests and samples in code for other functional.
 This lib strives to make .NET engine to load native code in isolated maner.
 
 ## TODO:
-* write documentation, describe samples, use cases
 * Enumerate DLL exports
+* Make custom resources sample and read this.
+* Try to do with resources what WinRT did. Embeed CLI metadata describing reg free COM component, generate manifest from it, and create COM, use Metadata Interfaces. http://msdn.microsoft.com/en-us/library/ms233411.aspx.
 * Make delegates for all standarts DEFs( DLL, COM)
-* Fix registration out of process Runtime Registration Com
-* Add dependency conflicts for managed and for native and resolve both by SxS manifests 
+* Fake registration out of process ROT client instead of using proxy
+* Tune Runtime reg samples to use only less resticted registy hives
+* Add dependency conflicts for managed and for native and resolve both by SxS manifests tests
 * Imitate AppDomains based on runtime binding
 * Add PE code (detecting managed headers, DEF and COM headers).
 

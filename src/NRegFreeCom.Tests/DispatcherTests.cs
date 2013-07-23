@@ -35,34 +35,39 @@ namespace NRegFreeCom.Tests
 
 
         [Test]
-        public void WpfRunInvoke()
+        public void GetAndRunWpfDispatcher_invokeAndShutdown_invocationInDispatcherDone()
         {
-            System.Windows.Threading.Dispatcher wpfDisp = null;
+            System.Windows.Threading.Dispatcher disp = null;
             var created = new ManualResetEvent(false);
             var t = new Thread(x =>
             {
-                wpfDisp = System.Windows.Threading.Dispatcher.CurrentDispatcher;
+                disp = System.Windows.Threading.Dispatcher.CurrentDispatcher;
                 created.Set();
                 System.Windows.Threading.Dispatcher.Run();
             });
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
-            Thread.Sleep(50);//wait for started
             created.WaitOne();
+
+            int threadId = -1;
             bool wasAct = false;
             Action act = () =>
-                {
-                    wasAct = true;
-                };
-            wpfDisp.Invoke(act);
+            {
+                wasAct = true;
+                threadId = Thread.CurrentThread.ManagedThreadId;
+            };
+            disp.Invoke(act);
+            disp.InvokeShutdown();
 
-            wpfDisp.InvokeShutdown();
+            Assert.AreEqual(threadId, t.ManagedThreadId);
             Assert.That(wasAct, Is.True);
         }
 
         [Test]
-        public void RunInvoke()
+        [Description("Tests basic workflow of custom Dispatcher")]
+        public void GetAndRunDispatcher_invokeAndShutdown_invocationInDispatcherDone()
         {
+            //start custom Dispatcher for Windows Message Pump
             NRegFreeCom.IDispatcher disp = null;
             var created = new ManualResetEvent(false);
             var t = new Thread(x =>
@@ -73,20 +78,23 @@ namespace NRegFreeCom.Tests
             });
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
-            Thread.Sleep(50);//wait for started
             created.WaitOne();
+
+            // run custom Dispatcher
+            int threadId = -1;
             bool wasAct = false;
             Action act = () =>
             {
                 wasAct = true;
+                threadId = Thread.CurrentThread.ManagedThreadId;
             };
             disp.Invoke(act);
-
             disp.InvokeShutdown();
+
+            // invocation in Dispatcher thread was done
+            Assert.AreEqual(threadId, t.ManagedThreadId);
             Assert.That(wasAct, Is.True);
         }
-
-
 
         [Test]
         public void RunShutdown()
