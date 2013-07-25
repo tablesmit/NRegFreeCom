@@ -218,7 +218,7 @@ namespace NRegFreeCom
 
 
 
-  
+
 
 
         /// <summary>Initializes the COM library for use by the calling thread, sets the thread's concurrency model, and creates a new apartment for the thread if one is required.</summary>
@@ -440,6 +440,9 @@ namespace NRegFreeCom
         [DllImport("oleaut32.dll")]
         public static extern int RevokeActiveObject(int register, IntPtr reserved);
 
+        [DllImport("ole32.dll")]
+        public static extern int CreatePointerMoniker([MarshalAs(UnmanagedType.IUnknown)] object
+           punk, out System.Runtime.InteropServices.ComTypes.IMoniker ppmk);
 
 
         [DllImport("ole32.dll")]

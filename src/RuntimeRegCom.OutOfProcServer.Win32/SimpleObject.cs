@@ -38,7 +38,11 @@ namespace RuntimeRegCom.OutOfProcServer.Win32
         {
             get
             {
-                new RunningObjectTable().PrintRot();
+                var monikers = new RunningObjectTable().GetRot();
+                foreach (var monikerInfo in monikers)
+                {
+                    Console.WriteLine(monikers);
+                }
                 return this.fField;
 
             }

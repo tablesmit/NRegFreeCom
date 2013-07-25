@@ -53,6 +53,7 @@
     <Compile Include="ClassStyles.cs" />
     <Compile Include="CoInit.cs" />
     <Compile Include="Dispatcher.cs" />
+    <Compile Include="HRESULTS.cs" />
     <Compile Include="IAssembly.cs" />
     <Compile Include="IAssemblySystem.cs" />
     <Compile Include="IDispatcher.cs" />

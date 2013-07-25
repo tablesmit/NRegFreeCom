@@ -21,4 +21,4 @@ extern NATIVELIBRARY_API int nNativeLibrary;
 
 NATIVELIBRARY_API  STDAPI  fnNativeLibrary(void);
 
-
+NATIVELIBRARY_API  STDAPI  ReadRegistry(void);

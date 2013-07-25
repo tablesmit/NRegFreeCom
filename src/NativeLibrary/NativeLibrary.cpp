@@ -21,6 +21,13 @@ CNativeLibrary::CNativeLibrary()
 	return;
 }
 
+NATIVELIBRARY_API  STDAPI  ReadRegistry()
+{
+	PHKEY p = NULL;
+	auto result = CreateFileW(NULL,0,0,0,0,0,NULL);
+	return S_OK;
+}
+
 
 
 

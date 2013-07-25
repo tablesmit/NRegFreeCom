@@ -31,6 +31,7 @@
 \***************************************************************************/
 
 
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -58,7 +59,8 @@ namespace RegFreeCom.Implementations
         {
             get
             {
-                new RunningObjectTable().PrintRot();
+     
+               
                 return this.fField;
 
             }

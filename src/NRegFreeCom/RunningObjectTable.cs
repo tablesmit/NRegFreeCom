@@ -15,27 +15,30 @@ namespace NRegFreeCom
     public class RunningObjectTable : IDisposable
     {
         List<ObjectInRot> _RegisteredObjects = new List<ObjectInRot>();
+        const int ROTFLAGS_REGISTRATIONKEEPSALIVE = 1;
 
-        public  void PrintRot()
+        public class MonikerInfo 
+        {
+            public string DisplayName { get; internal set; }
+            public bool IsRunning { get; internal set; }
+
+            public override string ToString()
+            {
+                return string.Format("DisplayName: {0}, IsRunning: {1}", DisplayName, IsRunning);
+            }
+        }
+
+        public MonikerInfo[] GetRot()
         {
             IRunningObjectTable rot;
             IEnumMoniker enumMoniker;
             int retVal = NativeMethods.GetRunningObjectTable(0, out rot);
-
+            var monikers = new List<MonikerInfo>();
             if (retVal == 0)
             {
-
                 rot.EnumRunning(out enumMoniker);
-
                 IntPtr fetched = IntPtr.Zero;
-                IMoniker[] moniker = new IMoniker[1];
-                //TODO: returen MonikerInfo[] instead of direcly writing to file
-                var str = File.Create(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "CsExeComServer.log"));
-
-
-                var textWriter =
-                    new StreamWriter(str);
-
+                var moniker = new IMoniker[1];
                 while (enumMoniker.Next(1, moniker, fetched) == 0)
                 {
                     IBindCtx bindCtx;
@@ -43,12 +46,13 @@ namespace NRegFreeCom
                     string displayName;
                     moniker[0].GetDisplayName(bindCtx, null, out displayName);
                     var running = moniker[0].IsRunning(bindCtx, null, null);
-                    textWriter.WriteLine("Display Name: {0}; Running:{1}", displayName, running);
+                    monikers.Add(new MonikerInfo { DisplayName = displayName, IsRunning = running == HRESULTS.S_OK });
                 }
-                textWriter.Flush();
-                str.Dispose();
             }
+            return monikers.ToArray();
         }
+
+
 
         public int RegisterObject(object obj, string stringId)
         {
@@ -71,7 +75,7 @@ namespace NRegFreeCom
                 return hr;
             }
 
-            int ROTFLAGS_REGISTRATIONKEEPSALIVE = 1;
+           
             regId = pROT.Register(ROTFLAGS_REGISTRATIONKEEPSALIVE, obj, pMoniker);
 
             _RegisteredObjects.Add(new ObjectInRot(obj, regId));

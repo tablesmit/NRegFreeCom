@@ -38,6 +38,13 @@ namespace NRegFreeCom
             return (T)Marshal.GetObjectForIUnknown(realPointer);
         }
 
+
+		public static T BindProxyInterface<T>(string rotId)
+        {
+		    var com = Marshal.BindToMoniker(rotId);
+            return (T)(new RotRegFreeComInvoker(com, typeof(T)).GetTransparentProxy());
+        }
+		
         public static T ProxyInterface<T>(object com)
         {
             return (T)(new RotRegFreeComInvoker(com, typeof(T)).GetTransparentProxy());

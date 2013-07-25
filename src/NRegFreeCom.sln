@@ -24,9 +24,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegFreeCom.OutOfProcServer.Win32", "RegFreeCom.OutOfProcServer\RegFreeCom.OutOfProcServer.Win32.csproj", "{7B4FB722-905A-4851-8399-1E0F3361CCD8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F7F4181E-0A1D-4910-9AC3-A5C16750F9E8}"
-	ProjectSection(SolutionItems) = preProject
-		..\README = ..\README
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRegFreeCom.Tests.Win32", "NRegFreeCom.Tests\NRegFreeCom.Tests.Win32.csproj", "{F952915F-DF3C-4068-B79D-A1475905A985}"
 	ProjectSection(ProjectDependencies) = postProject
