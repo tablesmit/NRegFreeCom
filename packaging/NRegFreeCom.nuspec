@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>NRegFreeCom</id>
-    <version>0.0.2.3</version>
+    <version>0.0.3.0</version>
     <authors>dzmitry_lahoda</authors>
     <owners>dzmitry_lahoda</owners>
     <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
@@ -10,8 +10,12 @@
     <iconUrl>https://raw.github.com/asd-and-Rizzo/NRegFreeCom/master/doc/NRegFreeCom.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>.NET wrappers for load and use native libraries and COM objects without registration</description>
-    <releaseNotes>Initial relese for ease of reuse in other projects.</releaseNotes>
-    <copyright>@->---</copyright>
+    <releaseNotes>
+	* 0.0.3.0
+	- make use of out of proc reg free
+	- added custom dispatcher using Windows Message loop
+	</releaseNotes>
+
     <tags>com c interop</tags>
   </metadata>
 </package>
