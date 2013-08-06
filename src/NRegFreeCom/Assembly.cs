@@ -60,6 +60,22 @@ namespace NRegFreeCom
             return function as T;
         }
 
+        ///<inheritdoc/>
+        public bool TryGetDelegate<T>(out T nativeDelegate, string defName = null) where T : class, ISerializable, ICloneable
+        {
+            ThrowIfDisposed();
+            if (defName == null)
+                defName = typeof(T).Name;
+            IntPtr fPtr = NativeMethods.GetProcAddress(_hModule, defName);
+            if (fPtr == IntPtr.Zero)
+            {
+                nativeDelegate = null;
+                return false;
+            }
+            var function = Marshal.GetDelegateForFunctionPointer(fPtr, typeof(T)) ;
+            nativeDelegate = function as T;
+            return true;
+        }
 
 
         private void ThrowIfDisposed()

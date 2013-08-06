@@ -130,6 +130,7 @@ This lib strives to make .NET engine to load native code in isolated maner.
 * Imitate AppDomains based on runtime binding
 * Add PE code (detecting managed headers, DEF and COM headers).
 
+
 ## Other semi automaic approaches of doing native interop
 
 * C++/CLI

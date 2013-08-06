@@ -131,7 +131,16 @@ namespace NRegFreeCom.Tests
 
             var fn = module.GetDelegate<fnNativeLibrary>("noSuchFunction" + DateTime.Now.Ticks);
             Assert.IsTrue(42 == fn());
-   
+        }
+
+
+        [Test]
+        public void TesNativeInvoke_try_noSuchFunction()
+        {
+            var module = LoadDll();
+            fnNativeLibrary function;
+            var found = module.TryGetDelegate<fnNativeLibrary>(out function,"noSuchFunction" + DateTime.Now.Ticks);
+            Assert.IsFalse(found);
         }
 
         [Test]
