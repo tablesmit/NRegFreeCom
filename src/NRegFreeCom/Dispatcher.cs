@@ -15,14 +15,14 @@ namespace NRegFreeCom
     {
         [ThreadStatic]
         private static Dispatcher _currentDispatcher;
-        
+
         private ManualResetEvent _running;
         private IntPtr _messageDispatcherWindow;
         private Thread _thread;
         private readonly uint _threadId;
         private bool _hasShutdownFinished;
-        private  Queue<Tuple<Delegate,object[]>> _invokes = new Queue<Tuple<Delegate, object[]>>();
-        
+        private Queue<Tuple<Delegate, object[]>> _invokes = new Queue<Tuple<Delegate, object[]>>();
+
         private AutoResetEvent _invoked;
         private ushort _atom;
         private IntPtr _hInstance;
@@ -89,17 +89,17 @@ namespace NRegFreeCom
             {
                 throw new Win32Exception("Failed to register window");
             }
-          _currentDispatcher._messageDispatcherWindow = NativeMethods.CreateWindowEx(
-        0,
-          new IntPtr((int)_currentDispatcher._atom),// fixes "Cannot find window class." when uses string
-        string.Format(DISPATCHER_NAME_TEMPLATE, _currentDispatcher._threadId),
-       WindowStyles.WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-        IntPtr.Zero,
-        IntPtr.Zero,
-        hInstance,
-        IntPtr.Zero);
-          if (_currentDispatcher._messageDispatcherWindow == IntPtr.Zero)
+            _currentDispatcher._messageDispatcherWindow = NativeMethods.CreateWindowEx(
+          0,
+            new IntPtr((int)_currentDispatcher._atom),// fixes "Cannot find window class." when uses string
+          string.Format(DISPATCHER_NAME_TEMPLATE, _currentDispatcher._threadId),
+         WindowStyles.WS_OVERLAPPEDWINDOW,
+          CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+          IntPtr.Zero,
+          IntPtr.Zero,
+          hInstance,
+          IntPtr.Zero);
+            if (_currentDispatcher._messageDispatcherWindow == IntPtr.Zero)
             {
                 int lastError = Marshal.GetLastWin32Error();
                 throw new Win32Exception(lastError);
@@ -117,11 +117,14 @@ namespace NRegFreeCom
 
         private static IntPtr WindowProc(IntPtr hwnd, uint msg, IntPtr wparam, IntPtr lparam)
         {
-            // dispatch cycle started. TODO: use righ symbols, check if this true for all systems
-            if (msg == 799 && wparam == new IntPtr(1))
+            // dispatch cycle started, is done by default Windows messages after loop started
+            if (hwnd != IntPtr.Zero && msg == (uint)WM.NCCREATE)
             {
+                _currentDispatcher._messageDispatcherWindow = hwnd;
                 _currentDispatcher._running.Set();
             }
+               
+
 
             if (msg == hookMessage && wparam == new IntPtr(hookMessageDiffl) && lparam == new IntPtr(hookMessageDiffw))
             {
@@ -148,10 +151,10 @@ namespace NRegFreeCom
         public void Invoke(Delegate method, params object[] args)
         {
             _running.WaitOne();
-            _invokes.Enqueue(new Tuple<Delegate, object[]>(method,args));
-            
+            _invokes.Enqueue(new Tuple<Delegate, object[]>(method, args));
+
             _invoked = new AutoResetEvent(false);
-             NativeMethods.PostMessage(_messageDispatcherWindow, hookMessage, new IntPtr(hookMessageDiffl), new IntPtr(hookMessageDiffw));
+            NativeMethods.PostMessage(_messageDispatcherWindow, hookMessage, new IntPtr(hookMessageDiffl), new IntPtr(hookMessageDiffw));
             _invoked.WaitOne();
         }
     }
