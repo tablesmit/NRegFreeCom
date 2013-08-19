@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0555 */
-/* at Mon Aug 19 15:31:33 2013
+/* at Mon Aug 19 15:19:18 2013
  */
 /* Compiler settings for RegFreeComNativeInterfaces.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 7.00.0555 
@@ -32,8 +32,8 @@
 #endif // __RPCNDR_H_VERSION__
 
 
-#ifndef __RegFreeComNativeInterfaces_h__
-#define __RegFreeComNativeInterfaces_h__
+#ifndef __RegFreeComNativeInterfaces_i_h__
+#define __RegFreeComNativeInterfaces_i_h__
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
 #pragma once

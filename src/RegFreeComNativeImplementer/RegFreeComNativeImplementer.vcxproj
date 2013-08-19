@@ -79,7 +79,7 @@
       <ModuleDefinitionFile>.\RegFreeComNativeImplementer.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <RegisterOutput>false</RegisterOutput>
-      <AdditionalDependencies>NativeLibrary.lib;h:\src\NRegFreeCom\build\Debug\Win32\RegFreeComNativeInterfaces.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>NativeLibrary.lib;RegFreeComNativeInterfaces.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy $(ProjectDir)\$(AssemblyName).dll.manifest $(SolutionDir)..\build\$(Configuration)\$(Platform)\</Command>

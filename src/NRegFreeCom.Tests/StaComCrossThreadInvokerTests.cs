@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using FluentAssertions;
 using NUnit.Framework;
 
 namespace NRegFreeCom.Tests
@@ -56,7 +55,7 @@ namespace NRegFreeCom.Tests
             t2.Start();
             t2.Join();
 
-            error.Should().BeAssignableTo<InvalidOperationException>();
+            Assert.IsInstanceOf<InvalidOperationException>(error);
         }
 
         [Test]
@@ -78,7 +77,7 @@ namespace NRegFreeCom.Tests
             thread.Start();
             thread.Join();
 
-            error.Should().BeAssignableTo<InvalidOperationException>();
+            Assert.IsInstanceOf<InvalidOperationException>(error);
         }
 
         [Test]
@@ -101,8 +100,8 @@ namespace NRegFreeCom.Tests
             thread.Start();
             thread.Join();
 
-            noFilterByDefault.Should().BeNull();
-            testFilterReturned.Should().Be(testFilter);
+            Assert.IsNull(noFilterByDefault);
+            Assert.AreEqual(testFilter,testFilterReturned);
         }
 
         [Test]
@@ -130,7 +129,7 @@ namespace NRegFreeCom.Tests
             thread.Start();
             thread.Join();
 
-            gotException.Should().BeOfType<InvalidOperationException>();
+            Assert.IsInstanceOf<InvalidOperationException>(gotException);
 
         }
 
@@ -150,7 +149,7 @@ namespace NRegFreeCom.Tests
             thread.Start();
             thread.Join();
 
-            filterAfter.Should().BeNull();
+            Assert.IsNull(filterAfter);
 
         }
 
@@ -183,7 +182,8 @@ namespace NRegFreeCom.Tests
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
             thread.Join();
-            StaComCrossThreadInvoker.CANCEL.Should().Be(FakeComServer.LastRetryResult);
+            Assert.AreEqual(StaComCrossThreadInvoker.CANCEL, FakeComServer.LastRetryResult);
+  
         }
 
 
@@ -212,7 +212,7 @@ namespace NRegFreeCom.Tests
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
             thread.Join();
-            invoker.ShouldRetryCalled.Should().BeTrue();
+            Assert.IsTrue(invoker.ShouldRetryCalled);
 
         }
     }
