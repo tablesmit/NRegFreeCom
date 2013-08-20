@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0555 */
-/* at Mon Aug 19 15:18:27 2013
+/* at Tue Aug 20 12:32:07 2013
  */
 /* Compiler settings for RegFreeComNativeImplementer.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 7.00.0555 
@@ -47,7 +47,7 @@
 #endif /* __RPCPROXY_H_VERSION__ */
 
 
-#include "RegFreeComNativeImplementer.h"
+#include "RegFreeComNativeImplementer_i.h"
 
 #define TYPE_FORMAT_STRING_SIZE   3                                 
 #define PROC_FORMAT_STRING_SIZE   1                                 

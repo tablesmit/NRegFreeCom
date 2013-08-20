@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0555 */
-/* at Fri Jun 21 10:35:12 2013
+/* at Tue Aug 20 12:32:07 2013
  */
 /* Compiler settings for RegFreeComNativeImplementer.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 7.00.0555 
@@ -61,6 +61,18 @@ typedef struct Implementer Implementer;
 #endif /* __cplusplus */
 
 #endif 	/* __Implementer_FWD_DEFINED__ */
+
+
+#ifndef __MyService_FWD_DEFINED__
+#define __MyService_FWD_DEFINED__
+
+#ifdef __cplusplus
+typedef class MyService MyService;
+#else
+typedef struct MyService MyService;
+#endif /* __cplusplus */
+
+#endif 	/* __MyService_FWD_DEFINED__ */
 
 
 /* header files for imported files */
@@ -200,6 +212,14 @@ EXTERN_C const CLSID CLSID_Implementer;
 
 class DECLSPEC_UUID("538ECD5D-8A57-4F1C-AEB1-EBC425641F0B")
 Implementer;
+#endif
+
+EXTERN_C const CLSID CLSID_MyService;
+
+#ifdef __cplusplus
+
+class DECLSPEC_UUID("878CCCCB-8F7C-46A6-A5C7-6BA4248C1E6E")
+MyService;
 #endif
 #endif /* __RegFreeComNativeImplementerLib_LIBRARY_DEFINED__ */
 
