@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
+using NRegFreeCom.Interop;
 
 namespace NRegFreeCom
 {

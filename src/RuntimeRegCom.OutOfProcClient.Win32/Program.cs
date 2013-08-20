@@ -8,6 +8,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading;
 using NRegFreeCom;
+using NRegFreeCom.Interop;
 using RegFreeCom.Interfaces;
 
 namespace RuntimeRegCom.OutOfProcClient.Win32
@@ -75,7 +76,7 @@ namespace RuntimeRegCom.OutOfProcClient.Win32
                 // obj = System.Activator.CreateInstance(type);
                 NRegFreeCom.ActivationContext.UsingManifestDo(path, () =>
                 {
-                    obj = NRegFreeCom.NativeMethods.CoGetClassObject(clsid, CLSCTX.LOCAL_SERVER, IntPtr.Zero, new Guid(WELL_KNOWN_IIDS.IID_IUnknown));
+                    obj = NativeMethods.CoGetClassObject(clsid, CLSCTX.LOCAL_SERVER, IntPtr.Zero, new Guid(WELL_KNOWN_IIDS.IID_IUnknown));
                 }
                     );
 

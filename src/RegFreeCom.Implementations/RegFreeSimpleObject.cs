@@ -36,6 +36,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
 using NRegFreeCom;
+using NRegFreeCom.Interop;
 using RegFreeCom.Interfaces;
 
 namespace RegFreeCom.Implementations

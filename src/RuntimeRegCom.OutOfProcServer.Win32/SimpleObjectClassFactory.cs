@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using NRegFreeCom;
+using NRegFreeCom.Interop;
+using NRegFreeCom.Interop.ComTypes;
 using RegFreeCom.Interfaces;
 
 namespace RuntimeRegCom.OutOfProcServer.Win32

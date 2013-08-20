@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
+using NRegFreeCom.Interop;
 
 namespace NRegFreeCom
 {
@@ -104,13 +105,13 @@ namespace NRegFreeCom
                 int lastError = Marshal.GetLastWin32Error();
                 throw new Win32Exception(lastError);
             }
-            NRegFreeCom.MSG msg;
-            while (NRegFreeCom.NativeMethods.GetMessage(out msg, IntPtr.Zero, 0, 0))
+            MSG msg;
+            while (NativeMethods.GetMessage(out msg, IntPtr.Zero, 0, 0))
             {
                 // if wm_quit received, object gets revoked from rot as using block exits.
                 // Thread (even process) can also exit.
-                NRegFreeCom.NativeMethods.TranslateMessage(ref msg);
-                NRegFreeCom.NativeMethods.DispatchMessage(ref msg);
+                NativeMethods.TranslateMessage(ref msg);
+                NativeMethods.DispatchMessage(ref msg);
             }
 
         }

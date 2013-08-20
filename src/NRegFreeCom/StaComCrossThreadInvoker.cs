@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Threading;
+using NRegFreeCom.Interop;
+using NRegFreeCom.Interop.ComTypes;
 
 namespace NRegFreeCom
 {

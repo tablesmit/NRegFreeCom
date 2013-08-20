@@ -2,6 +2,6 @@
 <assembly xmlns="urn:schemas-microsoft-com:asm.v1"  manifestVersion="1.0">
   <assemblyIdentity
        name="NRegFreeCom.dll"
-       version="0.0.2.0"
+       version="0.0.4.0"
        processorArchitecture="msil" />
 </assembly>

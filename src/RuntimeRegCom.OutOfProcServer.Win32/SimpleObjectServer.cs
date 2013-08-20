@@ -2,6 +2,7 @@
 
 using System;
 using NRegFreeCom;
+using NRegFreeCom.Interop;
 using RegFreeCom.Interfaces;
 
 namespace RuntimeRegCom.OutOfProcServer.Win32
@@ -43,7 +44,7 @@ namespace RuntimeRegCom.OutOfProcServer.Win32
             // Register the SimpleObject class object
             var factory = new SimpleObjectClassFactory();
             factory.NoReferenceEvent += _reference_NoReferenceEvent;
-            int hResult = NRegFreeCom.NativeMethods.CoRegisterClassObject(
+            int hResult = NativeMethods.CoRegisterClassObject(
                 ref clsidSimpleObj,                 // CLSID to be registered
                 factory,
                 CLSCTX.LOCAL_SERVER,                // Context to run
@@ -60,13 +61,13 @@ namespace RuntimeRegCom.OutOfProcServer.Win32
 
             // Inform the SCM about all the registered classes, and begins 
             // letting activation requests into the server process.
-            hResult = NRegFreeCom.NativeMethods.CoResumeClassObjects();
+            hResult = NativeMethods.CoResumeClassObjects();
             if (hResult != 0)
             {
                 // Revoke the registration of SimpleObject on failure
                 if (_cookieSimpleObj != 0)
                 {
-                    NRegFreeCom.NativeMethods.CoRevokeClassObject(_cookieSimpleObj);
+                    NativeMethods.CoRevokeClassObject(_cookieSimpleObj);
                 }
 
                 // Revoke the registration of other classes
@@ -100,7 +101,7 @@ namespace RuntimeRegCom.OutOfProcServer.Win32
             // Revoke the registration of SimpleObject
             if (_cookieSimpleObj != 0)
             {
-                NRegFreeCom.NativeMethods.CoRevokeClassObject(_cookieSimpleObj);
+                NativeMethods.CoRevokeClassObject(_cookieSimpleObj);
             }
         }
 

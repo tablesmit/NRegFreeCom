@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading;
+using NRegFreeCom.Interop;
+using NRegFreeCom.Interop.ComTypes;
 using NUnit.Framework;
 
 namespace NRegFreeCom.Tests

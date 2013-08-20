@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using NRegFreeCom;
+using NRegFreeCom.Interop;
 using RegFreeCom.Interfaces;
 
 namespace RegFreeCom.Implementations

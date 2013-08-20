@@ -6,6 +6,8 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using NRegFreeCom;
+using NRegFreeCom.Interop;
+using NRegFreeCom.Interop.ComTypes;
 using RegFreeCom.Interfaces;
 
 namespace RegFreeCom.OutOfProcClient

@@ -50,64 +50,63 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ACTCTX.cs" />
+    <Compile Include="Interop\ACTCTX.cs" />
     <Compile Include="ActivationContext.cs" />
-    <Compile Include="ClassStyles.cs" />
-    <Compile Include="CoInit.cs" />
+    <Compile Include="Interop\ClassStyles.cs" />
+    <Compile Include="Interop\CoInit.cs" />
     <Compile Include="Dispatcher.cs" />
-    <Compile Include="HRESULTS.cs" />
+    <Compile Include="Interop\HRESULTS.cs" />
     <Compile Include="IAssembly.cs" />
     <Compile Include="IAssemblySystem.cs" />
     <Compile Include="IDispatcher.cs" />
     <Compile Include="Properties\PackagingInfo.cs" />
     <Compile Include="ReferenceCountedObject.cs" />
     <Compile Include="Tracing.cs" />
-    <Compile Include="CLSCTX.cs" />
+    <Compile Include="Interop\CLSCTX.cs" />
     <Compile Include="ComExceptionChecker.cs" />
-    <Compile Include="Constants.cs" />
-    <Compile Include="DEF.cs" />
-    <Compile Include="DIRECTORY_FLAGS.cs" />
-    <Compile Include="ENUMRESNAMEPROC.cs" />
-    <Compile Include="SYSTEM_ERROR_CODES.cs" />
-    <Compile Include="FDW_REASONS.cs" />
-    <Compile Include="IBytesRequestResponse.cs" />
-    <Compile Include="ICallFrameEvents.cs" />
-    <Compile Include="ICallInterceptor.cs" />
-    <Compile Include="IClassFactory.cs" />
-    <Compile Include="IGlobalInterfaceTable.cs" />
-    <Compile Include="IMessageFilter.cs" />
-    <Compile Include="INTERFACEINFO.cs" />
-    <Compile Include="Ole\NativeMethods.cs" />
-    <Compile Include="Ole\COMRECT.cs" />
-    <Compile Include="Ole\IEnumOLEVERB.cs" />
-    <Compile Include="Ole\IOleClientSite.cs" />
-    <Compile Include="IServiceProvider.cs" />
-    <Compile Include="IUnknown.cs" />
-    <Compile Include="LOAD_LIBRARY_FLAGS.cs" />
+    <Compile Include="Interop\Constants.cs" />
+    <Compile Include="Interop\DEF.cs" />
+    <Compile Include="Interop\DIRECTORY_FLAGS.cs" />
+    <Compile Include="Interop\ENUMRESNAMEPROC.cs" />
+    <Compile Include="Interop\SYSTEM_ERROR_CODES.cs" />
+    <Compile Include="Interop\FDW_REASONS.cs" />
+    <Compile Include="Interop\ComTypes\IBytesRequestResponse.cs" />
+    <Compile Include="Interop\ComTypes\ICallFrameEvents.cs" />
+    <Compile Include="Interop\ComTypes\ICallInterceptor.cs" />
+    <Compile Include="Interop\ComTypes\IClassFactory.cs" />
+    <Compile Include="Interop\ComTypes\IGlobalInterfaceTable.cs" />
+    <Compile Include="Interop\ComTypes\IMessageFilter.cs" />
+    <Compile Include="Interop\INTERFACEINFO.cs" />
+    <Compile Include="Interop\COMRECT.cs" />
+    <Compile Include="Interop\ComTypes\IEnumOLEVERB.cs" />
+    <Compile Include="Interop\ComTypes\IOleClientSite.cs" />
+    <Compile Include="Interop\ComTypes\IServiceProvider.cs" />
+    <Compile Include="Interop\ComTypes\IUnknown.cs" />
+    <Compile Include="Interop\LOAD_LIBRARY_FLAGS.cs" />
     <Compile Include="AssemblySystem.cs" />
-    <Compile Include="MSG.cs" />
+    <Compile Include="Interop\MSG.cs" />
     <Compile Include="Assembly.cs" />
-    <Compile Include="Ole\IOleContainer.cs" />
-    <Compile Include="Ole\LOGPALETTE.cs" />
-    <Compile Include="Ole\IOleObject.cs" />
-    <Compile Include="Ole\OLEVERB.cs" />
-    <Compile Include="Ole\SIZEL.cs" />
-    <Compile Include="POINT.cs" />
+    <Compile Include="Interop\ComTypes\IOleContainer.cs" />
+    <Compile Include="Interop\LOGPALETTE.cs" />
+    <Compile Include="Interop\ComTypes\IOleObject.cs" />
+    <Compile Include="Interop\OLEVERB.cs" />
+    <Compile Include="Interop\SIZEL.cs" />
+    <Compile Include="Interop\POINT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="REGCLS.cs" />
-    <Compile Include="RESOURCE_TYPES.cs" />
-    <Compile Include="ROTFLAGS.cs" />
+    <Compile Include="Interop\REGCLS.cs" />
+    <Compile Include="Interop\RESOURCE_TYPES.cs" />
+    <Compile Include="Interop\ROTFLAGS.cs" />
     <Compile Include="RotRegFreeComInvoker.cs" />
     <Compile Include="Regasm.cs" />
     <Compile Include="RunningObjectTable.cs" />
-    <Compile Include="NativeMethods.cs" />
+    <Compile Include="Interop\NativeMethods.cs" />
     <Compile Include="StaComCrossThreadInvoker.cs" />
-    <Compile Include="WELL_KNOWN_IIDS.cs" />
-    <Compile Include="WindowStyles.cs" />
-    <Compile Include="WindowStylesEx.cs" />
-    <Compile Include="WM.cs" />
-    <Compile Include="WNDCLASS.cs" />
-    <Compile Include="WndProc.cs" />
+    <Compile Include="Interop\WELL_KNOWN_IIDS.cs" />
+    <Compile Include="Interop\WindowStyles.cs" />
+    <Compile Include="Interop\WindowStylesEx.cs" />
+    <Compile Include="Interop\WM.cs" />
+    <Compile Include="Interop\WNDCLASS.cs" />
+    <Compile Include="Interop\WndProc.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="NRegFreeCom.dll.manifest">
@@ -117,6 +116,7 @@
   <ItemGroup>
     <None Include="NRegFreeCom.snk" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

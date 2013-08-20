@@ -7,6 +7,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using NRegFreeCom.Interop;
+using NRegFreeCom.Interop.ComTypes;
 using NUnit.Framework;
 
 namespace NRegFreeCom.Tests
@@ -20,7 +22,7 @@ namespace NRegFreeCom.Tests
             var pathToImage = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "picture.png");
             IUnknown unknown;
             var guid = new Guid("7BF80981-BF32-101A-8BBB-00AA00300CAB");
-            var hLoad =  Ole.NativeMethods.OleLoadPicturePath(pathToImage, IntPtr.Zero, 0, 0, ref guid, out unknown);
+            var hLoad =  NativeMethods.OleLoadPicturePath(pathToImage, IntPtr.Zero, 0, 0, ref guid, out unknown);
             Assert.IsTrue(hLoad == SYSTEM_ERROR_CODES.ERROR_SUCCESS);
             Assert.IsTrue(unknown != null);
         }

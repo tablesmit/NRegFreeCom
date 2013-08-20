@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
 using NRegFreeCom;
+using NRegFreeCom.Interop;
 using RegFreeCom.Implementations;
 using RegFreeCom.Interfaces;
 

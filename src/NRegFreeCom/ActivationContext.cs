@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using NRegFreeCom.Interop;
 
 namespace NRegFreeCom
 {

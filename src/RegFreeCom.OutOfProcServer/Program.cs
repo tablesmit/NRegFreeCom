@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using NRegFreeCom;
+using NRegFreeCom.Interop;
 using RegFreeCom.Implementations;
 using RegFreeCom.Interfaces;
 
@@ -31,13 +32,13 @@ namespace RegFreeCom.OutOfProcServer
                     // this thread will server the requests (function calls).
                     Console.WriteLine("Object is in ROT");
 
-                    NRegFreeCom.MSG msg;
-                    while (NRegFreeCom.NativeMethods.GetMessage(out msg, IntPtr.Zero, 0, 0))
+                    MSG msg;
+                    while (NativeMethods.GetMessage(out msg, IntPtr.Zero, 0, 0))
                     {
                         // if wm_quit received, object gets revoked from rot as using block exits.
                         // Thread (even process) can also exit.
-                        NRegFreeCom.NativeMethods.TranslateMessage(ref msg);
-                        NRegFreeCom.NativeMethods.DispatchMessage(ref msg);
+                        NativeMethods.TranslateMessage(ref msg);
+                        NativeMethods.DispatchMessage(ref msg);
                     }
                 }
 
