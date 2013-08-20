@@ -87,10 +87,47 @@ namespace NRegFreeCom
             if (_disposed) throw new ObjectDisposedException("_hModule");
         }
 
-        public Stream LoadCompiledResource(uint name)
+        public Stream LoadCompiledResource(uint id)
         {
-            var loaded = FindLoadLock(_hModule, name, RESOURCE_TYPES.RCDATA);
-            return loaded;
+            // locate resources
+            IntPtr hResInfo = NativeMethods.FindResource(_hModule, id, RESOURCE_TYPES.RCDATA);
+            if (hResInfo == IntPtr.Zero)
+            {
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+            return loadResources(hResInfo);
+        }
+
+        public Stream LoadCompiledResource(string name)
+        {
+            // locate resources
+            IntPtr hResInfo = NativeMethods.FindResource(_hModule, name, RESOURCE_TYPES.RCDATA);
+            if (hResInfo == IntPtr.Zero)
+            {
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+            return loadResources(hResInfo);
+        }
+
+        public Stream LoadResource(uint id, RESOURCE_TYPES type)
+        {
+            // locate resources
+            IntPtr hResInfo = NativeMethods.FindResource(_hModule, id, type);
+            if (hResInfo == IntPtr.Zero)
+            {
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+            return loadResources(hResInfo);
+        }
+
+        public Stream LoadResource(string name, RESOURCE_TYPES type)
+        {
+            IntPtr hResInfo = NativeMethods.FindResource(_hModule, name, type);
+            if (hResInfo == IntPtr.Zero)
+            {
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+            return loadResources(hResInfo);
         }
 
         public string LoadStringTableResource(uint id)
@@ -114,32 +151,26 @@ namespace NRegFreeCom
             return buffer.ToString();
         }
 
-        private Stream FindLoadLock(IntPtr hModule, uint name, uint type)
+
+
+        private unsafe Stream loadResources(IntPtr hResInfo)
         {
-       
-          
-            // locate resources
-            IntPtr hResInfo = NativeMethods.FindResource(hModule, name, RESOURCE_TYPES.RCDATA);
-            if (hResInfo == IntPtr.Zero)
-            {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-            }
-            var sizeOfRes = NativeMethods.SizeofResource(hModule, hResInfo);
+            var sizeOfRes = NativeMethods.SizeofResource(_hModule, hResInfo);
             // get handle to memory pointer of resources
-            IntPtr hGLOBAL = NativeMethods.LoadResource(hModule, hResInfo);
+            IntPtr hGLOBAL = NativeMethods.LoadResource(_hModule, hResInfo);
             if (hGLOBAL == IntPtr.Zero)
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
             //pointer to resource in memory
-            IntPtr pResource = NativeMethods.LockResource(hGLOBAL);  
+            IntPtr pResource = NativeMethods.LockResource(hGLOBAL);
             if (pResource == IntPtr.Zero)
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
             unsafe
             {
-                return new UnmanagedMemoryStream((byte*)pResource.ToPointer(), sizeOfRes);
+                return new UnmanagedMemoryStream((byte*) pResource.ToPointer(), sizeOfRes);
             }
         }
 

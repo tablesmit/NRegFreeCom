@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
+using NRegFreeCom.Interop;
 
 namespace NRegFreeCom
 {
@@ -11,7 +12,13 @@ namespace NRegFreeCom
 
         string Location { get; }
 
-        Stream LoadCompiledResource(uint name);
+        Stream LoadCompiledResource(uint id);
+
+        Stream LoadCompiledResource(string name);
+
+        Stream LoadResource(uint id, RESOURCE_TYPES type);
+        
+        Stream LoadResource(string name, RESOURCE_TYPES type);
 
         /// <summary>
         /// Loads string table resources from assembly.
@@ -45,6 +52,7 @@ namespace NRegFreeCom
         /// <returns></returns>
         bool TryGetDelegate<T>(out T nativeDelegate, string defName = null)
             where T : class, ISerializable, ICloneable; // is delegate
+
 
         
     }

@@ -22,11 +22,13 @@
     <None Include="default2.bin">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="html1.htm" />
     <None Include="myresour.bin">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="rcdata1.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="html1.htm">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
@@ -58,6 +60,8 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="CCom.dll.manifest" />
+    <Manifest Include="CCom.dll.manifest">
+      <Filter>Resource Files</Filter>
+    </Manifest>
   </ItemGroup>
 </Project>

@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using NRegFreeCom.Interop;
 using NUnit.Framework;
 
 namespace NRegFreeCom.Tests
@@ -131,6 +132,66 @@ namespace NRegFreeCom.Tests
         }
 
         [Test]
+        [ExpectedException(typeof(BadImageFormatException))]
+        public void LoadFrom_32BitsLoads64BitsDll()
+        {
+            Assert.AreEqual(4, IntPtr.Size );
+            var loader = new AssemblySystem();
+            var dll64 = Path.Combine(loader.BaseDirectory, loader.x64Directory, "RegFreeComResources.dll");
+            loader.LoadFrom(dll64);
+        }
+
+        [Test]
+        public void LoadCompiledResource_32BitsLoads64BitsCompiledResourceByName()
+        {
+            var loader = new AssemblySystem();
+            var dll64 = Path.Combine(loader.BaseDirectory, loader.x64Directory, "RegFreeComResources.dll");
+            var module = loader.ReflectionOnlyLoadFrom(dll64);
+            Stream result = module.LoadCompiledResource("#5435");
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Length > 0);
+            var value = new StreamReader(result).ReadToEnd();
+            StringAssert.Contains("42", value);
+            result.Close();
+            module.Dispose();
+            loader.Dispose();
+        }
+
+        [Test]
+        public void Load_32BitsLoads64BitsCompiledResourceByName()
+        {
+            var loader = new AssemblySystem();
+            var dll64 = Path.Combine(loader.BaseDirectory, loader.x64Directory, "RegFreeComResources.dll");
+            var module = loader.ReflectionOnlyLoadFrom(dll64);
+            Stream result = module.LoadResource("#103", RESOURCE_TYPES.HTML);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Length > 0);
+            var value = new StreamReader(result).ReadToEnd();
+            StringAssert.Contains("42", value);
+            result.Close();
+            module.Dispose();
+            loader.Dispose();
+        }
+
+        [Test]
+        public void Load_32BitsLoads64BitsCompiledResource()
+        {
+            var loader = new AssemblySystem();
+            var dll64 = Path.Combine(loader.BaseDirectory, loader.x64Directory, "RegFreeComResources.dll");
+            var module = loader.ReflectionOnlyLoadFrom(dll64);
+            Stream result = module.LoadResource(103, RESOURCE_TYPES.HTML);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Length > 0);
+            var value = new StreamReader(result).ReadToEnd();
+            StringAssert.Contains("42", value);
+            result.Close();
+            module.Dispose();
+            loader.Dispose();
+        }
+
+
+
+        [Test]
         public void Test32BitsLoads64BitsCompiledResource()
         {
             var loader = new AssemblySystem();
@@ -139,6 +200,9 @@ namespace NRegFreeCom.Tests
             var result = module.LoadCompiledResource(5435);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Length > 0);
+            var value = new StreamReader(result).ReadToEnd();
+            StringAssert.Contains("42", value);
+            result.Close();
             module.Dispose();
             loader.Dispose();
         }
@@ -152,6 +216,7 @@ namespace NRegFreeCom.Tests
             var module = loader.ReflectionOnlyLoadFrom(dll64);
             var result = module.LoadStringTableResource(102);
             Assert.IsNotNullOrEmpty(result);
+ 
             module.Dispose();
             loader.Dispose();
         }
