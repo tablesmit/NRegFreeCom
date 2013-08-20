@@ -10,7 +10,7 @@
 
 
 
-
+//TODO: check that COM events work well with zero registy about interfaces
 const UINT SINK_ID = 234261341; 
 class __declspec(uuid("0BFD3967-EC69-487E-8A35-C429CB305E23")) MyAtlEventHandler : 
 	public IDispEventImpl<SINK_ID, MyAtlEventHandler,&__uuidof(RegFreeCom_Interfaces::ISimpleObjectEvents),&__uuidof(RegFreeCom_Interfaces::__RegFreeCom_Interfaces)/*,1,2*/>
