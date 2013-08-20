@@ -98,16 +98,7 @@ namespace NRegFreeCom
             return loadResources(hResInfo);
         }
 
-        public Stream LoadCompiledResource(string name)
-        {
-            // locate resources
-            IntPtr hResInfo = NativeMethods.FindResource(_hModule, name, RESOURCE_TYPES.RCDATA);
-            if (hResInfo == IntPtr.Zero)
-            {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-            }
-            return loadResources(hResInfo);
-        }
+  
 
         public Stream LoadResource(uint id, RESOURCE_TYPES type)
         {
@@ -120,15 +111,7 @@ namespace NRegFreeCom
             return loadResources(hResInfo);
         }
 
-        public Stream LoadResource(string name, RESOURCE_TYPES type)
-        {
-            IntPtr hResInfo = NativeMethods.FindResource(_hModule, name, type);
-            if (hResInfo == IntPtr.Zero)
-            {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-            }
-            return loadResources(hResInfo);
-        }
+      
 
         public string LoadStringTableResource(uint id)
         {

@@ -22,13 +22,47 @@ namespace NRegFreeCom
         private Thread _thread;
         private readonly uint _threadId;
         private bool _hasShutdownFinished;
-        private Queue<Tuple<Delegate, object[]>> _invokes = new Queue<Tuple<Delegate, object[]>>();
+
+        private class Invocation
+        {
+            public Delegate Function;
+            public object[] Args;
+
+            public Invocation(Delegate method, object[] args)
+            {
+                Function = method;
+                Args = args;
+            }
+
+            protected bool Equals(Invocation other)
+            {
+                return Equals(Args, other.Args) && Equals(Function, other.Function);
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(null, obj)) return false;
+                if (ReferenceEquals(this, obj)) return true;
+                if (obj.GetType() != this.GetType()) return false;
+                return Equals((Invocation) obj);
+            }
+
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    return ((Args != null ? Args.GetHashCode() : 0)*397) ^ (Function != null ? Function.GetHashCode() : 0);
+                }
+            }
+        }
+
+        private Queue<Invocation> _invokes = new Queue<Invocation>();
 
         private AutoResetEvent _invoked;
         private ushort _atom;
         private IntPtr _hInstance;
 
-        // used to provide WPF dispatcher like behaviour
+        // used to provide WPF dispatcher like behavior
         const uint hookMessage = (uint)WM.USER + 3662;
         const uint hookMessageDiffw = 521;
         const uint hookMessageDiffl = 456;
@@ -36,7 +70,7 @@ namespace NRegFreeCom
         private Dispatcher(Thread thread, uint threadId)
         {
             _thread = thread;
-            // Records the ID of the thread that runs the messae loop so that 
+            // Records the ID of the thread that runs the message loop so that 
             // that known where to post the WM_QUIT message to exit the 
             // message loop.
             _threadId = threadId;
@@ -132,7 +166,7 @@ namespace NRegFreeCom
                 var val = NativeMethods.GetCurrentThreadId();
                 var m = Thread.CurrentThread.ManagedThreadId;
                 var invoke = _currentDispatcher._invokes.Dequeue();
-                invoke.Item1.DynamicInvoke(invoke.Item2);
+                invoke.Function.DynamicInvoke(invoke.Args);
                 var invoked = _currentDispatcher._invoked;
                 invoked.Set();
             }
@@ -152,7 +186,7 @@ namespace NRegFreeCom
         public void Invoke(Delegate method, params object[] args)
         {
             _running.WaitOne();
-            _invokes.Enqueue(new Tuple<Delegate, object[]>(method, args));
+            _invokes.Enqueue(new Invocation(method, args));
 
             _invoked = new AutoResetEvent(false);
             NativeMethods.PostMessage(_messageDispatcherWindow, hookMessage, new IntPtr(hookMessageDiffl), new IntPtr(hookMessageDiffw));

@@ -141,38 +141,9 @@ namespace NRegFreeCom.Tests
             loader.LoadFrom(dll64);
         }
 
-        [Test]
-        public void LoadCompiledResource_32BitsLoads64BitsCompiledResourceByName()
-        {
-            var loader = new AssemblySystem();
-            var dll64 = Path.Combine(loader.BaseDirectory, loader.x64Directory, "RegFreeComResources.dll");
-            var module = loader.ReflectionOnlyLoadFrom(dll64);
-            Stream result = module.LoadCompiledResource("#5435");
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.Length > 0);
-            var value = new StreamReader(result).ReadToEnd();
-            StringAssert.Contains("42", value);
-            result.Close();
-            module.Dispose();
-            loader.Dispose();
-        }
 
-        [Test]
-        public void Load_32BitsLoads64BitsCompiledResourceByName()
-        {
-            var loader = new AssemblySystem();
-            var dll64 = Path.Combine(loader.BaseDirectory, loader.x64Directory, "RegFreeComResources.dll");
-            var module = loader.ReflectionOnlyLoadFrom(dll64);
-            Stream result = module.LoadResource("#103", RESOURCE_TYPES.HTML);
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.Length > 0);
-            var value = new StreamReader(result).ReadToEnd();
-            StringAssert.Contains("42", value);
-            result.Close();
-            module.Dispose();
-            loader.Dispose();
-        }
 
+   
         [Test]
         public void Load_32BitsLoads64BitsCompiledResource()
         {

@@ -53,6 +53,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{7619
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRegFreeCom.IntegrationTests", "NRegFreeCom.IntegrationTests\NRegFreeCom.IntegrationTests.csproj", "{10EEF602-A93B-4844-9C62-5294A77FA484}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRegFreeCom.NET35", "NRegFreeCom\NRegFreeCom.NET35.csproj", "{91088DCB-6622-44A8-B5B9-10ED1C977B93}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -123,6 +125,10 @@ Global
 		{10EEF602-A93B-4844-9C62-5294A77FA484}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{10EEF602-A93B-4844-9C62-5294A77FA484}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{10EEF602-A93B-4844-9C62-5294A77FA484}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{91088DCB-6622-44A8-B5B9-10ED1C977B93}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{91088DCB-6622-44A8-B5B9-10ED1C977B93}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{91088DCB-6622-44A8-B5B9-10ED1C977B93}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{91088DCB-6622-44A8-B5B9-10ED1C977B93}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

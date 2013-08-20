@@ -202,8 +202,7 @@ namespace NRegFreeCom.Interop
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr FindResource(IntPtr hModule, uint lpName, RESOURCE_TYPES lpType);
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern IntPtr FindResource(IntPtr hModule, [MarshalAs(UnmanagedType.LPStr)] string lpName, RESOURCE_TYPES lpType);
+
 
         [DllImport("kernel32.dll", EntryPoint = "LoadAnyCpuLibrary", SetLastError = true)]
         public static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPStr)] string lpLibFileName);

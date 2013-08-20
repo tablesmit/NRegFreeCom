@@ -14,11 +14,7 @@ namespace NRegFreeCom
 
         Stream LoadCompiledResource(uint id);
 
-        Stream LoadCompiledResource(string name);
-
         Stream LoadResource(uint id, RESOURCE_TYPES type);
-        
-        Stream LoadResource(string name, RESOURCE_TYPES type);
 
         /// <summary>
         /// Loads string table resources from assembly.
