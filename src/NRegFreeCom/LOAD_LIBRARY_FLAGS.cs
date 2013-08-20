@@ -5,6 +5,10 @@ using System.Text;
 
 namespace NRegFreeCom
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms684179.aspx"/>
     [Flags]
     public enum LOAD_LIBRARY_FLAGS : uint
     {

@@ -22,6 +22,14 @@
         IAssembly LoadFrom(string directoryPath, string name);
 
         /// <summary>
+        /// Loads dll into process.You cannot execute code from an assembly that has been loaded such way.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        /// <seealso href="http://msdn.microsoft.com/en-us/library/system.reflection.assembly.reflectiononlyloadfrom.aspx"/>
+        IAssembly ReflectionOnlyLoadFrom(string path);
+
+        /// <summary>
         /// Loads native dll into process.
         /// </summary>
         /// <param name="path">Full path to dll file.</param>

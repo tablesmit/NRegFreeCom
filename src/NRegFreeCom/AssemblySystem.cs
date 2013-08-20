@@ -9,26 +9,27 @@ using System.Text;
 namespace NRegFreeCom
 {
     /// <summary>
-    /// Makes working with native dlls as with .NET ones. Helps define search pathes and transform errors to .NET friednly.
+    /// Makes working with native dlls as with .NET ones. Helps define search paths and transform errors to .NET friendly.
     /// Hides differences of windows versions. 
     /// </summary>
     /// <remarks>
-    /// Potential usages - runtime search and invokation of C routines; .NET plugin model extended with native dlls.
+    /// Potential usages - runtime search and invocation of C routines; .NET plugin model extended with native dlls.
     /// Instance methods are not thread safe.
     /// </remarks>
-    public class AssemblySystem : IAssemblySystem,IDisposable
+    //TODO: create UnsafeAssemblySystem which does not integrity checking and path normalization
+    public class AssemblySystem : IAssemblySystem, IDisposable
     {
         /// <summary>
-        /// Default subdirectoy to search 32 bit x86  dlls for <see cref="GetAnyCpuPath"/> .
+        /// Default subdirectory to search 32 bit x86  dlls for <see cref="GetAnyCpuPath"/> .
         /// </summary>
         public string Win32Directory = "Win32";
 
         /// <summary>
-        /// Default subdirectoy to search 64 bit x86  dlls for <see cref="GetAnyCpuPath"/> .
+        /// Default subdirectory to search 64 bit x86  dlls for <see cref="GetAnyCpuPath"/> .
         /// </summary>
         public string x64Directory = "x64";
 
-        //NOTE: not sure that using next directoy is good for base (may be some native methods are more proper)
+        //NOTE: not sure that using next directory is good for base (may be some native methods are more proper)
         public string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
         ///Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008: 
@@ -44,7 +45,7 @@ namespace NRegFreeCom
         ///<inheritdoc/>
         public string GetAnyCpuPath(string directoryPath)
         {
-            //TODO: check not only bits by arch (e.g. COM on ARM or Itanium)
+            //TODO: check not only bits but arch (e.g. ARM or Itanium)
             if (IntPtr.Size == 4)
             {
                 return Path.Combine(directoryPath, Win32Directory);
@@ -83,7 +84,7 @@ namespace NRegFreeCom
             {
                 var flags = LOAD_LIBRARY_FLAGS.LOAD_LIBRARY_SEARCH_DEFAULT_DIRS |
                             LOAD_LIBRARY_FLAGS.LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR;
-                
+
                 hModule = NativeMethods.LoadLibraryEx(path, IntPtr.Zero, flags);
             }
             else
@@ -91,21 +92,25 @@ namespace NRegFreeCom
                 hModule = NativeMethods.LoadLibraryEx(path, IntPtr.Zero, 0);
             }
 
+            ThrowOnError(path, hModule);
+            return new Assembly(hModule, Path.GetFileName(path), path);
+        }
+
+        private static void ThrowOnError(string path, IntPtr hModule)
+        {
             if (hModule == IntPtr.Zero)
             {
                 var error = Marshal.GetLastWin32Error();
                 var ex = new Win32Exception(error);
-                if (error == SYSTEM_ERROR_CODES.ERROR_MOD_NOT_FOUND 
-                    || error == SYSTEM_ERROR_CODES.ERROR_ENVVAR_NOT_FOUND)//TODO: change exeption - this happens if path not rooted 
+                if (error == SYSTEM_ERROR_CODES.ERROR_MOD_NOT_FOUND
+                    || error == SYSTEM_ERROR_CODES.ERROR_ENVVAR_NOT_FOUND) //TODO: change exception - this happens if path not rooted 
                     throw new System.IO.FileNotFoundException("Failed to find dll", path, ex);
                 if (error == SYSTEM_ERROR_CODES.ERROR_BAD_EXE_FORMAT
-                    || error == SYSTEM_ERROR_CODES.ERROR_INVALID_PARAMETER)//TODO: change exeption - this happens if path not rooted 
+                    || error == SYSTEM_ERROR_CODES.ERROR_INVALID_PARAMETER)//TODO: change exception - this happens if path not rooted 
                     throw new BadImageFormatException("Failed to load dll", path, ex);
                 throw ex;
             }
-            return new Assembly(hModule, Path.GetFileName(path), path);
         }
-
 
 
         private string normalize(string path)
@@ -168,10 +173,10 @@ namespace NRegFreeCom
                     setProcessPaths(paths);
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 // consider it OK for for trace analysys (like fusion log analysys)
-                Tracing.Source.TraceInformation(string.Format("Failed to add {0} to PATH:{1}", directory,ex));
+                Tracing.Source.TraceInformation(string.Format("Failed to add {0} to PATH:{1}", directory, ex));
             }
         }
 
@@ -197,7 +202,19 @@ namespace NRegFreeCom
         public void Dispose()
         {
             //TODO: clean up cookies
-            //TODO: rememeber and dispose all native handles
+            //TODO: remember and dispose all native handles
+        }
+
+        public IAssembly ReflectionOnlyLoadFrom(string path)
+        {
+            path = normalize(path);
+
+            //TODO: check if should use flags that does integrity checking if .NET does such check loading managed dlls for reflection
+            //TODO: I think it is .NET design to be safe if possible
+            var flags = LOAD_LIBRARY_FLAGS.LOAD_LIBRARY_AS_DATAFILE;
+
+            var hModule = NativeMethods.LoadLibraryEx(path, IntPtr.Zero, flags);
+            return new Assembly(hModule, Path.GetFileName(path), path);
         }
     }
 }

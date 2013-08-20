@@ -16,7 +16,7 @@ namespace NRegFreeCom.Tests
     public class AssemblySystemTests
     {
 
-        
+
         [Test]
         public void LoadingDll_noSuchDll_clrAndNativeErrorAreTheSame()
         {
@@ -40,7 +40,7 @@ namespace NRegFreeCom.Tests
             {
                 nativeEx = ex;
             }
-            Assert.AreEqual(clrEx.GetType(),nativeEx.GetType());
+            Assert.AreEqual(clrEx.GetType(), nativeEx.GetType());
 
         }
 
@@ -71,7 +71,7 @@ namespace NRegFreeCom.Tests
             }
             File.Delete(notDll);
             Assert.AreEqual(clrEx.GetType(), nativeEx.GetType());
-            
+
 
         }
 
@@ -104,13 +104,26 @@ namespace NRegFreeCom.Tests
             loader.Dispose();
         }
 
+        [Test]
+        public void Test32BitsLoads64BitsAsData()
+        {
+            var loader = new AssemblySystem();
+            var dll64 = Path.Combine(loader.BaseDirectory, loader.x64Directory, "RegFreeComResources.dll");
+            
+            var module = loader.ReflectionOnlyLoadFrom(dll64);
+
+            Assert.IsNotNull(module);
+            module.Dispose();
+            loader.Dispose();
+        }
+
 
 
         [Test]
         public void Referenced()
         {
             var server = this.GetType().Assembly.GetReferencedAssemblies().Where(x => x.Name.Contains("RegFreeCom.Implementations.dll"));
-            Assert.AreEqual(0,server.Count(),"Should not reference COM server dll directly");
+            Assert.AreEqual(0, server.Count(), "Should not reference COM server dll directly");
         }
 
         [Test]
@@ -139,14 +152,14 @@ namespace NRegFreeCom.Tests
         {
             var module = LoadDll();
             fnNativeLibrary function;
-            var found = module.TryGetDelegate<fnNativeLibrary>(out function,"noSuchFunction" + DateTime.Now.Ticks);
+            var found = module.TryGetDelegate<fnNativeLibrary>(out function, "noSuchFunction" + DateTime.Now.Ticks);
             Assert.IsFalse(found);
         }
 
         [Test]
         public void TestDllsLoading()
         {
-             LoadDll();
+            LoadDll();
         }
 
         private static IAssembly LoadDll()
@@ -168,7 +181,7 @@ namespace NRegFreeCom.Tests
 
         }
 
- 
+
 
 
     }
