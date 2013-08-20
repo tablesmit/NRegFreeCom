@@ -22,6 +22,13 @@
     <None Include="default2.bin">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="html1.htm" />
+    <None Include="myresour.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="rcdata1.bin">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -49,5 +56,8 @@
     <ResourceCompile Include="Resources.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="CCom.dll.manifest" />
   </ItemGroup>
 </Project>

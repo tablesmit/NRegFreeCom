@@ -170,6 +170,8 @@ namespace NRegFreeCom
         public static extern int LoadString(IntPtr hInstance, uint uID, StringBuilder lpBuffer, int nBufferMax);
 
 
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern uint SizeofResource(IntPtr hModule, IntPtr hResInfo);
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr LockResource(IntPtr hResData);

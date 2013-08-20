@@ -78,6 +78,11 @@
   <ItemGroup>
     <None Include="default1.bin" />
     <None Include="default2.bin" />
+    <None Include="html1.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="myresour.bin" />
+    <None Include="rcdata1.bin" />
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -102,6 +107,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="CCom.dll.manifest" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

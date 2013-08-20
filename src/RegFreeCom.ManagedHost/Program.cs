@@ -86,9 +86,7 @@ namespace CsComWin32
             EnsureGC();
             _service.RaiseEnsureGCIsNotObstacle();
 
-            // load resource
-            var value = module.LoadCompiledResource(5435);
-            Console.WriteLine(value);
+      
 
             // return string from C
 
@@ -98,7 +96,7 @@ namespace CsComWin32
             Marshal.FreeBSTR(strPtr);
             Console.WriteLine(str);
 
-            // return array of COM servics which return pointers
+            // return array of COM services which return pointers
             var com = loader.LoadFrom(loader.GetAnyCpuPath(loader.BaseDirectory), "RegFreeComNativeImplementer");
             var servicesGetter = com.GetDelegate<GetComInterface>();
             object[] services;

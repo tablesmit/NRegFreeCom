@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
 
@@ -10,7 +11,7 @@ namespace NRegFreeCom
 
         string Location { get; }
 
-        IntPtr LoadCompiledResource(uint name);
+        Stream LoadCompiledResource(uint name);
 
         /// <summary>
         /// Loads string table resources from assembly.

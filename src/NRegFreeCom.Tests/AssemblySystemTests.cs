@@ -109,7 +109,7 @@ namespace NRegFreeCom.Tests
         {
             var loader = new AssemblySystem();
             var dll64 = Path.Combine(loader.BaseDirectory, loader.x64Directory, "RegFreeComResources.dll");
-            
+
             var module = loader.ReflectionOnlyLoadFrom(dll64);
 
             Assert.IsNotNull(module);
@@ -126,6 +126,19 @@ namespace NRegFreeCom.Tests
             var module = loader.ReflectionOnlyLoadFrom(dll64);
             var result = module.LoadStringTableResource(101);
             Assert.IsNotNullOrEmpty(result);
+            module.Dispose();
+            loader.Dispose();
+        }
+
+        [Test]
+        public void Test32BitsLoads64BitsCompiledResource()
+        {
+            var loader = new AssemblySystem();
+            var dll64 = Path.Combine(loader.BaseDirectory, loader.x64Directory, "RegFreeComResources.dll");
+            var module = loader.ReflectionOnlyLoadFrom(dll64);
+            var result = module.LoadCompiledResource(5435);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Length > 0);
             module.Dispose();
             loader.Dispose();
         }

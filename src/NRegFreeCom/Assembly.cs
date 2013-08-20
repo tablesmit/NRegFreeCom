@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
@@ -73,7 +74,7 @@ namespace NRegFreeCom
                 nativeDelegate = null;
                 return false;
             }
-            var function = Marshal.GetDelegateForFunctionPointer(fPtr, typeof(T)) ;
+            var function = Marshal.GetDelegateForFunctionPointer(fPtr, typeof(T));
             nativeDelegate = function as T;
             return true;
         }
@@ -85,7 +86,7 @@ namespace NRegFreeCom
             if (_disposed) throw new ObjectDisposedException("_hModule");
         }
 
-        public IntPtr LoadCompiledResource(uint name)
+        public Stream LoadCompiledResource(uint name)
         {
             var loaded = FindLoadLock(_hModule, name, RESOURCE_TYPES.RCDATA);
             return loaded;
@@ -96,7 +97,7 @@ namespace NRegFreeCom
             var buffer = new StringBuilder(128);
 
             //NOTE: like Environment.GetEnvironmentVariable - increase initially small buffer
-            TRYREAD:
+        TRYREAD:
             int readLength = NativeMethods.LoadString(_hModule, id, buffer, buffer.Capacity);
 
             if (readLength == 0)
@@ -112,26 +113,33 @@ namespace NRegFreeCom
             return buffer.ToString();
         }
 
-        private IntPtr FindLoadLock(IntPtr hModule, uint name, uint type)
+        private Stream FindLoadLock(IntPtr hModule, uint name, uint type)
         {
-            IntPtr hResource;  //handle to resource
-            IntPtr pResource;  //pointer to resource in memory
-            hResource = NativeMethods.FindResource(hModule, name, RESOURCE_TYPES.RCDATA);
-            if (hResource == IntPtr.Zero)
+       
+          
+            // locate resources
+            IntPtr hResInfo = NativeMethods.FindResource(hModule, name, RESOURCE_TYPES.RCDATA);
+            if (hResInfo == IntPtr.Zero)
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
-            hResource = NativeMethods.LoadResource(hModule, hResource);
-            if (hResource == IntPtr.Zero)
+            var sizeOfRes = NativeMethods.SizeofResource(hModule, hResInfo);
+            // get handle to memory pointer of resources
+            IntPtr hGLOBAL = NativeMethods.LoadResource(hModule, hResInfo);
+            if (hGLOBAL == IntPtr.Zero)
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
-            pResource = NativeMethods.LockResource(hResource);
+            //pointer to resource in memory
+            IntPtr pResource = NativeMethods.LockResource(hGLOBAL);  
             if (pResource == IntPtr.Zero)
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
-            return pResource;
+            unsafe
+            {
+                return new UnmanagedMemoryStream((byte*)pResource.ToPointer(), sizeOfRes);
+            }
         }
 
         public void Dispose()
