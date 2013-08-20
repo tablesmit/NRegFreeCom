@@ -169,6 +169,8 @@ namespace NRegFreeCom
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern int LoadString(IntPtr hInstance, uint uID, StringBuilder lpBuffer, int nBufferMax);
 
+
+
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr LockResource(IntPtr hResData);
 
@@ -178,8 +180,13 @@ namespace NRegFreeCom
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr FindResource(IntPtr hModule, uint lpName, uint lpType);
 
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern IntPtr FindResource(IntPtr hModule, [MarshalAs(UnmanagedType.LPStr)] string lpName, uint lpType);
+
         [DllImport("kernel32.dll", EntryPoint = "LoadAnyCpuLibrary", SetLastError = true)]
         public static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPStr)] string lpLibFileName);
+
+
 
         [DllImport("kernel32.dll", EntryPoint = "GetProcAddress", SetLastError = true)]
         public static extern IntPtr GetProcAddress(IntPtr hModule, [MarshalAs(UnmanagedType.LPStr)] string lpProcName);

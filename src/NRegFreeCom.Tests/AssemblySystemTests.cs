@@ -117,7 +117,44 @@ namespace NRegFreeCom.Tests
             loader.Dispose();
         }
 
+        [Test]
+        public void Test32BitsLoads64BitsStringResource()
+        {
+            var loader = new AssemblySystem();
+            var dll64 = Path.Combine(loader.BaseDirectory, loader.x64Directory, "RegFreeComResources.dll");
 
+            var module = loader.ReflectionOnlyLoadFrom(dll64);
+            var result = module.LoadStringTableResource(101);
+            Assert.IsNotNullOrEmpty(result);
+            module.Dispose();
+            loader.Dispose();
+        }
+
+        [Test]
+        public void Test32BitsLoads64BitsLongStringResource()
+        {
+            var loader = new AssemblySystem();
+            var dll64 = Path.Combine(loader.BaseDirectory, loader.x64Directory, "RegFreeComResources.dll");
+
+            var module = loader.ReflectionOnlyLoadFrom(dll64);
+            var result = module.LoadStringTableResource(102);
+            Assert.IsNotNullOrEmpty(result);
+            module.Dispose();
+            loader.Dispose();
+        }
+
+        [Test]
+        public void Test32BitsLoads64BitsNoStringResource()
+        {
+            var loader = new AssemblySystem();
+            var dll64 = Path.Combine(loader.BaseDirectory, loader.x64Directory, "RegFreeComResources.dll");
+
+            var module = loader.ReflectionOnlyLoadFrom(dll64);
+            var result = module.LoadStringTableResource(47854);
+            Assert.IsNull(result);
+            module.Dispose();
+            loader.Dispose();
+        }
 
         [Test]
         public void Referenced()

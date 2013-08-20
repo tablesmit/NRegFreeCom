@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
+using System.Text;
 
 
 namespace NRegFreeCom
@@ -78,6 +79,7 @@ namespace NRegFreeCom
         }
 
 
+
         private void ThrowIfDisposed()
         {
             if (_disposed) throw new ObjectDisposedException("_hModule");
@@ -89,24 +91,43 @@ namespace NRegFreeCom
             return loaded;
         }
 
+        public string LoadStringTableResource(uint id)
+        {
+            var buffer = new StringBuilder(128);
 
+            //NOTE: like Environment.GetEnvironmentVariable - increase initially small buffer
+            TRYREAD:
+            int readLength = NativeMethods.LoadString(_hModule, id, buffer, buffer.Capacity);
+
+            if (readLength == 0)
+            {
+                return null;
+            }
+            if (readLength == buffer.Capacity - 1)
+            {
+                buffer.Capacity += 2;//TODO: define step more clever, investigate reported last win error
+                buffer.Length = 0;
+                goto TRYREAD;
+            }
+            return buffer.ToString();
+        }
 
         private IntPtr FindLoadLock(IntPtr hModule, uint name, uint type)
         {
             IntPtr hResource;  //handle to resource
             IntPtr pResource;  //pointer to resource in memory
             hResource = NativeMethods.FindResource(hModule, name, RESOURCE_TYPES.RCDATA);
-            if (hResource.ToInt32() == 0)
+            if (hResource == IntPtr.Zero)
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
             hResource = NativeMethods.LoadResource(hModule, hResource);
-            if (hResource.ToInt32() == 0)
+            if (hResource == IntPtr.Zero)
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
             pResource = NativeMethods.LockResource(hResource);
-            if (pResource.ToInt32() == 0)
+            if (pResource == IntPtr.Zero)
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }

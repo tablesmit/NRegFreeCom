@@ -13,6 +13,14 @@ namespace NRegFreeCom
         IntPtr LoadCompiledResource(uint name);
 
         /// <summary>
+        /// Loads string table resources from assembly.
+        /// </summary>
+        /// <param name="id">The identifier of the string to be loaded.</param>
+        /// <returns></returns>
+        /// <seealso href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms647486.aspx"/>
+        string LoadStringTableResource(uint id);
+
+        /// <summary>
         /// Gets public function from native library.
         /// </summary>
         /// <typeparam name="T">
@@ -37,5 +45,6 @@ namespace NRegFreeCom
         bool TryGetDelegate<T>(out T nativeDelegate, string defName = null)
             where T : class, ISerializable, ICloneable; // is delegate
 
+        
     }
 }
