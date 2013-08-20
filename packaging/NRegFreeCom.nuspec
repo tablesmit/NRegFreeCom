@@ -2,15 +2,18 @@
 <package >
   <metadata>
     <id>NRegFreeCom</id>
-    <version>0.0.3.0</version>
+    <version>0.0.4.0</version>
     <authors>Dzmitry Lahoda</authors>
     <owners>dzmitry_lahoda</owners>
     <licenseUrl>http://creativecommons.org/publicdomain/zero/1.0/</licenseUrl>
     <projectUrl>https://github.com/asd-and-Rizzo/NRegFreeCom</projectUrl>
     <iconUrl>https://raw.github.com/asd-and-Rizzo/NRegFreeCom/master/doc/NRegFreeCom.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>.NET wrappers for load and use native libraries and COM objects without registration</description>
+    <description>.NET wrappers for load native libraries, call C functions and COM objects without registration</description>
     <releaseNotes>
+	* 0.0.4.0
+	- fixed custom dispatcher
+	- added resources reading from cpp dlls
 	* 0.0.3.0
 	- make use of out of proc reg free
 	- added custom dispatcher using Windows Message loop
