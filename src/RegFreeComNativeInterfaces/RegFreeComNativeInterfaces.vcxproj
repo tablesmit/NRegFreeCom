@@ -163,6 +163,7 @@
   <ItemGroup>
     <Midl Include="RegFreeComNativeInterfaces.idl">
       <TypeLibraryName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(TargetDir)..\RegFreeComNativeInterfaces.tlb</TypeLibraryName>
+      <TypeLibraryName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(TargetDir)..\RegFreeComNativeInterfaces.tlb</TypeLibraryName>
     </Midl>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

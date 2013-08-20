@@ -6,11 +6,15 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RegFreeComNativeImplementer", "RegFreeComNativeImplementer\RegFreeComNativeImplementer.vcxproj", "{78AF6FE7-FC6A-4B13-A42F-06B4CCD434F9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{318D444F-8E6D-4823-9F14-9F61F7698B68} = {318D444F-8E6D-4823-9F14-9F61F7698B68}
+		{198707BF-25CA-4F36-90DC-A6CFAAFC6C5C} = {198707BF-25CA-4F36-90DC-A6CFAAFC6C5C}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegFreeCom.Interfaces", "RegFreeCom.Interfaces\RegFreeCom.Interfaces.csproj", "{318D444F-8E6D-4823-9F14-9F61F7698B68}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegFreeCom.ManagedHost.Win32", "RegFreeCom.ManagedHost\RegFreeCom.ManagedHost.Win32.csproj", "{C339E9CB-1B3A-466F-9F91-BD324BA2FCAE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{198707BF-25CA-4F36-90DC-A6CFAAFC6C5C} = {198707BF-25CA-4F36-90DC-A6CFAAFC6C5C}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegFreeCom.Implementations", "RegFreeCom.Implementations\RegFreeCom.Implementations.csproj", "{F3F9979A-65FE-4098-920D-9FB075BC3C7E}"
 EndProject
@@ -37,15 +41,15 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NativeLibrary", "NativeLibrary\NativeLibrary.vcxproj", "{CC23D6DF-245D-4D2D-915D-7CF3ACE72BD3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NativeLibraryConsumer", "NativeLibraryConsumer\NativeLibraryConsumer.vcxproj", "{43F37471-7928-4FEA-B865-0241A1EB328D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CC23D6DF-245D-4D2D-915D-7CF3ACE72BD3} = {CC23D6DF-245D-4D2D-915D-7CF3ACE72BD3}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuntimeRegCom.OutOfProcServer.Win32", "RuntimeRegCom.OutOfProcServer.Win32\RuntimeRegCom.OutOfProcServer.Win32.csproj", "{0F1DA357-D2F0-486F-A0E5-CC4B4B4575C1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuntimeRegCom.OutOfProcClient.Win32", "RuntimeRegCom.OutOfProcClient.Win32\RuntimeRegCom.OutOfProcClient.Win32.csproj", "{0DD7D6D8-8CD4-49B3-8AA5-3CA321D521F5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RegFreeComNativeInterfaces", "RegFreeComNativeInterfaces\RegFreeComNativeInterfaces.vcxproj", "{198707BF-25CA-4F36-90DC-A6CFAAFC6C5C}"
-	ProjectSection(ProjectDependencies) = postProject
-		{78AF6FE7-FC6A-4B13-A42F-06B4CCD434F9} = {78AF6FE7-FC6A-4B13-A42F-06B4CCD434F9}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RegFreeComResources.x64", "RegFreeComResources\RegFreeComResources.vcxproj", "{D0AF18B1-34AB-4A66-BEC4-7013F6DD6AB6}"
 EndProject
