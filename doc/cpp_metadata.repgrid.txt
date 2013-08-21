@@ -1,0 +1,38 @@
+------------ cpp_metadata.repgrid.txt file ---------------
+
+anything not contained within the tags will be discarded
+ 
+
+ELEMENTS
+Resources
+Section Header
+Xml
+Function
+END ELEMENTS
+
+CONSTRUCTS
+Only one kind of bitness support : Any bits support
+Hard to have good unique name : Unique meaningfull name
+Not like in .NET : Similar to MSIL
+More files : Less files
+Non localizable : Localizable
+Complex : Simple
+Loads dependecies : Ease of load
+END CONSTRUCTS
+
+bitness is considered of most imporant
+
+RATINGS
+9 9 9 1 
+1 4 5 5 
+3 5 1 2 
+4 5 1 5 
+5 2 1 5 
+4 3 2 2 
+5 5 4 1
+END RATINGS
+
+RANGE
+1 9
+END RANGE
+---------------- end of file ----------------
