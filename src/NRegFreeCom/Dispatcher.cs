@@ -82,6 +82,11 @@ namespace NRegFreeCom
             get { return _thread; }
         }
 
+        public IntPtr Handle
+        {
+            get { return _messageDispatcherWindow; }
+        }
+
         public static Dispatcher CurrentDispatcher
         {
             get
