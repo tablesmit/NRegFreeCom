@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IABC.cs" />
     <Compile Include="ILoadedByManagedImplementedByNative.cs" />
     <Compile Include="IMyCoolClass.cs" />
     <Compile Include="IRegFreeCom.cs" />

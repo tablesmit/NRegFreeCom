@@ -17,7 +17,7 @@ namespace NRegFreeCom.Tests
         [Test]
 		[Description("Creates and calls managed registration free object")]
         public void CreateInstanceWithManifest_inProcessManagedServer_OK()
-        {		    
+        {
             var path = Path.Combine(Environment.CurrentDirectory, @"RegFreeCom.Implementations.dll.manifest");
             var guid = new Guid(RegFreeComIds.CLSID);
 
@@ -26,6 +26,8 @@ namespace NRegFreeCom.Tests
             var result = inf.Answer();
 			
             Assert.IsTrue(result == 42);
+
+           
         }
 
 
