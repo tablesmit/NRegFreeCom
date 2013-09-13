@@ -105,7 +105,7 @@ namespace NRegFreeCom
                 var ex = new Win32Exception(error);
                 if (error == SYSTEM_ERROR_CODES.ERROR_MOD_NOT_FOUND
                     || error == SYSTEM_ERROR_CODES.ERROR_ENVVAR_NOT_FOUND) //TODO: change exception - this happens if path not rooted 
-                    throw new System.IO.FileNotFoundException("Failed to find dll", path, ex);
+                    throw new System.IO.FileNotFoundException("Failed to find dll or its dependencies", path, ex);
                 if (error == SYSTEM_ERROR_CODES.ERROR_BAD_EXE_FORMAT
                     || error == SYSTEM_ERROR_CODES.ERROR_INVALID_PARAMETER)//TODO: change exception - this happens if path not rooted 
                     throw new BadImageFormatException("Failed to load dll", path, ex);
@@ -138,7 +138,6 @@ namespace NRegFreeCom
                     _hasPatch = false;
 
                     // xp and vista without patch
-                    _directories.Add(directory);
                     addDllDirectoryToProcessEnvVars(directory);
                     setDllDirectory(directory);
                 }
@@ -146,7 +145,6 @@ namespace NRegFreeCom
             else
             {
                 // xp and vista without patch
-                _directories.Add(directory);
                 addDllDirectoryToProcessEnvVars(directory);
                 setDllDirectory(directory);
             }
@@ -160,19 +158,23 @@ namespace NRegFreeCom
                 throw new Win32Exception(Marshal.GetLastWin32Error());
         }
 
+
+
         // this is last chance usage - security breach because attacker could put its dll in some path
         private void addDllDirectoryToProcessEnvVars(string directory)
         {
+            directory = normalize(Path.GetFullPath(directory));
+            _directories.Add(directory);//TODO: manage added paths
             try
             {
-                //TODO: manage added paths
-                directory = normalize(Path.GetFullPath(directory));
-                var paths = getProcessPaths();
-                if (!paths.Contains(directory)) //TODO: normalize paths before search, what is impact on dulication?
+                var path = getProcessPath();
+                var newPath = PathAppender.Append(directory, path);
+
+                if (newPath.Length > path.Length)
                 {
-                    paths += directory + ";";
-                    setProcessPaths(paths);
+                    setProcessPath(newPath); 
                 }
+                
             }
             catch (Exception ex)
             {
@@ -181,12 +183,14 @@ namespace NRegFreeCom
             }
         }
 
-        private static void setProcessPaths(string paths)
+
+
+        private static void setProcessPath(string paths)
         {
             Environment.SetEnvironmentVariable("PATH", paths, EnvironmentVariableTarget.Process);
         }
 
-        private static string getProcessPaths()
+        private static string getProcessPath()
         {
             var paths = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process);
             if (String.IsNullOrEmpty(paths))

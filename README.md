@@ -123,19 +123,43 @@ This lib strives to make .NET engine to load native code in isolated maner.
 * Enumerate DLL exports
 * Make custom resources sample and read this.
 * Try to do with resources what WinRT did. Embeed CLI metadata describing reg free COM component, generate manifest from it, and create COM, use Metadata Interfaces. http://msdn.microsoft.com/en-us/library/ms233411.aspx.
-* Make delegates for all standarts DEFs( DLL, COM)
+* Make delegates for all standards DEFs( DLL, COM)
 * Fake registration out of process ROT client instead of using proxy
-* Tune Runtime reg samples to use only less resticted registy hives
+* Tune Runtime reg samples to use only less restricted registry hives
 * Add dependency conflicts for managed and for native and resolve both by SxS manifests tests
 * Imitate AppDomains based on runtime binding
 * Add PE code (detecting managed headers, DEF and COM headers).
 * Research how  api-ms-win-core can be employed for isolation http://www.nirsoft.net/articles/windows_7_kernel_architecture_changes.html
 
 
-## Other semi automaic approaches of doing native interop
+## Other semi automatic approaches of doing native interop
 
 * C++/CLI
-* IDL COM ATL Wizards
+* IDL COM ATL Wizards, tlbimp
 * C++/CX, WRL
 * SWIG
-* CXXI (Linux tech)
+* CXXI (Linux, gcc)
+* CppSharp (https://github.com/mono/CppSharp, clang)
+* http://www.xinterop.com/
+
+##Q&A
+
+Q: If I want to load some DLLs of which are there inside "Program" folder, using Regfree way?
+A:
+If just dll then 
+```csharp
+            var program = Path.GetFullPath("Program");
+            var dlls = new NRegFreeCom.AssemblySystem();
+            dlls.AddSearchPath(program);
+            var dll = dlls.LoadFrom(Path.Combine(program, "MyDll.dll"));
+```
+If want COM object 
+```csharp
+            var manifest = Path.Combine(program, "MyDll.dll.manifest");
+            NRegFreeCom.ActivationContext.UsingManifestDo(manifest,
+                                                          () =>
+                                                              {
+                                                                  IMyCom comObj = new MyCom();// COM object with manifest
+                                                              });
+```
+COM will load all dll dependencies mentioned in manifest automatically if these are located in the same folder (and with manifests if have).

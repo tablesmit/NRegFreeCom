@@ -135,7 +135,7 @@ namespace NRegFreeCom.Tests
         [ExpectedException(typeof(BadImageFormatException))]
         public void LoadFrom_32BitsLoads64BitsDll()
         {
-            Assert.AreEqual(4, IntPtr.Size );
+            Assert.AreEqual(4, IntPtr.Size);
             var loader = new AssemblySystem();
             var dll64 = Path.Combine(loader.BaseDirectory, loader.x64Directory, "RegFreeComResources.dll");
             loader.LoadFrom(dll64);
@@ -143,7 +143,7 @@ namespace NRegFreeCom.Tests
 
 
 
-   
+
         [Test]
         public void Load_32BitsLoads64BitsCompiledResource()
         {
@@ -187,7 +187,7 @@ namespace NRegFreeCom.Tests
             var module = loader.ReflectionOnlyLoadFrom(dll64);
             var result = module.LoadStringTableResource(102);
             Assert.IsNotNullOrEmpty(result);
- 
+
             module.Dispose();
             loader.Dispose();
         }

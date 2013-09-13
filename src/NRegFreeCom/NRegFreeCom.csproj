@@ -59,6 +59,7 @@
     <Compile Include="IAssembly.cs" />
     <Compile Include="IAssemblySystem.cs" />
     <Compile Include="IDispatcher.cs" />
+    <Compile Include="PathAppender.cs" />
     <Compile Include="PEHeaderReader.cs" />
     <Compile Include="Properties\PackagingInfo.cs" />
     <Compile Include="ReferenceCountedObject.cs" />
