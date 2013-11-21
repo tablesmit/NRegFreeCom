@@ -42,12 +42,12 @@ namespace NRegFreeCom
 
    
         /// <summary>
-        /// Applies content of <paramref name="manifest"/> file to current context, invokes <paramref name="thingToDo"/> delegate, deactives applied context.
+        /// Applies content of <paramref name="pathToManifest"/> file to current context, invokes <paramref name="thingToDo"/> delegate, deactivates applied context.
         /// </summary>
-        /// <param name="manifest"></param>
+        /// <param name="pathToManifest"></param>
         /// <param name="thingToDo"></param>
         /// <exception cref="FileNotFoundException"></exception>
-        public static void UsingManifestDo(string manifest, doSomething thingToDo)
+        public static void UsingManifestDo(string pathToManifest, doSomething thingToDo)
         {
             var context = new ACTCTX();
             context.cbSize = Marshal.SizeOf(typeof(ACTCTX));
@@ -57,7 +57,7 @@ namespace NRegFreeCom
             {
                 throw new Exception("ACTCTX.cbSize is wrong");
             }
-            context.lpSource = manifest;
+            context.lpSource = pathToManifest;
 
             IntPtr hActCtx = NativeMethods.CreateActCtx(ref context);
             if (hActCtx == Constants.INVALID_HANDLE_VALUE)
@@ -65,7 +65,7 @@ namespace NRegFreeCom
                 var error = Marshal.GetLastWin32Error();
                 if (error == SYSTEM_ERROR_CODES.ERROR_FILE_NOT_FOUND)
                 {
-                    throw new System.IO.FileNotFoundException("Failed to find manifest", manifest);
+                    throw new System.IO.FileNotFoundException("Failed to find manifest", pathToManifest);
                 }
                 throw new Win32Exception(error);
             }
@@ -104,12 +104,12 @@ namespace NRegFreeCom
         }
 
         /// <summary>
-        /// Create COM class instance directly without using any COM Activation or thread Marshaling services.
+        /// Creates  COM class instance directly without using any COM Activation or thread Marshaling services.
         /// </summary>
         /// <param name="libraryModule"></param>
         /// <param name="clsid"></param>
         /// <returns></returns>
-        public static object CreateInstance(NRegFreeCom.IAssembly libraryModule, Guid clsid)
+        public static object CreateInstanceDirectly(NRegFreeCom.IAssembly libraryModule, Guid clsid)
         {
             var classFactory = GetClassFactory(libraryModule, clsid);
             var iid = new Guid(WELL_KNOWN_IIDS.IID_IUnknown);

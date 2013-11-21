@@ -2050,19 +2050,27 @@
         </member>
         <member name="M:NRegFreeCom.ActivationContext.UsingManifestDo(System.String,NRegFreeCom.ActivationContext.doSomething)">
             <summary>
-            Applies content of <paramref name="manifest"/> file to current context, invokes <paramref name="thingToDo"/> delegate, deactives applied context.
+            Applies content of <paramref name="pathToManifest"/> file to current context, invokes <paramref name="thingToDo"/> delegate, deactivates applied context.
             </summary>
-            <param name="manifest"></param>
+            <param name="pathToManifest"></param>
             <param name="thingToDo"></param>
             <exception cref="T:System.IO.FileNotFoundException"></exception>
         </member>
         <member name="M:NRegFreeCom.ActivationContext.UsingAssemblyManifestDo(System.Reflection.Assembly,NRegFreeCom.ActivationContext.doSomething)">
             <summary>
             Given CLR assembly search manifest of it located in the same folder with .manifest suffix.
-            Activates maniest found, invokes <paramref name="thingToDo"/> delegate, deactives applied context. 
+            Activates manifest found, invokes <paramref name="thingToDo"/> delegate, deactivates applied context. 
             </summary>
             <param name="assembly"></param>
             <param name="action"></param>
+        </member>
+        <member name="M:NRegFreeCom.ActivationContext.CreateInstanceDirectly(NRegFreeCom.IAssembly,System.Guid)">
+            <summary>
+            Creates  COM class instance directly without using any COM Activation or thread Marshaling services.
+            </summary>
+            <param name="libraryModule"></param>
+            <param name="clsid"></param>
+            <returns></returns>
         </member>
         <member name="F:NRegFreeCom.Interop.WELL_KNOWN_IIDS.IID_IUnknown">
             <summary>

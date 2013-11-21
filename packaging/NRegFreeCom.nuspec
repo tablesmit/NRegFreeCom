@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>NRegFreeCom</id>
-    <version>0.0.4.1</version>
+    <version>0.0.4.2</version>
     <authors>Dzmitry Lahoda</authors>
     <owners>dzmitry_lahoda</owners>
     <licenseUrl>http://creativecommons.org/publicdomain/zero/1.0/</licenseUrl>
@@ -11,6 +11,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>.NET wrappers for load native libraries, call C functions and COM objects without registration</description>
     <releaseNotes>
+	* 0.0.4.2
+	- added COM related methods, updated docs
 	* 0.0.4.1
 	- fixed dependant dll loading on some systems
 	* 0.0.4.0
