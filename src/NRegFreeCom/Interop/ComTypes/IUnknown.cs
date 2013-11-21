@@ -6,7 +6,7 @@ namespace NRegFreeCom.Interop.ComTypes
     [ComVisible(false)]
     [ComImport]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    [Guid("00000000-0000-0000-C000-000000000046")]
+    [Guid(WELL_KNOWN_IIDS.IID_IUnknown)]
     public interface IUnknown
     {
         IntPtr QueryInterface(ref Guid riid);

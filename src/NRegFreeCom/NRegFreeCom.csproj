@@ -55,6 +55,8 @@
     <Compile Include="Interop\ClassStyles.cs" />
     <Compile Include="Interop\CoInit.cs" />
     <Compile Include="Dispatcher.cs" />
+    <Compile Include="Interop\ComTypes\IClassFactory_AutoMarshal.cs" />
+    <Compile Include="Interop\DEF_Objbase.cs" />
     <Compile Include="Interop\HRESULTS.cs" />
     <Compile Include="IAssembly.cs" />
     <Compile Include="IAssemblySystem.cs" />
@@ -113,6 +115,7 @@
   <ItemGroup>
     <Content Include="NRegFreeCom.dll.manifest">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>

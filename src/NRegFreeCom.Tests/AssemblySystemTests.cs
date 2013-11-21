@@ -16,8 +16,6 @@ namespace NRegFreeCom.Tests
     [NUnit.Framework.TestFixture]
     public class AssemblySystemTests
     {
-
-
         [Test]
         public void LoadingDll_noSuchDll_clrAndNativeErrorAreTheSame()
         {

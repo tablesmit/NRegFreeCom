@@ -1,10 +1,14 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<assembly xmlns="urn:schemas-microsoft-com:asm.v1"
-  manifestVersion="1.0">
+<asmv1:assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <assemblyIdentity
-       name="RegFreeCom.Implementations"
+       name="RegFreeCom.Implementations.dll"
        version="1.0.0.0"
+       type="win32"
        processorArchitecture="msil" />
+  <file name = "RegFreeCom.Implementations.dll">
+    <typelib tlbid="{B102BE73-8951-4FB7-BA0D-DF4EEF74DDEA}" version="1.0" helpdir=""/>
+  </file>
+
   <clrClass
         clsid="{9C21B7EB-7E27-4405-BCE0-62B338DF83BB}"
         progid="RegFreeCom.Implementations.RegFreeLocalServer"
@@ -28,7 +32,8 @@
       <assemblyIdentity
            name="RegFreeCom.Interfaces.dll"
            version="1.0.0.0"
+          type="win32"
            processorArchitecture="msil" />
     </dependentAssembly>
   </dependency>
-</assembly>
+</asmv1:assembly>

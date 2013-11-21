@@ -119,7 +119,7 @@ namespace RegFreeCom.OutOfProcClient
             face = obj as IRegFreeComRotClass;
             if (face == null)
             {
-                NRegFreeCom.ActivationContext.UsingManifestDo("RegFreeCom.Interfaces.dll.manifest", () =>
+                NRegFreeCom.ActivationContext.UsingManifestDo("RegFreeCom.OutOfProcClient.Win32.Dependencies.manifest", () =>
                 {
 
                     face = obj as IRegFreeComRotClass;

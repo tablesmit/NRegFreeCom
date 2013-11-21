@@ -1,8 +1,17 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<assembly xmlns="urn:schemas-microsoft-com:asm.v1"
-  manifestVersion="1.0">
+<asmv1:assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <assemblyIdentity
        name="RegFreeCom.Interfaces.dll"
        version="1.0.0.0"
+	    type="win32"
        processorArchitecture="msil" />
-</assembly>
+  <file name = "RegFreeCom.Interfaces.dll">
+    <typelib tlbid="{84C290CB-B907-4006-A53D-3C60E4DB30D6}" version="1.0" helpdir=""/>
+  </file>
+  <comInterfaceExternalProxyStub
+      name="IRegFreeComRotClass "
+        iid="{A699BC89-96CF-476B-86F0-2CB63EB8C4E4}"
+      proxyStubClsid32="{00020424-0000-0000-C000-000000000046}"
+      baseInterface="{00000000-0000-0000-C000-000000000046}"
+        tlbid = "{84C290CB-B907-4006-A53D-3C60E4DB30D6}" />
+</asmv1:assembly>

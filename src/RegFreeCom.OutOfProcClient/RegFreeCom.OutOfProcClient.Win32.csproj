@@ -16,7 +16,7 @@
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationManifest>RegFreeCom.OutOfProcClient.Win32.exe.manifest</ApplicationManifest>
+    <ApplicationManifest>RegFreeCom.OutOfProcClient.Win32.Dependencies.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -93,7 +93,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="RegFreeCom.OutOfProcClient.Win32.exe.manifest">
+    <Content Include="RegFreeCom.OutOfProcClient.Win32.Dependencies.manifest">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>

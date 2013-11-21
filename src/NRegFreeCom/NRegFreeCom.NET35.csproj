@@ -65,6 +65,7 @@
     <Compile Include="Interop\ComTypes\ICallFrameEvents.cs" />
     <Compile Include="Interop\ComTypes\ICallInterceptor.cs" />
     <Compile Include="Interop\ComTypes\IClassFactory.cs" />
+    <Compile Include="Interop\ComTypes\IClassFactory_AutoMarshal.cs" />
     <Compile Include="Interop\ComTypes\IEnumOLEVERB.cs" />
     <Compile Include="Interop\ComTypes\IGlobalInterfaceTable.cs" />
     <Compile Include="Interop\ComTypes\IMessageFilter.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Interop\ComTypes\IUnknown.cs" />
     <Compile Include="Interop\Constants.cs" />
     <Compile Include="Interop\DEF.cs" />
+    <Compile Include="Interop\DEF_Objbase.cs" />
     <Compile Include="Interop\DIRECTORY_FLAGS.cs" />
     <Compile Include="Interop\ENUMRESNAMEPROC.cs" />
     <Compile Include="Interop\FDW_REASONS.cs" />

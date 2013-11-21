@@ -111,13 +111,15 @@ See tests and samples in code for other functional (like inter process communica
 
 ### Isolation and integration
 
- Native code does not have AppDomains, but there are 3 technologies which helps to solve problems of conflicting components:
+  Native code does not have AppDomains and have static linking for isolation. There are technologies which helps to solve/mitigate problems of conflicting components while dynamic linking of native components:
 * Windows provided features like Activation Contexts, application `manifest`s, `dll.2.config`, dynamic and controlled libraries loading and symbols binding, SxS
+* EasyHook - The reinvention of Windows API Hooking https://easyhook.codeplex.com/
+  
+  Isolation can be achieved by design:
 * Multiprocess architecture
 * There are Dependency Injection and Inversion of Control tools for C++, but because of lack of runtime metadata in native code by default not so powerful as in .NET
-* EasyHook - The reinvention of Windows API Hooking https://easyhook.codeplex.com/
 
-This lib strives to make .NET engine to load native code in isolated maner.
+This lib strives to make .NET engine to load native code in isolated manner.
 
 ## TODO:
 * Enumerate DLL exports
@@ -140,6 +142,7 @@ This lib strives to make .NET engine to load native code in isolated maner.
 * SWIG
 * CXXI (Linux, gcc)
 * CppSharp (https://github.com/mono/CppSharp, clang)
+* http://clrinterop.codeplex.com/
 * http://www.xinterop.com/
 
 ##Q&A

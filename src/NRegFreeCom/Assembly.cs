@@ -163,7 +163,9 @@ namespace NRegFreeCom
             {
                 _disposed = true;
                 NativeMethods.FreeLibrary(_hModule);
+                GC.SuppressFinalize(this);
             }
+
         }
     }
 }

@@ -1,15 +1,10 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
+
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using EasyHook;
+
 using NRegFreeCom;
 using NUnit.Framework;
-using RegFreeCom;
+
 using RegFreeCom.Implementations;
 using RegFreeCom.Interfaces;
 using ActivationContext = NRegFreeCom.ActivationContext;
@@ -19,7 +14,7 @@ using Assembly = NRegFreeCom.Assembly;
 namespace CsComWin32
 {
 
-    public class Program : EasyHook.IEntryPoint
+    public class Program 
     {
         private static ISimpleObject _service;
         private static IntPtr _pointer;
@@ -27,12 +22,6 @@ namespace CsComWin32
 
         [UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall)]
         public delegate int Initialize(IntPtr service);
-
-        
-        [UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall)]
-        public delegate int ReadRegistry();
-
-        
 
         [UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall)]
         public delegate int GetComInterface( // marshal generic array of items
@@ -51,21 +40,11 @@ namespace CsComWin32
         [STAThread]
         static void Main(string[] args)
         {
-
             var p = new Program();
 
-            //hook
-     
-            var CreateFileHook = LocalHook.Create(
-               LocalHook.GetProcAddress("kernel32.dll", "CreateFileW"),
-               new DCreateFile(CreateFile_Hooked),
-               p);
-            CreateFileHook.ThreadACL.SetExclusiveACL(new Int32[] { 0 });
+
 
             var loader = new AssemblySystem();
-            var nativeLibrary = loader.LoadFrom(loader.GetAnyCpuPath(loader.BaseDirectory), "NativeLibrary");
-            var registry = nativeLibrary.GetDelegate<ReadRegistry>();
-            registry.Invoke();
 
            
             var module = loader.LoadFrom(loader.GetAnyCpuPath(loader.BaseDirectory), "RegFreeComNativeConsumer.dll");
@@ -85,8 +64,6 @@ namespace CsComWin32
 
             EnsureGC();
             _service.RaiseEnsureGCIsNotObstacle();
-
-      
 
             // return string from C
 
@@ -112,60 +89,7 @@ namespace CsComWin32
 
             Console.ReadKey();
         }
-          [UnmanagedFunctionPointer(CallingConvention.StdCall,
-            CharSet = CharSet.Unicode,
-            SetLastError = true)]
-        delegate IntPtr DCreateFile(
-            String InFileName,
-            UInt32 InDesiredAccess,
-            UInt32 InShareMode,
-            IntPtr InSecurityAttributes,
-            UInt32 InCreationDisposition,
-            UInt32 InFlagsAndAttributes,
-            IntPtr InTemplateFile);
 
-        // just use a P-Invoke implementation to get native API access
-        // from C# (this step is not necessary for C++.NET)
-        [DllImport("kernel32.dll",
-            CharSet = CharSet.Unicode,
-            SetLastError = true,
-            CallingConvention = CallingConvention.StdCall)]
-        static extern IntPtr CreateFile(
-            String InFileName,
-            UInt32 InDesiredAccess,
-            UInt32 InShareMode,
-            IntPtr InSecurityAttributes,
-            UInt32 InCreationDisposition,
-            UInt32 InFlagsAndAttributes,
-            IntPtr InTemplateFile);
-
-        // this is where we are intercepting all file accesses!
-        static IntPtr CreateFile_Hooked(
-            String InFileName,
-            UInt32 InDesiredAccess,
-            UInt32 InShareMode,
-            IntPtr InSecurityAttributes,
-            UInt32 InCreationDisposition,
-            UInt32 InFlagsAndAttributes,
-            IntPtr InTemplateFile)
-        {
-            _wasHooked = true;
-
-            return CreateFile(InFileName,
-                              InDesiredAccess,
-                              InShareMode,
-                              InSecurityAttributes,
-                              InCreationDisposition,
-                              InFlagsAndAttributes,
-                              InTemplateFile);
-        }
-    
-
-
-        public class RegistyEasyHook:EasyHook.IEntryPoint 
-        {
-            
-        }
 
         private static void EnsureGC()
         {
@@ -175,12 +99,6 @@ namespace CsComWin32
             GC.WaitForPendingFinalizers();
             GC.Collect();
         }
-
-
-
-
-
-
 
     }
 }

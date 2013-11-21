@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using NRegFreeCom.Interop;
+using NRegFreeCom.Interop.ComTypes;
 
 namespace NRegFreeCom
 {
@@ -14,6 +15,8 @@ namespace NRegFreeCom
     ///<seealso href="http://www.atalasoft.com/blogs/spikemclarty/february-2012/dynamically-testing-an-activex-control-from-c-and"/>
     public class ActivationContext
     {
+
+        public delegate void doSomething();
 
         /// <summary>
         /// Create an instance of a COM object given the GUID of its class
@@ -37,8 +40,7 @@ namespace NRegFreeCom
             return comob;
         }
 
-        public delegate void doSomething();
-
+   
         /// <summary>
         /// Applies content of <paramref name="manifest"/> file to current context, invokes <paramref name="thingToDo"/> delegate, deactives applied context.
         /// </summary>
@@ -47,7 +49,7 @@ namespace NRegFreeCom
         /// <exception cref="FileNotFoundException"></exception>
         public static void UsingManifestDo(string manifest, doSomething thingToDo)
         {
-            ACTCTX context = new ACTCTX();
+            var context = new ACTCTX();
             context.cbSize = Marshal.SizeOf(typeof(ACTCTX));
             bool wrongContextStructure = (context.cbSize != 0x20 && IntPtr.Size == 4) // ensure stucture is right on 32 bits
                                   || (context.cbSize != 52 && IntPtr.Size == 8); // the same for 64 bits
@@ -91,7 +93,7 @@ namespace NRegFreeCom
 
         /// <summary>
         /// Given CLR assembly search manifest of it located in the same folder with .manifest suffix.
-        /// Activates maniest found, invokes <paramref name="thingToDo"/> delegate, deactives applied context. 
+        /// Activates manifest found, invokes <paramref name="thingToDo"/> delegate, deactivates applied context. 
         /// </summary>
         /// <param name="assembly"></param>
         /// <param name="action"></param>
@@ -100,5 +102,34 @@ namespace NRegFreeCom
             var manifest = assembly.Location + ".manifest";
             UsingManifestDo(manifest, action);
         }
+
+        /// <summary>
+        /// Create COM class instance directly without using any COM Activation or thread Marshaling services.
+        /// </summary>
+        /// <param name="libraryModule"></param>
+        /// <param name="clsid"></param>
+        /// <returns></returns>
+        public static object CreateInstance(NRegFreeCom.IAssembly libraryModule, Guid clsid)
+        {
+            var classFactory = GetClassFactory(libraryModule, clsid);
+            var iid = new Guid(WELL_KNOWN_IIDS.IID_IUnknown);
+            object obj;
+            classFactory.CreateInstance(IntPtr.Zero, ref iid, out obj);
+            return obj;
+        }
+
+        private static IClassFactory_AutoMarshal GetClassFactory(NRegFreeCom.IAssembly libraryModule, Guid clsid)
+        {
+            var getClassFactory = libraryModule.GetDelegate<DEF_Objbase.DllGetClassObject>();
+            var classFactoryIid = new Guid(WELL_KNOWN_IIDS.IID_IClassFactory);
+            IClassFactory_AutoMarshal classFactory;
+            var hresult = getClassFactory(ref clsid, ref classFactoryIid, out classFactory);
+            if (hresult != 0)
+            {
+                throw new Win32Exception(hresult, string.Concat("Cannot create class factory for {0}", clsid));
+            }
+            return classFactory;
+        }
+
     }
 }
