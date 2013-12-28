@@ -40,6 +40,7 @@
     <AssemblyOriginatorKeyFile>NRegFreeCom.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CustomMarshalers" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,6 +52,7 @@
     <Compile Include="ActivationContext.cs" />
     <Compile Include="Assembly.cs" />
     <Compile Include="AssemblySystem.cs" />
+    <Compile Include="ComDispatchUtility.cs" />
     <Compile Include="ComExceptionChecker.cs" />
     <Compile Include="Dispatcher.cs" />
     <Compile Include="IAssembly.cs" />
@@ -66,6 +68,7 @@
     <Compile Include="Interop\ComTypes\ICallInterceptor.cs" />
     <Compile Include="Interop\ComTypes\IClassFactory.cs" />
     <Compile Include="Interop\ComTypes\IClassFactory_AutoMarshal.cs" />
+    <Compile Include="Interop\ComTypes\IDispatch.cs" />
     <Compile Include="Interop\ComTypes\IEnumOLEVERB.cs" />
     <Compile Include="Interop\ComTypes\IGlobalInterfaceTable.cs" />
     <Compile Include="Interop\ComTypes\IMessageFilter.cs" />
@@ -91,6 +94,7 @@
     <Compile Include="Interop\REGCLS.cs" />
     <Compile Include="Interop\RESOURCE_TYPES.cs" />
     <Compile Include="Interop\ROTFLAGS.cs" />
+    <Compile Include="Interop\SafeLibraryHandle.cs" />
     <Compile Include="Interop\SIZEL.cs" />
     <Compile Include="Interop\SYSTEM_ERROR_CODES.cs" />
     <Compile Include="Interop\WELL_KNOWN_IIDS.cs" />
@@ -100,7 +104,7 @@
     <Compile Include="Interop\WNDCLASS.cs" />
     <Compile Include="Interop\WndProc.cs" />
     <Compile Include="PathAppender.cs" />
-    <Compile Include="PEHeaderReader.cs" />
+    <Compile Include="PortableExecutableHeaderReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\PackagingInfo.cs" />
     <Compile Include="ReferenceCountedObject.cs" />

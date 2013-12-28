@@ -5,7 +5,8 @@
         public static string Append(string paths, string directory)
         {
             var newPaths = paths;
-            if (!newPaths.Contains(directory)) //TODO: normalize PATH before search, what is impact of duplication?
+            //we do not normalize PATH before search, can add already existing path
+            if (!newPaths.Contains(directory)) 
             {
                 const string delimeter = ";";
                 newPaths = newPaths.TrimEnd(' ', '\t');

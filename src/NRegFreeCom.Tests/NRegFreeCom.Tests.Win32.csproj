@@ -78,7 +78,7 @@
     <Compile Include="DispatcherTests.cs" />
     <Compile Include="NativeMethodsTests.cs" />
     <Compile Include="PathAppenderTests.cs" />
-    <Compile Include="PEHeaderReaderTests.cs" />
+    <Compile Include="PortableExecutableHeaderReaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RotRegFreeComInvokerTests.cs" />
     <Compile Include="StaComCrossThreadInvokerTests.cs" />

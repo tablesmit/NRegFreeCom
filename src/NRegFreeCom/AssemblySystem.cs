@@ -18,6 +18,7 @@ namespace NRegFreeCom
     /// Instance methods are not thread safe.
     /// </remarks>
     //TODO: create UnsafeAssemblySystem which does not integrity checking and path normalization
+    //TODO: create SynchrnousAssemblySystem
     public class AssemblySystem : IAssemblySystem, IDisposable
     {
         /// <summary>
@@ -80,26 +81,26 @@ namespace NRegFreeCom
         public IAssembly LoadFrom(string path)
         {
             path = normalize(path);//fixes problem with dot in paths like "C:/."
-            IntPtr hModule;
+            SafeLibraryHandle hModule;
             if (supportsCustomSearch)
             {
                 var flags = LOAD_LIBRARY_FLAGS.LOAD_LIBRARY_SEARCH_DEFAULT_DIRS |
                             LOAD_LIBRARY_FLAGS.LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR;
 
-                hModule = NativeMethods.LoadLibraryEx(path, IntPtr.Zero, flags);
+                hModule = NativeMethods.LoadLibraryEx_Marshaled(path, IntPtr.Zero, flags);
             }
             else
             {
-                hModule = NativeMethods.LoadLibraryEx(path, IntPtr.Zero, 0);
+                hModule = NativeMethods.LoadLibraryEx_Marshaled(path, IntPtr.Zero, 0);
             }
 
             ThrowOnError(path, hModule);
             return new Assembly(hModule, Path.GetFileName(path), path);
         }
 
-        private static void ThrowOnError(string path, IntPtr hModule)
+        private static void ThrowOnError(string path, SafeLibraryHandle hModule)
         {
-            if (hModule == IntPtr.Zero)
+            if (hModule.IsInvalid)
             {
                 var error = Marshal.GetLastWin32Error();
                 var ex = new Win32Exception(error);
@@ -206,8 +207,15 @@ namespace NRegFreeCom
 
         public void Dispose()
         {
-            //TODO: clean up cookies
-            //TODO: remember and dispose all native handles
+            foreach (var dirCookie in _dirCookies)
+            {
+                NativeMethods.RemoveDllDirectory(dirCookie.Key);
+            }
+            _dirCookies.Clear();
+
+            //TODO: how to remove paths appended cause we can deleted some other paths added?
+            _directories.Clear();
+            
         }
 
         public IAssembly ReflectionOnlyLoadFrom(string path)
@@ -218,7 +226,7 @@ namespace NRegFreeCom
             //TODO: I think it is .NET design to be safe if possible
             var flags = LOAD_LIBRARY_FLAGS.LOAD_LIBRARY_AS_DATAFILE;
 
-            var hModule = NativeMethods.LoadLibraryEx(path, IntPtr.Zero, flags);
+            var hModule = NativeMethods.LoadLibraryEx_Marshaled(path, IntPtr.Zero, flags);
             return new Assembly(hModule, Path.GetFileName(path), path);
         }
     }

@@ -1,30 +1,23 @@
-﻿#region Using Directives
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
+﻿using System;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Security.Permissions;
+using NRegFreeCom.Interop.ComTypes;
 
-#endregion
-
-namespace TestDispatchUtility
+namespace NRegFreeCom
 {
     ///www.codeproject.com/Articles/523417/Reflection-with-IDispatch-based-COM-objects
     /// <summary>
     /// Provides helper methods for working with COM IDispatch objects that have a registered type library.
     /// </summary>
-    public static class DispatchUtility
+    public static class ComDispatchUtility
     {
-        #region Private Constants
+
 
         private const int S_OK = 0; //From WinError.h
         private const int LOCALE_SYSTEM_DEFAULT = 2 << 10; //From WinNT.h == 2048 == 0x800
 
-        #endregion
 
-        #region Public Methods
 
         /// <summary>
         /// Gets whether the specified object implements IDispatch.
@@ -33,7 +26,7 @@ namespace TestDispatchUtility
         /// <returns>True if the object implements IDispatch.  False otherwise.</returns>
         public static bool ImplementsIDispatch(object obj)
         {
-            bool result = obj is IDispatchInfo;
+            bool result = obj is IDispatch;
             return result;
         }
 
@@ -47,8 +40,8 @@ namespace TestDispatchUtility
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public static Type GetType(object obj, bool throwIfNotFound)
         {
-            RequireReference(obj, "obj");
-            Type result = GetType((IDispatchInfo)obj, throwIfNotFound);
+            requireReference(obj, "obj");
+            Type result = getType((IDispatch)obj, throwIfNotFound);
             return result;
         }
 
@@ -64,8 +57,8 @@ namespace TestDispatchUtility
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public static bool TryGetDispId(object obj, string name, out int dispId)
         {
-            RequireReference(obj, "obj");
-            bool result = TryGetDispId((IDispatchInfo)obj, name, out dispId);
+            requireReference(obj, "obj");
+            bool result = tryGetDispId((IDispatch)obj, name, out dispId);
             return result;
         }
 
@@ -99,16 +92,12 @@ namespace TestDispatchUtility
         /// </remarks>
         public static object Invoke(object obj, string memberName, object[] args)
         {
-            RequireReference(obj, "obj");
+            requireReference(obj, "obj");
             Type type = obj.GetType();
             object result = type.InvokeMember(memberName, BindingFlags.InvokeMethod | BindingFlags.GetProperty,
                 null, obj, args, null);
             return result;
         }
-
-        #endregion
-
-        #region Private Methods
 
         /// <summary>
         /// Requires that the value is non-null.
@@ -116,7 +105,7 @@ namespace TestDispatchUtility
         /// <typeparam name="T">The type of the value.</typeparam>
         /// <param name="value">The value to check.</param>
         /// <param name="name">The name of the value.</param>
-        private static void RequireReference<T>(T value, string name) where T : class
+        private static void requireReference<T>(T value, string name) where T : class
         {
             if (value == null)
             {
@@ -130,9 +119,9 @@ namespace TestDispatchUtility
         /// <param name="dispatch">An object that implements IDispatch.</param>
         /// <param name="throwIfNotFound">Whether an exception should be thrown if a Type can't be obtained.</param>
         /// <returns>A .NET Type that can be used with reflection.</returns>
-        private static Type GetType(IDispatchInfo dispatch, bool throwIfNotFound)
+        private static Type getType(IDispatch dispatch, bool throwIfNotFound)
         {
-            RequireReference(dispatch, "dispatch");
+            requireReference(dispatch, "dispatch");
 
             Type result = null;
             int typeInfoCount;
@@ -165,10 +154,10 @@ namespace TestDispatchUtility
         /// <param name="dispId">If the method returns true, this holds the DISPID on output.
         /// If the method returns false, this value should be ignored.</param>
         /// <returns>True if the member was found and resolved to a DISPID.  False otherwise.</returns>
-        private static bool TryGetDispId(IDispatchInfo dispatch, string name, out int dispId)
+        private static bool tryGetDispId(IDispatch dispatch, string name, out int dispId)
         {
-            RequireReference(dispatch, "dispatch");
-            RequireReference(name, "name");
+            requireReference(dispatch, "dispatch");
+            requireReference(name, "name");
 
             bool result = false;
 
@@ -176,7 +165,7 @@ namespace TestDispatchUtility
             // pass the default locale instead of looking up the current thread's LCID each time
             // (via CultureInfo.CurrentCulture.LCID).
             Guid iidNull = Guid.Empty;
-            int hr = dispatch.GetDispId(ref iidNull, ref name, 1, LOCALE_SYSTEM_DEFAULT, out dispId);
+            int hr = dispatch.GetIDsOfNames(ref iidNull, ref name, 1, LOCALE_SYSTEM_DEFAULT, out dispId);
 
             const int DISP_E_UNKNOWNNAME = unchecked((int)0x80020006); //From WinError.h
             const int DISPID_UNKNOWN = -1; //From OAIdl.idl
@@ -198,9 +187,5 @@ namespace TestDispatchUtility
 
             return result;
         }
-
-        #endregion
-
-     
     }
 }

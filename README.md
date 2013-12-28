@@ -132,7 +132,7 @@ This lib strives to make .NET engine to load native code in isolated manner.
 * Imitate AppDomains based on runtime binding
 * Add PE code (detecting managed headers, DEF and COM headers).
 * Research how  api-ms-win-core can be employed for isolation http://www.nirsoft.net/articles/windows_7_kernel_architecture_changes.html
-
+* Add WPF like ComponentDispatcher
 
 ## Other semi automatic approaches of doing native interop
 

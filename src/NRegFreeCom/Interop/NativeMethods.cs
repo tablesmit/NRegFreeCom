@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Security;
@@ -204,13 +205,15 @@ namespace NRegFreeCom.Interop
 
 
 
-        [DllImport("kernel32.dll", EntryPoint = "LoadAnyCpuLibrary", SetLastError = true)]
-        public static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPStr)] string lpLibFileName);
+        [DllImport("kernel32.dll", EntryPoint = "LoadLibrary", SetLastError = true)]
+        public static extern SafeLibraryHandle LoadLibrary_Marshaled([MarshalAs(UnmanagedType.LPStr)] string lpLibFileName);
 
 
 
         [DllImport("kernel32.dll", EntryPoint = "GetProcAddress", SetLastError = true)]
         public static extern IntPtr GetProcAddress(IntPtr hModule, [MarshalAs(UnmanagedType.LPStr)] string lpProcName);
+
+   
 
         [DllImport("kernel32.dll", EntryPoint = "FreeLibrary", SetLastError = true)]
         public static extern bool FreeLibrary(int hModule);
@@ -232,6 +235,10 @@ namespace NRegFreeCom.Interop
         /// <returns></returns>
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr LoadLibraryEx(string lpFileName, IntPtr hFile, LOAD_LIBRARY_FLAGS dwFlags);
+
+        [DllImport("kernel32.dll", SetLastError = true,EntryPoint = "LoadLibraryEx")]
+        public static extern SafeLibraryHandle LoadLibraryEx_Marshaled(string lpFileName, IntPtr hFile, LOAD_LIBRARY_FLAGS dwFlags);
+        
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool FreeLibrary(IntPtr hModule);

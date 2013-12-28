@@ -13,10 +13,8 @@ namespace NRegFreeCom
     /// Reads in the header information of the Portable Executable format.
     /// Provides information such as the date the assembly was compiled.
     /// </summary>
-    public class PeHeaderReader
+    public class PortableExecutableHeaderReader
     {
-        #region File Header Structures
-
         public struct IMAGE_DOS_HEADER
         {      // DOS .EXE header
             public UInt16 e_magic;              // Magic number
@@ -380,10 +378,6 @@ namespace NRegFreeCom
             MemoryWrite = 0x80000000
         }
 
-        #endregion File Header Structures
-
-        #region Private Fields
-
         /// <summary>
         /// The DOS header
         /// </summary>
@@ -405,68 +399,50 @@ namespace NRegFreeCom
         /// </summary>
         private IMAGE_SECTION_HEADER[] imageSectionHeaders;
 
-        #endregion Private Fields
 
-        #region Public Methods
-
-        public PeHeaderReader(string filePath)
+        public PortableExecutableHeaderReader(string filePath)
         {
             // Read in the DLL or EXE and get the timestamp
-            using (FileStream stream = new FileStream(filePath, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+            using (var stream = new FileStream(filePath, System.IO.FileMode.Open, System.IO.FileAccess.Read))
             {
-                BinaryReader reader = new BinaryReader(stream);
-                dosHeader = FromBinaryReader<IMAGE_DOS_HEADER>(reader);
-
-                // Add 4 bytes to the offset
-                stream.Seek(dosHeader.e_lfanew, SeekOrigin.Begin);
-
-                UInt32 ntHeadersSignature = reader.ReadUInt32();
-                fileHeader = FromBinaryReader<IMAGE_FILE_HEADER>(reader);
-                if (this.Is32BitHeader)
-                {
-                    optionalHeader32 = FromBinaryReader<IMAGE_OPTIONAL_HEADER32>(reader);
-                }
-                else
-                {
-                    optionalHeader64 = FromBinaryReader<IMAGE_OPTIONAL_HEADER64>(reader);
-                }
-
-                imageSectionHeaders = new IMAGE_SECTION_HEADER[fileHeader.NumberOfSections];
-                for (int headerNo = 0; headerNo < imageSectionHeaders.Length; ++headerNo)
-                {
-                    imageSectionHeaders[headerNo] = FromBinaryReader<IMAGE_SECTION_HEADER>(reader);
-                }
-
+                readOut(stream);
             }
         }
 
-        /// <summary>
-        /// Gets the header of the .NET assembly that called this function
-        /// </summary>
-        /// <returns></returns>
-        public static PeHeaderReader GetCallingAssemblyHeader()
+        public PortableExecutableHeaderReader(Stream steam)
         {
-            // Get the path to the calling assembly, which is the path to the
-            // DLL or EXE that we want the time of
-            string filePath = System.Reflection.Assembly.GetCallingAssembly().Location;
+            readOut(steam);
 
-            // Get and return the timestamp
-            return new PeHeaderReader(filePath);
         }
 
-        /// <summary>
-        /// Gets the header of the .NET assembly that called this function
-        /// </summary>
-        /// <returns></returns>
-        public static PeHeaderReader GetAssemblyHeader()
+        public void readOut(Stream stream)
         {
-            // Get the path to the calling assembly, which is the path to the
-            // DLL or EXE that we want the time of
-            string filePath = System.Reflection.Assembly.GetAssembly(typeof(PeHeaderReader)).Location;
+            var reader = new BinaryReader(stream);
 
-            // Get and return the timestamp
-            return new PeHeaderReader(filePath);
+            dosHeader = fromBinaryReader<IMAGE_DOS_HEADER>(reader);
+
+            // Add 4 bytes to the offset
+            stream.Seek(dosHeader.e_lfanew, SeekOrigin.Begin);
+
+            UInt32 ntHeadersSignature = reader.ReadUInt32();
+            fileHeader = fromBinaryReader<IMAGE_FILE_HEADER>(reader);
+            if (this.Is32BitHeader)
+            {
+                optionalHeader32 = fromBinaryReader<IMAGE_OPTIONAL_HEADER32>(reader);
+            }
+            else
+            {
+                optionalHeader64 = fromBinaryReader<IMAGE_OPTIONAL_HEADER64>(reader);
+            }
+
+            imageSectionHeaders = new IMAGE_SECTION_HEADER[fileHeader.NumberOfSections];
+            for (int headerNo = 0; headerNo < imageSectionHeaders.Length; ++headerNo)
+            {
+                imageSectionHeaders[headerNo] = fromBinaryReader<IMAGE_SECTION_HEADER>(reader);
+            }
         }
+
+
 
         /// <summary>
         /// Reads in a block from a file and converts it to the struct
@@ -475,7 +451,7 @@ namespace NRegFreeCom
         /// <typeparam name="T"></typeparam>
         /// <param name="reader"></param>
         /// <returns></returns>
-        public static T FromBinaryReader<T>(BinaryReader reader)
+        private static T fromBinaryReader<T>(BinaryReader reader)
         {
             // Read in a byte array
             byte[] bytes = reader.ReadBytes(Marshal.SizeOf(typeof(T)));
@@ -488,9 +464,6 @@ namespace NRegFreeCom
             return theStructure;
         }
 
-        #endregion Public Methods
-
-        #region Properties
 
         /// <summary>
         /// Gets if the file header is 32 bit or not
@@ -564,6 +537,5 @@ namespace NRegFreeCom
             }
         }
 
-        #endregion Properties
     }
 }

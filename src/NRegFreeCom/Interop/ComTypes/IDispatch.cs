@@ -2,31 +2,8 @@
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 
-namespace TestDispatchUtility
+namespace NRegFreeCom.Interop.ComTypes
 {
-            //  int count = 0;
-            //var run3 = run2.GetTypeInfoCount();
-            //var runn = "Run";
-            //var run4 = 0;
-
-            //var ifc = new Guid("{3D54C6B8-D283-40E0-8FAB-C97F05947EE8}");
-            ////0x8002801D
-            ////2147647517 
-            ////var run5 = run2.GetDispId(
-            ////    //new Guid("{3D54C6B8-D283-40E0-8FAB-C97F05947EE8}"), 
-            ////    clsid,
-            ////    ref runn, 1, 2048, out run4);
-            ////var u = (uint) run5;
-            //var ids = new int[1];
-            //run2.GetIDsOfNames(ref ifc,new []{"Run"},1,2048,ids);
-    [ComImport, InterfaceType(ComInterfaceType.InterfaceIsIUnknown), Guid("00020400-0000-0000-C000-000000000046")]
-    public interface IDispatch_AutoMarshal
-    {
-        int GetTypeInfoCount();
-        [return: MarshalAs(UnmanagedType.Interface)]
-        ITypeInfo GetTypeInfo([In, MarshalAs(UnmanagedType.U4)] int iTInfo, [In, MarshalAs(UnmanagedType.U4)] int lcid);
-        void GetIDsOfNames([In] ref Guid riid, [In, MarshalAs(UnmanagedType.LPArray)] string[] rgszNames, [In, MarshalAs(UnmanagedType.U4)] int cNames, [In, MarshalAs(UnmanagedType.U4)] int lcid, [Out, MarshalAs(UnmanagedType.LPArray)] int[] rgDispId);
-    }
 
     /// <summary>
     /// A partial declaration of IDispatch used to lookup Type information and DISPIDs.
@@ -42,8 +19,8 @@ namespace TestDispatchUtility
     /// </remarks>
     [ComImport]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    [Guid("00020400-0000-0000-C000-000000000046")]
-    public interface IDispatchInfo
+    [Guid(WELL_KNOWN_IIDS.IID_IDispatch)]
+    public interface IDispatch
     {
         /// <summary>
         /// Gets the number of Types that the object provides (0 or 1).
@@ -83,7 +60,7 @@ namespace TestDispatchUtility
         /// http://msdn.microsoft.com/en-us/library/6f6cf233-3481-436e-8d6a-51f93bf91619(VS.85)
         /// </remarks>
         [PreserveSig]
-        int GetDispId(ref Guid riid, ref string name, int nameCount, int lcid, out int dispId);
+        int GetIDsOfNames(ref Guid riid, ref string name, int nameCount, int lcid, out int dispId);
 
         // NOTE: The real IDispatch also has an Invoke method next, but we don't need it.
         // We can invoke methods using .NET's Type.InvokeMember method with the special

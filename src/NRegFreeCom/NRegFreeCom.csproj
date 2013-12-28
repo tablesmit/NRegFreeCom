@@ -42,6 +42,7 @@
     <AssemblyOriginatorKeyFile>NRegFreeCom.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CustomMarshalers" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -50,19 +51,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComDispatchUtility.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Interop\ACTCTX.cs" />
     <Compile Include="ActivationContext.cs" />
     <Compile Include="Interop\ClassStyles.cs" />
     <Compile Include="Interop\CoInit.cs" />
     <Compile Include="Dispatcher.cs" />
     <Compile Include="Interop\ComTypes\IClassFactory_AutoMarshal.cs" />
+    <Compile Include="Interop\ComTypes\IDispatch.cs" />
     <Compile Include="Interop\DEF_Objbase.cs" />
     <Compile Include="Interop\HRESULTS.cs" />
     <Compile Include="IAssembly.cs" />
     <Compile Include="IAssemblySystem.cs" />
     <Compile Include="IDispatcher.cs" />
+    <Compile Include="Interop\SafeLibraryHandle.cs" />
     <Compile Include="PathAppender.cs" />
-    <Compile Include="PEHeaderReader.cs" />
+    <Compile Include="PortableExecutableHeaderReader.cs" />
     <Compile Include="Properties\PackagingInfo.cs" />
     <Compile Include="ReferenceCountedObject.cs" />
     <Compile Include="Tracing.cs" />
