@@ -11,6 +11,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>.NET wrappers for load native libraries, call C functions and COM objects without registration</description>
     <releaseNotes>
+	* 0.1.2.0
+	- made changes to COM utils
 	* 0.0.4.2
 	- added COM related methods, updated docs
 	* 0.0.4.1
