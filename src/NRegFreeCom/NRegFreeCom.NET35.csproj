@@ -54,6 +54,7 @@
     <Compile Include="AssemblySystem.cs" />
     <Compile Include="ComDispatchUtility.cs" />
     <Compile Include="ComExceptionChecker.cs" />
+    <Compile Include="ComMarshall.cs" />
     <Compile Include="Dispatcher.cs" />
     <Compile Include="IAssembly.cs" />
     <Compile Include="IAssemblySystem.cs" />

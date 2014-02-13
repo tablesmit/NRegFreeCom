@@ -54,6 +54,7 @@
     <Compile Include="ComDispatchUtility.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ComMarshall.cs" />
     <Compile Include="Interop\ACTCTX.cs" />
     <Compile Include="ActivationContext.cs" />
     <Compile Include="Interop\ClassStyles.cs" />

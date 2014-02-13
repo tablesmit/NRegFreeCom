@@ -1,11 +1,8 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Runtime.Remoting;
 using System.Runtime.Remoting.Messaging;
 using System.Runtime.Remoting.Proxies;
-using NRegFreeCom.Interop;
 
 namespace NRegFreeCom
 {
@@ -22,30 +19,12 @@ namespace NRegFreeCom
     /// </remarks>
     public class RotRegFreeComInvoker : RealProxy
     {
-        /// <summary>
-        /// If COM object was passed accros AppDomains it was proxied. Better to unproxy and call real COM (its RCW).
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="instance"></param>
-        /// <returns></returns>
-        public static T GetRealObjectByProxy<T>(object instance)
-        {
-            Guid typeIdd = typeof(T).GUID;
-            IntPtr unknownPointer = Marshal.GetIUnknownForObject(instance);
-            IntPtr realPointer = IntPtr.Zero;
-            int result = Marshal.QueryInterface(unknownPointer, ref typeIdd, out realPointer);
-            if (result != SYSTEM_ERROR_CODES.ERROR_SUCCESS)
-                throw new InvalidCastException(string.Format("Failed to cast COM proxy to real object of type {0}",typeof(T)),new Win32Exception(result));
-            return (T)Marshal.GetObjectForIUnknown(realPointer);
-        }
-
-
 		public static T BindProxyInterface<T>(string rotId)
         {
 		    var com = Marshal.BindToMoniker(rotId);
             return (T)(new RotRegFreeComInvoker(com, typeof(T)).GetTransparentProxy());
         }
-		
+
         public static T ProxyInterface<T>(object com)
         {
             return (T)(new RotRegFreeComInvoker(com, typeof(T)).GetTransparentProxy());
