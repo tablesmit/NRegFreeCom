@@ -4,1011 +4,43 @@
         <name>NRegFreeCom</name>
     </assembly>
     <members>
-        <member name="T:NRegFreeCom.ActivationContext">
-            <summary>
-             Used tune activation context stack of thread for intializing and loading SxS components.
-             </summary>
-            <seealso cref="!:Microsoft.Windows.ActCtx"/>
-            <seealso href="http://www.atalasoft.com/blogs/spikemclarty/february-2012/dynamically-testing-an-activex-control-from-c-and"/>
-        </member>
-        <member name="M:NRegFreeCom.ActivationContext.CreateInstanceWithManifest(System.Guid,System.String)">
-            <summary>
-            Create an instance of a COM object given the GUID of its class
-            and a filepath of a client manifest (AKA an application manifest.)
-            </summary>
-            <param name="guid">GUID = CLSID of the COM object, {NNNN...NNN}</param>
-            <param name="manifest">full path of manifest to activate, should list the
-            desired COM class as a dependentAssembly.</param>
-            <returns>An instance of the specified COM class, or null.</returns>
-        </member>
-        <member name="M:NRegFreeCom.ActivationContext.UsingManifestDo(System.String,NRegFreeCom.ActivationContext.doSomething)">
-            <summary>
-            Applies content of <paramref name="pathToManifest"/> file to current context, invokes <paramref name="thingToDo"/> delegate, deactivates applied context.
-            </summary>
-            <param name="pathToManifest"></param>
-            <param name="thingToDo"></param>
-            <exception cref="T:System.IO.FileNotFoundException"></exception>
-        </member>
-        <member name="M:NRegFreeCom.ActivationContext.UsingAssemblyManifestDo(System.Reflection.Assembly,NRegFreeCom.ActivationContext.doSomething)">
-            <summary>
-            Given CLR assembly search manifest of it located in the same folder with .manifest suffix.
-            Activates manifest found, invokes <paramref name="thingToDo"/> delegate, deactivates applied context. 
-            </summary>
-            <param name="assembly"></param>
-            <param name="action"></param>
-        </member>
-        <member name="M:NRegFreeCom.ActivationContext.CreateInstanceDirectly(NRegFreeCom.IAssembly,System.Guid)">
-            <summary>
-            Creates  COM class instance directly without using any COM Activation or thread Marshaling services.
-            </summary>
-            <param name="libraryModule"></param>
-            <param name="clsid"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NRegFreeCom.IAssembly.LoadStringTableResource(System.UInt32)">
-            <summary>
-            Loads string table resources from assembly.
-            </summary>
-            <param name="id">The identifier of the string to be loaded.</param>
-            <returns></returns>
-            <seealso href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms647486.aspx"/>
-        </member>
-        <member name="M:NRegFreeCom.IAssembly.GetDelegate``1(System.String)">
-            <summary>
-            Gets public function from native library.
-            </summary>
-            <typeparam name="T">
-            Managed counterpart delegate of native function. 
-            If <paramref name="defName"/> not provided then <typeparamref name="T"/> <see cref="P:System.Reflection.MemberInfo.Name"/> is used for search.
-            </typeparam>
-            <paramref name="defName">Optional name of function. If not defined then name of<typeparamref name="T"/> is used</paramref>
-            <returns></returns>
-            <exception cref="T:System.EntryPointNotFoundException">No such export in library</exception>
-        </member>
-        <member name="M:NRegFreeCom.IAssembly.TryGetDelegate``1(``0@,System.String)">
-            <summary>
-            Tries to get public function from native library. Returns false if no function was found.
-            </summary>
-            <typeparam name="T">
-            Managed counterpart delegate of native function. 
-            If <paramref name="defName"/> not provided then <typeparamref name="T"/> <see cref="P:System.Reflection.MemberInfo.Name"/> is used for search.
-            </typeparam>
-            <paramref name="defName">Optional name of function. If not defined then name of<typeparamref name="T"/> is used</paramref>
-            <returns></returns>
-        </member>
-        <member name="M:NRegFreeCom.Assembly.GetDelegate``1(System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="M:NRegFreeCom.Assembly.TryGetDelegate``1(``0@,System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="T:NRegFreeCom.AssemblySystem">
-            <summary>
-            Makes working with native dlls as with .NET ones. Helps define search paths and transform errors to .NET friendly.
-            Hides differences of windows versions. 
-            </summary>
-            <remarks>
-            Potential usages - runtime search and invocation of C routines; .NET plugin model extended with native dlls.
-            Instance methods are not thread safe.
-            </remarks>
-        </member>
-        <member name="T:NRegFreeCom.IAssemblySystem">
-            <summary>
-            Makes working with native dlls as with .NET ones.
-            </summary>
-        </member>
-        <member name="M:NRegFreeCom.IAssemblySystem.GetAnyCpuPath(System.String)">
-            <summary>
-            Gets native libraries subdirectory of suitable processor architectue and bitness  for managed process (which can be Any Cpu).
-            Can be imploed in XCOPY deployment were managed code depends upon native libraries.
-            </summary>
-            <param name="directoryPath"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NRegFreeCom.IAssemblySystem.LoadFrom(System.String,System.String)">
-            <summary>
-            Loads native dll into process.
-            </summary>
-            <param name="directoryPath">Full path to directory where dll located.</param>
-            <param name="name">Name with extension of dll to load.</param>
-            <returns></returns>
-        </member>
-        <member name="M:NRegFreeCom.IAssemblySystem.ReflectionOnlyLoadFrom(System.String)">
-            <summary>
-            Loads dll into process.You cannot execute code from an assembly that has been loaded such way.
-            </summary>
-            <param name="path"></param>
-            <returns></returns>
-            <seealso href="http://msdn.microsoft.com/en-us/library/system.reflection.assembly.reflectiononlyloadfrom.aspx"/>
-        </member>
-        <member name="M:NRegFreeCom.IAssemblySystem.LoadFrom(System.String)">
-            <summary>
-            Loads native dll into process.
-            </summary>
-            <param name="path">Full path to dll file.</param>
-            <returns></returns>
-        </member>
-        <member name="M:NRegFreeCom.IAssemblySystem.AddSearchPath(System.String)">
-            <summary>
-            Adds directoy to search pathes. 
-            When this <see cref="T:NRegFreeCom.AssemblySystem"/> loads new dll then dependecies of it are looked in added paths.
-            This is  unsafe hack for XP (but works). Safe on Vista/Win7 with patch applied, it here on Win8.
-            </summary>
-            <param name="directory">Full path to directoy</param>
-            <see href="http://support.microsoft.com/kb/2533623"/>
-            <seealso href="http://msdn.microsoft.com/en-us/library/ff919712.aspx"/>
-            <seealso href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms682586.aspx"/>
-        </member>
-        <member name="F:NRegFreeCom.AssemblySystem.Win32Directory">
-            <summary>
-            Default subdirectory to search 32 bit x86  dlls for <see cref="M:NRegFreeCom.AssemblySystem.GetAnyCpuPath(System.String)"/> .
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.AssemblySystem.x64Directory">
-            <summary>
-            Default subdirectory to search 64 bit x86  dlls for <see cref="M:NRegFreeCom.AssemblySystem.GetAnyCpuPath(System.String)"/> .
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.AssemblySystem._systemSupportsPatch">
-            Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008: 
-              To use this function in an application, call GetProcAddress to retrieve the function's address from Kernel32.dll. 
-             KB2533623 must be installed on the target platform.
-        </member>
-        <member name="M:NRegFreeCom.AssemblySystem.GetAnyCpuPath(System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="M:NRegFreeCom.AssemblySystem.LoadFrom(System.String,System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="M:NRegFreeCom.AssemblySystem.LoadFrom(System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="M:NRegFreeCom.AssemblySystem.AddSearchPath(System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="T:NRegFreeCom.ComDispatchUtility">
-            www.codeproject.com/Articles/523417/Reflection-with-IDispatch-based-COM-objects
-             <summary>
-             Provides helper methods for working with COM IDispatch objects that have a registered type library.
-             </summary>
-        </member>
-        <member name="M:NRegFreeCom.ComDispatchUtility.ImplementsIDispatch(System.Object)">
-            <summary>
-            Gets whether the specified object implements IDispatch.
-            </summary>
-            <param name="obj">An object to check.</param>
-            <returns>True if the object implements IDispatch.  False otherwise.</returns>
-        </member>
-        <member name="M:NRegFreeCom.ComDispatchUtility.GetType(System.Object,System.Boolean)">
-            <summary>
-            Gets a Type that can be used with reflection.
-            </summary>
-            <param name="obj">An object that implements IDispatch.</param>
-            <param name="throwIfNotFound">Whether an exception should be thrown if a Type can't be obtained.</param>
-            <returns>A .NET Type that can be used with reflection.</returns>
-            <exception cref="T:System.InvalidCastException">If <paramref name="obj"/> doesn't implement IDispatch.</exception>
-        </member>
-        <member name="M:NRegFreeCom.ComDispatchUtility.TryGetDispId(System.Object,System.String,System.Int32@)">
-            <summary>
-            Tries to get the DISPID for the requested member name.
-            </summary>
-            <param name="obj">An object that implements IDispatch.</param>
-            <param name="name">The name of a member to lookup.</param>
-            <param name="dispId">If the method returns true, this holds the DISPID on output.
-            If the method returns false, this value should be ignored.</param>
-            <returns>True if the member was found and resolved to a DISPID.  False otherwise.</returns>
-            <exception cref="T:System.InvalidCastException">If <paramref name="obj"/> doesn't implement IDispatch.</exception>
-        </member>
-        <member name="M:NRegFreeCom.ComDispatchUtility.Invoke(System.Object,System.Int32,System.Object[])">
-            <summary>
-            Invokes a member by DISPID.
-            </summary>
-            <param name="obj">An object that implements IDispatch.</param>
-            <param name="dispId">The DISPID of a member.  This can be obtained using
-            <see cref="M:NRegFreeCom.ComDispatchUtility.TryGetDispId(System.Object,System.String,System.Int32@)"/>.</param>
-            <param name="args">The arguments to pass to the member.</param>
-            <returns>The member's return value.</returns>
-            <remarks>
-            This can invoke a method or a property get accessor.
-            </remarks>
-        </member>
-        <member name="M:NRegFreeCom.ComDispatchUtility.Invoke(System.Object,System.String,System.Object[])">
-            <summary>
-            Invokes a member by name.
-            </summary>
-            <param name="obj">An object.</param>
-            <param name="memberName">The name of the member to invoke.</param>
-            <param name="args">The arguments to pass to the member.</param>
-            <returns>The member's return value.</returns>
-            <remarks>
-            This can invoke a method or a property get accessor.
-            </remarks>
-        </member>
-        <member name="M:NRegFreeCom.ComDispatchUtility.requireReference``1(``0,System.String)">
-            <summary>
-            Requires that the value is non-null.
-            </summary>
-            <typeparam name="T">The type of the value.</typeparam>
-            <param name="value">The value to check.</param>
-            <param name="name">The name of the value.</param>
-        </member>
-        <member name="M:NRegFreeCom.ComDispatchUtility.getType(NRegFreeCom.Interop.ComTypes.IDispatch,System.Boolean)">
-            <summary>
-            Gets a Type that can be used with reflection.
-            </summary>
-            <param name="dispatch">An object that implements IDispatch.</param>
-            <param name="throwIfNotFound">Whether an exception should be thrown if a Type can't be obtained.</param>
-            <returns>A .NET Type that can be used with reflection.</returns>
-        </member>
-        <member name="M:NRegFreeCom.ComDispatchUtility.tryGetDispId(NRegFreeCom.Interop.ComTypes.IDispatch,System.String,System.Int32@)">
-            <summary>
-            Tries to get the DISPID for the requested member name.
-            </summary>
-            <param name="dispatch">An object that implements IDispatch.</param>
-            <param name="name">The name of a member to lookup.</param>
-            <param name="dispId">If the method returns true, this holds the DISPID on output.
-            If the method returns false, this value should be ignored.</param>
-            <returns>True if the member was found and resolved to a DISPID.  False otherwise.</returns>
-        </member>
-        <member name="M:NRegFreeCom.ComMarshall.GetRealObjectByProxy``1(System.Object)">
-            <summary>
-            Gets the real COM object out of remoting proxy. If COM object was passed across AppDomains it was proxied. 
-            </summary>
-            <remarks>
-            Better to unproxy and call real COM (its RCW).
-            Fixes problem of dead COM RCW after some time withoyt any calls to COM.
-            </remarks>
-            <typeparam name="T">The type of COM object.</typeparam>
-            <param name="instance">The instance of remoting proxy.</param>
-            <returns> The instance of a type that represents a COM object.</returns>
-        </member>
-        <member name="T:NRegFreeCom.Dispatcher">
-            <summary>
-            
-            </summary>
-            <seealso cref="!:System.Windows.Threading.Dispatcher"/>
-        </member>
-        <member name="T:NRegFreeCom.IDispatcher">
-            <summary>
-            Like <see cref="!:System.Windows.Threadin.Dispatcher"/> but without WPF libs and other stuff.
-            </summary>
-        </member>
-        <member name="M:NRegFreeCom.Dispatcher.Run">
-            <summary>
-            Runs the standard message loop. The message loop quits when it receives the WM_QUIT message.
-            </summary>
-        </member>
-        <member name="T:NRegFreeCom.Interop.ACTCTX">
-            <summary>
-            Activation context structure
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.ClassStyles.ByteAlignClient">
-            <summary>Aligns the window's client area on a byte boundary (in the x direction). This style affects the width of the window and its horizontal placement on the display.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.ClassStyles.ByteAlignWindow">
-            <summary>Aligns the window on a byte boundary (in the x direction). This style affects the width of the window and its horizontal placement on the display.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.ClassStyles.ClassDC">
-            <summary>
-            Allocates one device context to be shared by all windows in the class.
-            Because window classes are process specific, it is possible for multiple threads of an application to create a window of the same class.
-            It is also possible for the threads to attempt to use the device context simultaneously. When this happens, the system allows only one thread to successfully finish its drawing operation.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.ClassStyles.DoubleClicks">
-            <summary>Sends a double-click message to the window procedure when the user double-clicks the mouse while the cursor is within a window belonging to the class.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.ClassStyles.DropShadow">
-            <summary>
-            Enables the drop shadow effect on a window. The effect is turned on and off through SPI_SETDROPSHADOW.
-            Typically, this is enabled for small, short-lived windows such as menus to emphasize their Z order relationship to other windows.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.ClassStyles.GlobalClass">
-            <summary>Indicates that the window class is an application global class. For more information, see the "Application Global Classes" section of About Window Classes.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.ClassStyles.HorizontalRedraw">
-            <summary>Redraws the entire window if a movement or size adjustment changes the width of the client area.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.ClassStyles.NoClose">
-            <summary>Disables Close on the window menu.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.ClassStyles.OwnDC">
-            <summary>Allocates a unique device context for each window in the class.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.ClassStyles.ParentDC">
-            <summary>
-            Sets the clipping rectangle of the child window to that of the parent window so that the child can draw on the parent.
-            A window with the CS_PARENTDC style bit receives a regular device context from the system's cache of device contexts.
-            It does not give the child the parent's device context or device context settings. Specifying CS_PARENTDC enhances an application's performance.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.ClassStyles.SaveBits">
-            <summary>
-            Saves, as a bitmap, the portion of the screen image obscured by a window of this class.
-            When the window is removed, the system uses the saved bitmap to restore the screen image, including other windows that were obscured.
-            Therefore, the system does not send WM_PAINT messages to windows that were obscured if the memory used by the bitmap has not been discarded and if other screen actions have not invalidated the stored image.
-            This style is useful for small windows (for example, menus or dialog boxes) that are displayed briefly and then removed before other screen activity takes place.
-            This style increases the time required to display the window, because the system must first allocate memory to store the bitmap.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.ClassStyles.VerticalRedraw">
-            <summary>Redraws the entire window if a movement or size adjustment changes the height of the client area.</summary>
-        </member>
-        <member name="T:NRegFreeCom.Interop.CLSCTX">
-            <summary>
-            Values from the CLSCTX enumeration are used in activation calls to 
-            indicate the execution contexts in which an object is to be run. These
-            values are also used in calls to CoRegisterClassObject to indicate the
-            set of execution contexts in which a class object is to be made available
-            for requests to construct instances.
-            </summary>
-        </member>
-        <member name="T:NRegFreeCom.Interop.CoInit">
-            <summary>Determines the concurrency model used for incoming calls to objects created by this thread. This concurrency model can be either apartment-threaded or multi-threaded.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.CoInit.MultiThreaded">
-            <summary>
-            Initializes the thread for apartment-threaded object concurrency.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.CoInit.ApartmentThreaded">
-            <summary>
-            Initializes the thread for multi-threaded object concurrency.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.CoInit.DisableOle1Dde">
-            <summary>
-            Disables DDE for OLE1 support.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.CoInit.SpeedOverMemory">
-            <summary>
-            Trade memory for speed.
-            </summary>
-        </member>
-        <member name="M:NRegFreeCom.Interop.ComTypes.IBytesRequestResponse.Execute(System.Byte[])">
-            <summary>
-            Allows to request COM object with bytes and be responded with bytes.
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="T:NRegFreeCom.Interop.ComTypes.IClassFactory">
-            <summary>
-            You must implement this interface for every class that you register in 
-            the system registry and to which you assign a CLSID, so objects of that
-            class can be created.
-            http://msdn.microsoft.com/en-us/library/ms694364.aspx
-            </summary>
-        </member>
-        <member name="M:NRegFreeCom.Interop.ComTypes.IClassFactory.CreateInstance(System.IntPtr,System.Guid@,System.IntPtr@)">
-            <summary>
-            Creates an uninitialized object.
-            </summary>
-            <param name="pUnkOuter"></param>
-            <param name="riid">
-            Reference to the identifier of the interface to be used to 
-            communicate with the newly created object. If pUnkOuter is NULL, this
-            parameter is frequently the IID of the initializing interface.
-            </param>
-            <param name="ppvObject">
-            Address of pointer variable that receives the interface pointer 
-            requested in riid. 
-            </param>
-            <returns>S_OK means success.</returns>
-        </member>
-        <member name="M:NRegFreeCom.Interop.ComTypes.IClassFactory.LockServer(System.Boolean)">
-            <summary>
-            Locks object application open in memory.
-            </summary>
-            <param name="fLock">
-            If TRUE, increments the lock count; 
-            if FALSE, decrements the lock count.
-            </param>
-            <returns>S_OK means success.</returns>
-        </member>
-        <member name="T:NRegFreeCom.Interop.ComTypes.IDispatch">
-            <summary>
-            A partial declaration of IDispatch used to lookup Type information and DISPIDs.
-            </summary>
-            <remarks>
-            This interface only declares the first three methods of IDispatch.  It omits the
-            fourth method (Invoke) because there are already plenty of ways to do dynamic
-            invocation in .NET.  But the first three methods provide dynamic type metadata
-            discovery, which .NET doesn't provide normally if you have a System.__ComObject
-            RCW instead of a strongly-typed RCW.
-            <para/>
-            Note: The original declaration of IDispatch is in OAIdl.idl.
-            </remarks>
-        </member>
-        <member name="M:NRegFreeCom.Interop.ComTypes.IDispatch.GetTypeInfoCount(System.Int32@)">
-            <summary>
-            Gets the number of Types that the object provides (0 or 1).
-            </summary>
-            <param name="typeInfoCount">Returns 0 or 1 for the number of Types provided by <see cref="M:NRegFreeCom.Interop.ComTypes.IDispatch.GetTypeInfo(System.Int32,System.Int32,System.Type@)"/>.</param>
-            <remarks>
-            http://msdn.microsoft.com/en-us/library/da876d53-cb8a-465c-a43e-c0eb272e2a12(VS.85)
-            </remarks>
-        </member>
-        <member name="M:NRegFreeCom.Interop.ComTypes.IDispatch.GetTypeInfo(System.Int32,System.Int32,System.Type@)">
-            <summary>
-            Gets the Type information for an object if <see cref="M:NRegFreeCom.Interop.ComTypes.IDispatch.GetTypeInfoCount(System.Int32@)"/> returned 1.
-            </summary>
-            <param name="typeInfoIndex">Must be 0.</param>
-            <param name="lcid">Typically, LOCALE_SYSTEM_DEFAULT (2048).</param>
-            <param name="typeInfo">Returns the object's Type information.</param>
-            <remarks>
-            http://msdn.microsoft.com/en-us/library/cc1ec9aa-6c40-4e70-819c-a7c6dd6b8c99(VS.85)
-            </remarks>
-        </member>
-        <member name="M:NRegFreeCom.Interop.ComTypes.IDispatch.GetIDsOfNames(System.Guid@,System.String@,System.Int32,System.Int32,System.Int32@)">
-            <summary>
-            Gets the DISPID of the specified member name.
-            </summary>
-            <param name="riid">Must be IID_NULL.  Pass a copy of Guid.Empty.</param>
-            <param name="name">The name of the member to look up.</param>
-            <param name="nameCount">Must be 1.</param>
-            <param name="lcid">Typically, LOCALE_SYSTEM_DEFAULT (2048).</param>
-            <param name="dispId">If a member with the requested <paramref name="name"/>
-            is found, this returns its DISPID and the method's return value is 0.
-            If the method returns a non-zero value, then this parameter's output value is
-            undefined.</param>
-            <returns>Zero for success. Non-zero for failure.</returns>
-            <remarks>
-            http://msdn.microsoft.com/en-us/library/6f6cf233-3481-436e-8d6a-51f93bf91619(VS.85)
-            </remarks>
-        </member>
-        <member name="T:NRegFreeCom.Interop.ComTypes.IServiceProvider">
-            <seealso href="http://msdn.microsoft.com/en-us/library/cc678965.aspx"/>
-        </member>
-        <member name="T:NRegFreeCom.Interop.DEF.DllMain">
-            <seealso href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms682583.aspx"/>
-        </member>
-        <member name="T:NRegFreeCom.Interop.LOAD_LIBRARY_FLAGS">
-            <summary>
-            
-            </summary>
-            <seealso href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms684179.aspx"/>
-        </member>
-        <member name="F:NRegFreeCom.Interop.NativeMethods.CLASS_E_NOAGGREGATION">
-            <summary>
-            Class does not support aggregation (or class object is remote)
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.NativeMethods.E_NOINTERFACE">
-            <summary>
-            No such interface supported
-            </summary>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.OleLoadPicturePath(System.String,System.IntPtr,System.UInt32,System.UInt32,System.Guid@,NRegFreeCom.Interop.ComTypes.IUnknown@)">
-            <summary>
-            http://msdn.microsoft.com/en-us/library/windows/desktop/ms678485.aspx
-                            HRESULT OleLoadPicturePath(
-              _In_   LPOLESTR szURLorPath,
-              _In_   LPUNKNOWN punkCaller,
-              _In_   DWORD dwReserved,
-              _In_   OLE_COLOR clrReserved,
-              _In_   REFIID riid,
-              _Out_  LPVOID *ppvRet
-            );
-               </summary>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.UnregisterClass(System.IntPtr,System.IntPtr)">
-            <summary>
-            Unregisters a window class, freeing the memory required for the class.
-            </summary>
-            <param name="lpClassName">
-            Type: LPCTSTR
-            A null-terminated string or a class atom. If lpClassName is a string, it specifies the window class name. 
-            This class name must have been registered by a previous call to the RegisterClass or RegisterClassEx function. 
-            System classes, such as dialog box controls, cannot be unregistered. If this parameter is an atom, 
-              it must be a class atom created by a previous call to the RegisterClass or RegisterClassEx function. 
-            The atom must be in the low-order word of lpClassName; the high-order word must be zero.
-            
-            </param>
-            <param name="hInstance">
-            A handle to the instance of the module that created the class.
-            
-            </param>
-            <returns>
-            Type: BOOL
-            If the function succeeds, the return value is nonzero.
-            If the class could not be found or if a window still exists that was created with the class, the return value is zero. 
-            To get extended error information, call GetLastError.
-            
-            </returns>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.CreateWindowEx(NRegFreeCom.Interop.WindowStylesEx,System.IntPtr,System.String,NRegFreeCom.Interop.WindowStyles,System.Int32,System.Int32,System.Int32,System.Int32,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)">
-            <summary>
-            The CreateWindowEx function creates an overlapped, pop-up, or child window with an extended window style; otherwise, this function is identical to the CreateWindow function. 
-            </summary>
-            <param name="dwExStyle">Specifies the extended window style of the window being created.</param>
-            <param name="lpClassName">Pointer to a null-terminated string or a class atom created by a previous call to the RegisterClass or RegisterClassEx function. The atom must be in the low-order word of lpClassName; the high-order word must be zero. If lpClassName is a string, it specifies the window class name. The class name can be any name registered with RegisterClass or RegisterClassEx, provided that the module that registers the class is also the module that creates the window. The class name can also be any of the predefined system class names.</param>
-            <param name="lpWindowName">Pointer to a null-terminated string that specifies the window name. If the window style specifies a title bar, the window title pointed to by lpWindowName is displayed in the title bar. When using CreateWindow to create controls, such as buttons, check boxes, and static controls, use lpWindowName to specify the text of the control. When creating a static control with the SS_ICON style, use lpWindowName to specify the icon name or identifier. To specify an identifier, use the syntax "#num". </param>
-            <param name="dwStyle">Specifies the style of the window being created. This parameter can be a combination of window styles, plus the control styles indicated in the Remarks section.</param>
-            <param name="x">Specifies the initial horizontal position of the window. For an overlapped or pop-up window, the x parameter is the initial x-coordinate of the window's upper-left corner, in screen coordinates. For a child window, x is the x-coordinate of the upper-left corner of the window relative to the upper-left corner of the parent window's client area. If x is set to CW_USEDEFAULT, the system selects the default position for the window's upper-left corner and ignores the y parameter. CW_USEDEFAULT is valid only for overlapped windows; if it is specified for a pop-up or child window, the x and y parameters are set to zero.</param>
-            <param name="y">Specifies the initial vertical position of the window. For an overlapped or pop-up window, the y parameter is the initial y-coordinate of the window's upper-left corner, in screen coordinates. For a child window, y is the initial y-coordinate of the upper-left corner of the child window relative to the upper-left corner of the parent window's client area. For a list box y is the initial y-coordinate of the upper-left corner of the list box's client area relative to the upper-left corner of the parent window's client area.
-            <para>If an overlapped window is created with the WS_VISIBLE style bit set and the x parameter is set to CW_USEDEFAULT, then the y parameter determines how the window is shown. If the y parameter is CW_USEDEFAULT, then the window manager calls ShowWindow with the SW_SHOW flag after the window has been created. If the y parameter is some other value, then the window manager calls ShowWindow with that value as the nCmdShow parameter.</para></param>
-            <param name="nWidth">Specifies the width, in device units, of the window. For overlapped windows, nWidth is the window's width, in screen coordinates, or CW_USEDEFAULT. If nWidth is CW_USEDEFAULT, the system selects a default width and height for the window; the default width extends from the initial x-coordinates to the right edge of the screen; the default height extends from the initial y-coordinate to the top of the icon area. CW_USEDEFAULT is valid only for overlapped windows; if CW_USEDEFAULT is specified for a pop-up or child window, the nWidth and nHeight parameter are set to zero.</param>
-            <param name="nHeight">Specifies the height, in device units, of the window. For overlapped windows, nHeight is the window's height, in screen coordinates. If the nWidth parameter is set to CW_USEDEFAULT, the system ignores nHeight.</param> <param name="hWndParent">Handle to the parent or owner window of the window being created. To create a child window or an owned window, supply a valid window handle. This parameter is optional for pop-up windows.
-            <para>Windows 2000/XP: To create a message-only window, supply HWND_MESSAGE or a handle to an existing message-only window.</para></param>
-            <param name="hMenu">Handle to a menu, or specifies a child-window identifier, depending on the window style. For an overlapped or pop-up window, hMenu identifies the menu to be used with the window; it can be NULL if the class menu is to be used. For a child window, hMenu specifies the child-window identifier, an integer value used by a dialog box control to notify its parent about events. The application determines the child-window identifier; it must be unique for all child windows with the same parent window.</param>
-            <param name="hInstance">Handle to the instance of the module to be associated with the window.</param> <param name="lpParam">Pointer to a value to be passed to the window through the CREATESTRUCT structure (lpCreateParams member) pointed to by the lParam param of the WM_CREATE message. This message is sent to the created window by this function before it returns.
-            <para>If an application calls CreateWindow to create a MDI client window, lpParam should point to a CLIENTCREATESTRUCT structure. If an MDI client window calls CreateWindow to create an MDI child window, lpParam should point to a MDICREATESTRUCT structure. lpParam may be NULL if no additional data is needed.</para></param>
-            <returns>If the function succeeds, the return value is a handle to the new window.
-            <para>If the function fails, the return value is NULL. To get extended error information, call GetLastError.</para>
-            <para>This function typically fails for one of the following reasons:</para>
-            <list type="">
-            <item>an invalid parameter value</item>
-            <item>the system class was registered by a different module</item>
-            <item>The WH_CBT hook is installed and returns a failure code</item>
-            <item>if one of the controls in the dialog template is not registered, or its window window procedure fails WM_CREATE or WM_NCCREATE</item>
-            </list></returns>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.GetDllDirectory(System.Int32,System.Text.StringBuilder)">
-            <summary>
-                    DWORD WINAPI GetDllDirectory(
-              _In_   DWORD nBufferLength,
-              _Out_  LPTSTR lpBuffer
-            );
-             </summary>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.AddDllDirectory(System.String)">
-            <summary>
-                    DLL_DIRECTORY_COOKIE  WINAPI AddDllDirectory(
-              _In_  PCWSTR NewDirectory
-            );
-             </summary>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.SetDefaultDllDirectories(NRegFreeCom.Interop.DIRECTORY_FLAGS)">
-            <summary>
-                     BOOL  WINAPI SetDefaultDllDirectories(
-              _In_  DWORD DirectoryFlags
-            );
-             </summary>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.RemoveDllDirectory(System.IntPtr)">
-            <summary>
-                   BOOL  WINAPI RemoveDllDirectory(
-            _In_  DLL_DIRECTORY_COOKIE Cookie
-            );
-             </summary>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.SetDllDirectory(System.String)">
-            <seealso href="http://search.microsoft.com/en-US/results.aspx?q=SetDllDirectory"/>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.LoadLibraryEx(System.String,System.IntPtr,NRegFreeCom.Interop.LOAD_LIBRARY_FLAGS)">
-            <summary>
-            
-            </summary>
-            <param name="lpFileName"></param>
-            <param name="hFile"></param>
-            <param name="dwFlags">The action to be taken when loading the module. If no flags are specified, the behavior of this function is identical to that of the LoadLibrary function. This parameter can be one of the following values.</param>
-            <returns></returns>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.CoInitializeEx(System.IntPtr,NRegFreeCom.Interop.CoInit)">
-            <summary>Initializes the COM library for use by the calling thread, sets the thread's concurrency model, and creates a new apartment for the thread if one is required.</summary>
-            <param name="pvReserved">This parameter is reserved and must be NULL.</param>
-            <param name="coInit">The concurrency model and initialization options for the thread. Values for this parameter are taken from the CoInit enumeration. Any combination of values can be used, except that the ApartmentThreaded and MultiThreaded flags cannot both be set. The default is MultiThreaded.</param>
-            <returns>If function succeeds, it returns S_OK. Otherwise, it returns an error code.</returns>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.CoUninitialize">
-            <summary>
-            CoUninitialize() is used to uninitialize a COM thread.
-            </summary>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.CoRegisterClassObject(System.Guid@,NRegFreeCom.Interop.ComTypes.IClassFactory,NRegFreeCom.Interop.CLSCTX,NRegFreeCom.Interop.REGCLS,System.UInt32@)">
-            <summary>
-            Registers an EXE class object with OLE so other applications can 
-            connect to it. EXE object applications should call 
-            CoRegisterClassObject on startup. It can also be used to register 
-            internal objects for use by the same EXE or other code (such as DLLs)
-            that the EXE uses.
-            </summary>
-            <param name="rclsid">CLSID to be registered</param>
-            <param name="pUnk">
-            Pointer to the IUnknown interface on the class object whose 
-            availability is being published.
-            </param>
-            <param name="dwClsContext">
-            Context in which the executable code is to be run.
-            </param>
-            <param name="flags">
-            How connections are made to the class object.
-            </param>
-            <param name="lpdwRegister">
-            Pointer to a value that identifies the class object registered; 
-            </param>
-            <returns></returns>
-            <remarks>
-            PInvoking CoRegisterClassObject to register COM objects is not 
-            supported.
-            </remarks>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.CoRevokeClassObject(System.UInt32)">
-            <summary>
-            Informs OLE that a class object, previously registered with the 
-            CoRegisterClassObject function, is no longer available for use.
-            </summary>
-            <param name="dwRegister">
-            Token previously returned from the CoRegisterClassObject function
-            </param>
-            <returns></returns>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.CoResumeClassObjects">
-            <summary>
-            Called by a server that can register multiple class objects to inform 
-            the SCM about all registered classes, and permits activation requests 
-            for those class objects.
-            </summary>
-            <returns></returns>
-            <remarks>
-            Servers that can register multiple class objects call 
-            CoResumeClassObjects once, after having first called 
-            CoRegisterClassObject, specifying REGCLS_LOCAL_SERVER | 
-            REGCLS_SUSPENDED for each CLSID the server supports. This function 
-            causes OLE to inform the SCM about all the registered classes, and 
-            begins letting activation requests into the server process.
-            
-            This reduces the overall registration time, and thus the server 
-            application startup time, by making a single call to the SCM, no 
-            matter how many CLSIDs are registered for the server. Another 
-            advantage is that if the server has multiple apartments with 
-            different CLSIDs registered in different apartments, or is a free-
-            threaded server, no activation requests will come in until the server 
-            calls CoResumeClassObjects. This gives the server a chance to 
-            register all of its CLSIDs and get properly set up before having to 
-            deal with activation requests, and possibly shutdown requests. 
-            </remarks>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.GetCurrentThreadId">
-            <summary>
-            Get current thread ID.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.GetCurrentProcessId">
-            <summary>
-            Get current process ID.
-            </summary>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.GetMessage(NRegFreeCom.Interop.MSG@,System.IntPtr,System.UInt32,System.UInt32)">
-            <summary>
-            The GetMessage function retrieves a message from the calling thread's 
-            message queue. The function dispatches incoming sent messages until a 
-            posted message is available for retrieval. 
-            </summary>
-            <param name="lpMsg">
-            Pointer to an MSG structure that receives message information from 
-            the thread's message queue.
-            </param>
-            <param name="hWnd">
-            Handle to the window whose messages are to be retrieved.
-            </param>
-            <param name="wMsgFilterMin">
-            Specifies the integer value of the lowest message value to be 
-            retrieved. 
-            </param>
-            <param name="wMsgFilterMax">
-            Specifies the integer value of the highest message value to be 
-            retrieved.
-            </param>
-            <returns></returns>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.TranslateMessage(NRegFreeCom.Interop.MSG@)">
-            <summary>
-            The TranslateMessage function translates virtual-key messages into 
-            character messages. The character messages are posted to the calling 
-            thread's message queue, to be read the next time the thread calls the 
-            GetMessage or PeekMessage function.
-            </summary>
-            <param name="lpMsg"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.DispatchMessage(NRegFreeCom.Interop.MSG@)">
-            <summary>
-            The DispatchMessage function dispatches a message to a window 
-            procedure. It is typically used to dispatch a message retrieved by 
-            the GetMessage function.
-            </summary>
-            <param name="lpMsg"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.DestroyWindow(System.IntPtr)">
-            <summary>
-            <para>The DestroyWindow function destroys the specified window. The function sends WM_DESTROY and WM_NCDESTROY messages to the window to deactivate it and remove the keyboard focus from it. The function also destroys the window's menu, flushes the thread message queue, destroys timers, removes clipboard ownership, and breaks the clipboard viewer chain (if the window is at the top of the viewer chain).</para>
-            <para>If the specified window is a parent or owner window, DestroyWindow automatically destroys the associated child or owned windows when it destroys the parent or owner window. The function first destroys child or owned windows, and then it destroys the parent or owner window.</para>
-            <para>DestroyWindow also destroys modeless dialog boxes created by the CreateDialog function.</para>
-            </summary>
-            <param name="hwnd">Handle to the window to be destroyed.</param>
-            <returns>If the function succeeds, the return value is nonzero. If the function fails, the return value is zero. To get extended error information, call GetLastError.</returns>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.PostThreadMessage(System.UInt32,System.UInt32,System.UIntPtr,System.IntPtr)">
-            <summary>
-            The PostThreadMessage function posts a message to the message queue 
-            of the specified thread. It returns without waiting for the thread to 
-            process the message.
-            </summary>
-            <param name="idThread">
-            Identifier of the thread to which the message is to be posted.
-            </param>
-            <param name="Msg">Specifies the type of message to be posted.</param>
-            <param name="wParam">
-            Specifies additional message-specific information.
-            </param>
-            <param name="lParam">
-            Specifies additional message-specific information.
-            </param>
-            <returns></returns>
-        </member>
-        <member name="M:NRegFreeCom.Interop.NativeMethods.GetRunningObjectTable(System.UInt32,System.Runtime.InteropServices.ComTypes.IRunningObjectTable@)">
-            <summary>
-            Returns a pointer to the IRunningObjectTable
-            interface on the local running object table (ROT).
-            </summary>
-            <param name="reserved">This parameter is reserved and must be 0.</param>
-            <param name="prot">The address of an IRunningObjectTable* pointer variable
-            that receives the interface pointer to the local ROT. When the function is
-            successful, the caller is responsible for calling Release on the interface
-            pointer. If an error occurs, *pprot is undefined.</param>
-            <returns>This function can return the standard return values E_UNEXPECTED and S_OK.</returns>
-        </member>
         <member name="T:NRegFreeCom.Interop.REGCLS">
             <summary>
             The REGCLS enumeration defines values used in CoRegisterClassObject to 
             control the type of connections to a class object.
             </summary>
         </member>
-        <member name="F:NRegFreeCom.Interop.SYSTEM_ERROR_CODES.ERROR_FILE_NOT_FOUND">
+        <member name="T:NRegFreeCom.RotRegFreeComInvoker">
             <summary>
-            The system cannot find the file specified
+            Allows to invoke Out of Proc COM object if Windows registy does  contains no info about COM class and interfaces.
+            Adds some layer of indirection with some overhead comparable with ovehead 
+            add by routing usual .NET call from C# to usual native COM via interop assembly.
+            </summary>
+            <remarks>
+            Process monitor shows that .NET in client process goes to registry if do QueryInterface(cast) for COM object inteface. 
+            If there is no registry then cast fails. Hence this hack is needed.
+            If to debug view System._ComOject then it found interface inside only if registy is here, othervice no.
+            Potentilly this is optimization not to do inter process call to COM object...
+            </remarks>
+        </member>
+        <member name="T:NRegFreeCom.ReferenceCountedObject">
+            <summary>
+            Reference counted object base or delegation.
             </summary>
         </member>
-        <member name="F:NRegFreeCom.Interop.SYSTEM_ERROR_CODES.ERROR_ENVVAR_NOT_FOUND">
+        <member name="M:NRegFreeCom.ReferenceCountedObject.Lock">
             <summary>
-            The system could not find the environment option that was entered (203).
+             Increment the lock count of objects in the COM server.
             </summary>
+            <returns>The new lock count after the increment</returns>
+            <remarks>The method is thread-safe.</remarks>
         </member>
-        <member name="F:NRegFreeCom.Interop.SYSTEM_ERROR_CODES.ERROR_INVALID_PARAMETER">
+        <!-- Badly formed XML comment ignored for member "M:NRegFreeCom.ReferenceCountedObject.Unlock" -->
+        <member name="P:NRegFreeCom.ReferenceCountedObject.LockCount">
             <summary>
-            The parameter is incorrect (87).
+            Get the current lock count.
             </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WELL_KNOWN_IIDS.IID_IUnknown">
-            <summary>
-            Interface Id of IUnknown
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WELL_KNOWN_IIDS.IID_IDispatch">
-            <summary>
-            Interface Id of IDispatch
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WELL_KNOWN_IIDS.IID_IClassFactory">
-            <summary>
-            Interface Id of IClassFactory
-            </summary>
-        </member>
-        <member name="T:NRegFreeCom.Interop.WindowStyles">
-            <summary>
-            Window Styles.
-            The following styles can be specified wherever a window style is required. After the control has been created, these styles cannot be modified, except as noted.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_BORDER">
-            <summary>The window has a thin-line border.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_CAPTION">
-            <summary>The window has a title bar (includes the WS_BORDER style).</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_CHILD">
-            <summary>The window is a child window. A window with this style cannot have a menu bar. This style cannot be used with the WS_POPUP style.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_CLIPCHILDREN">
-            <summary>Excludes the area occupied by child windows when drawing occurs within the parent window. This style is used when creating the parent window.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_CLIPSIBLINGS">
-            <summary>
-            Clips child windows relative to each other; that is, when a particular child window receives a WM_PAINT message, the WS_CLIPSIBLINGS style clips all other overlapping child windows out of the region of the child window to be updated.
-            If WS_CLIPSIBLINGS is not specified and child windows overlap, it is possible, when drawing within the client area of a child window, to draw within the client area of a neighboring child window.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_DISABLED">
-            <summary>The window is initially disabled. A disabled window cannot receive input from the user. To change this after a window has been created, use the EnableWindow function.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_DLGFRAME">
-            <summary>The window has a border of a style typically used with dialog boxes. A window with this style cannot have a title bar.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_GROUP">
-            <summary>
-            The window is the first control of a group of controls. The group consists of this first control and all controls defined after it, up to the next control with the WS_GROUP style.
-            The first control in each group usually has the WS_TABSTOP style so that the user can move from group to group. The user can subsequently change the keyboard focus from one control in the group to the next control in the group by using the direction keys.
-            You can turn this style on and off to change dialog box navigation. To change this style after a window has been created, use the SetWindowLong function.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_HSCROLL">
-            <summary>The window has a horizontal scroll bar.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_MAXIMIZE">
-            <summary>The window is initially maximized.</summary> 
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_MAXIMIZEBOX">
-            <summary>The window has a maximize button. Cannot be combined with the WS_EX_CONTEXTHELP style. The WS_SYSMENU style must also be specified.</summary> 
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_MINIMIZE">
-            <summary>The window is initially minimized.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_MINIMIZEBOX">
-            <summary>The window has a minimize button. Cannot be combined with the WS_EX_CONTEXTHELP style. The WS_SYSMENU style must also be specified.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_OVERLAPPED">
-            <summary>The window is an overlapped window. An overlapped window has a title bar and a border.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_OVERLAPPEDWINDOW">
-            <summary>The window is an overlapped window.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_POPUP">
-            <summary>The window is a pop-up window. This style cannot be used with the WS_CHILD style.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_POPUPWINDOW">
-            <summary>The window is a pop-up window. The WS_CAPTION and WS_POPUPWINDOW styles must be combined to make the window menu visible.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_SIZEFRAME">
-            <summary>The window has a sizing border.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_SYSMENU">
-            <summary>The window has a window menu on its title bar. The WS_CAPTION style must also be specified.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_TABSTOP">
-            <summary>
-            The window is a control that can receive the keyboard focus when the user presses the TAB key.
-            Pressing the TAB key changes the keyboard focus to the next control with the WS_TABSTOP style.  
-            You can turn this style on and off to change dialog box navigation. To change this style after a window has been created, use the SetWindowLong function.
-            For user-created windows and modeless dialogs to work with tab stops, alter the message loop to call the IsDialogMessage function.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_VISIBLE">
-            <summary>The window is initially visible. This style can be turned on and off by using the ShowWindow or SetWindowPos function.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_VSCROLL">
-            <summary>The window has a vertical scroll bar.</summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_ACCEPTFILES">
-            <summary>
-            Specifies that a window created with this style accepts drag-drop files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_APPWINDOW">
-            <summary>
-            Forces a top-level window onto the taskbar when the window is visible.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_CLIENTEDGE">
-            <summary>
-            Specifies that a window has a border with a sunken edge.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_COMPOSITED">
-            <summary>
-            Windows XP: Paints all descendants of a window in bottom-to-top painting order using double-buffering. For more information, see Remarks. This cannot be used if the window has a class style of either CS_OWNDC or CS_CLASSDC. 
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_CONTEXTHELP">
-            <summary>
-            Includes a question mark in the title bar of the window. When the user clicks the question mark, the cursor changes to a question mark with a pointer. If the user then clicks a child window, the child receives a WM_HELP message. The child window should pass the message to the parent window procedure, which should call the WinHelp function using the HELP_WM_HELP command. The Help application displays a pop-up window that typically contains help for the child window.
-            WS_EX_CONTEXTHELP cannot be used with the WS_MAXIMIZEBOX or WS_MINIMIZEBOX styles.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_CONTROLPARENT">
-            <summary>
-            The window itself contains child windows that should take part in dialog box navigation. If this style is specified, the dialog manager recurses into children of this window when performing navigation operations such as handling the TAB key, an arrow key, or a keyboard mnemonic.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_DLGMODALFRAME">
-            <summary>
-            Creates a window that has a double border; the window can, optionally, be created with a title bar by specifying the WS_CAPTION style in the dwStyle parameter.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_LAYERED">
-            <summary>
-            Windows 2000/XP: Creates a layered window. Note that this cannot be used for child windows. Also, this cannot be used if the window has a class style of either CS_OWNDC or CS_CLASSDC. 
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_LAYOUTRTL">
-            <summary>
-            Arabic and Hebrew versions of Windows 98/Me, Windows 2000/XP: Creates a window whose horizontal origin is on the right edge. Increasing horizontal values advance to the left. 
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_LEFT">
-            <summary>
-            Creates a window that has generic left-aligned properties. This is the default.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_LEFTSCROLLBAR">
-            <summary>
-            If the shell language is Hebrew, Arabic, or another language that supports reading order alignment, the vertical scroll bar (if present) is to the left of the client area. For other languages, the style is ignored.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_LTRREADING">
-            <summary>
-            The window text is displayed using left-to-right reading-order properties. This is the default.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_MDICHILD">
-            <summary>
-            Creates a multiple-document interface (MDI) child window.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_NOACTIVATE">
-            <summary>
-            Windows 2000/XP: A top-level window created with this style does not become the foreground window when the user clicks it. The system does not bring this window to the foreground when the user minimizes or closes the foreground window. 
-            To activate the window, use the SetActiveWindow or SetForegroundWindow function.
-            The window does not appear on the taskbar by default. To force the window to appear on the taskbar, use the WS_EX_APPWINDOW style.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_NOINHERITLAYOUT">
-            <summary>
-            Windows 2000/XP: A window created with this style does not pass its window layout to its child windows.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_NOPARENTNOTIFY">
-            <summary>
-            Specifies that a child window created with this style does not send the WM_PARENTNOTIFY message to its parent window when it is created or destroyed.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_OVERLAPPEDWINDOW">
-            <summary>
-            Combines the WS_EX_CLIENTEDGE and WS_EX_WINDOWEDGE styles.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_PALETTEWINDOW">
-            <summary>
-            Combines the WS_EX_WINDOWEDGE, WS_EX_TOOLWINDOW, and WS_EX_TOPMOST styles.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_RIGHT">
-            <summary>
-            The window has generic "right-aligned" properties. This depends on the window class. This style has an effect only if the shell language is Hebrew, Arabic, or another language that supports reading-order alignment; otherwise, the style is ignored.
-            Using the WS_EX_RIGHT style for static or edit controls has the same effect as using the SS_RIGHT or ES_RIGHT style, respectively. Using this style with button controls has the same effect as using BS_RIGHT and BS_RIGHTBUTTON styles.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_RIGHTSCROLLBAR">
-            <summary>
-            Vertical scroll bar (if present) is to the right of the client area. This is the default.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_RTLREADING">
-            <summary>
-            If the shell language is Hebrew, Arabic, or another language that supports reading-order alignment, the window text is displayed using right-to-left reading-order properties. For other languages, the style is ignored.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_STATICEDGE">
-            <summary>
-            Creates a window with a three-dimensional border style intended to be used for items that do not accept user input.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_TOOLWINDOW">
-            <summary>
-            Creates a tool window; that is, a window intended to be used as a floating toolbar. A tool window has a title bar that is shorter than a normal title bar, and the window title is drawn using a smaller font. A tool window does not appear in the taskbar or in the dialog that appears when the user presses ALT+TAB. If a tool window has a system menu, its icon is not displayed on the title bar. However, you can display the system menu by right-clicking or by typing ALT+SPACE. 
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_TOPMOST">
-            <summary>
-            Specifies that a window created with this style should be placed above all non-topmost windows and should stay above them, even when the window is deactivated. To add or remove this style, use the SetWindowPos function.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_TRANSPARENT">
-            <summary>
-            Specifies that a window created with this style should not be painted until siblings beneath the window (that were created by the same thread) have been painted. The window appears transparent because the bits of underlying sibling windows have already been painted.
-            To achieve transparency without these restrictions, use the SetWindowRgn function.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_WINDOWEDGE">
-            <summary>
-            Specifies that a window has a border with a raised edge.
-            </summary>
+            <returns></returns>
         </member>
         <member name="T:NRegFreeCom.Interop.WM">
             <summary>
@@ -2137,336 +1169,240 @@
             WM_SYSTIMER is a well-known yet still undocumented message. Windows uses WM_SYSTIMER for internal actions like scrolling.
             </summary>
         </member>
-        <member name="T:NRegFreeCom.PortableExecutableHeaderReader">
+        <member name="F:NRegFreeCom.Interop.ClassStyles.ByteAlignClient">
+            <summary>Aligns the window's client area on a byte boundary (in the x direction). This style affects the width of the window and its horizontal placement on the display.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.ClassStyles.ByteAlignWindow">
+            <summary>Aligns the window on a byte boundary (in the x direction). This style affects the width of the window and its horizontal placement on the display.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.ClassStyles.ClassDC">
             <summary>
-            Reads in the header information of the Portable Executable format.
-            Provides information such as the date the assembly was compiled.
+            Allocates one device context to be shared by all windows in the class.
+            Because window classes are process specific, it is possible for multiple threads of an application to create a window of the same class.
+            It is also possible for the threads to attempt to use the device context simultaneously. When this happens, the system allows only one thread to successfully finish its drawing operation.
             </summary>
         </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.dosHeader">
+        <member name="F:NRegFreeCom.Interop.ClassStyles.DoubleClicks">
+            <summary>Sends a double-click message to the window procedure when the user double-clicks the mouse while the cursor is within a window belonging to the class.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.ClassStyles.DropShadow">
             <summary>
-            The DOS header
+            Enables the drop shadow effect on a window. The effect is turned on and off through SPI_SETDROPSHADOW.
+            Typically, this is enabled for small, short-lived windows such as menus to emphasize their Z order relationship to other windows.
             </summary>
         </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.fileHeader">
+        <member name="F:NRegFreeCom.Interop.ClassStyles.GlobalClass">
+            <summary>Indicates that the window class is an application global class. For more information, see the "Application Global Classes" section of About Window Classes.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.ClassStyles.HorizontalRedraw">
+            <summary>Redraws the entire window if a movement or size adjustment changes the width of the client area.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.ClassStyles.NoClose">
+            <summary>Disables Close on the window menu.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.ClassStyles.OwnDC">
+            <summary>Allocates a unique device context for each window in the class.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.ClassStyles.ParentDC">
             <summary>
-            The file header
+            Sets the clipping rectangle of the child window to that of the parent window so that the child can draw on the parent.
+            A window with the CS_PARENTDC style bit receives a regular device context from the system's cache of device contexts.
+            It does not give the child the parent's device context or device context settings. Specifying CS_PARENTDC enhances an application's performance.
             </summary>
         </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.optionalHeader32">
+        <member name="F:NRegFreeCom.Interop.ClassStyles.SaveBits">
             <summary>
-            Optional 32 bit file header 
+            Saves, as a bitmap, the portion of the screen image obscured by a window of this class.
+            When the window is removed, the system uses the saved bitmap to restore the screen image, including other windows that were obscured.
+            Therefore, the system does not send WM_PAINT messages to windows that were obscured if the memory used by the bitmap has not been discarded and if other screen actions have not invalidated the stored image.
+            This style is useful for small windows (for example, menus or dialog boxes) that are displayed briefly and then removed before other screen activity takes place.
+            This style increases the time required to display the window, because the system must first allocate memory to store the bitmap.
             </summary>
         </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.optionalHeader64">
-            <summary>
-            Optional 64 bit file header 
-            </summary>
+        <member name="F:NRegFreeCom.Interop.ClassStyles.VerticalRedraw">
+            <summary>Redraws the entire window if a movement or size adjustment changes the height of the client area.</summary>
         </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.imageSectionHeaders">
+        <member name="M:NRegFreeCom.IAssembly.LoadStringTableResource(System.UInt32)">
             <summary>
-            Image Section headers. Number of sections is in the file header.
+            Loads string table resources from assembly.
             </summary>
+            <param name="id">The identifier of the string to be loaded.</param>
+            <returns></returns>
+            <seealso href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms647486.aspx"/>
         </member>
-        <member name="M:NRegFreeCom.PortableExecutableHeaderReader.fromBinaryReader``1(System.IO.BinaryReader)">
+        <member name="M:NRegFreeCom.IAssembly.GetDelegate``1(System.String)">
             <summary>
-            Reads in a block from a file and converts it to the struct
-            type specified by the template parameter
+            Gets public function from native library.
             </summary>
-            <typeparam name="T"></typeparam>
-            <param name="reader"></param>
+            <typeparam name="T">
+            Managed counterpart delegate of native function. 
+            If <paramref name="defName"/> not provided then <typeparamref name="T"/> <see cref="P:System.Reflection.MemberInfo.Name"/> is used for search.
+            </typeparam>
+            <paramref name="defName">Optional name of function. If not defined then name of<typeparamref name="T"/> is used</paramref>
+            <returns></returns>
+            <exception cref="T:System.EntryPointNotFoundException">No such export in library</exception>
+        </member>
+        <member name="M:NRegFreeCom.IAssembly.TryGetDelegate``1(``0@,System.String)">
+            <summary>
+            Tries to get public function from native library. Returns false if no function was found.
+            </summary>
+            <typeparam name="T">
+            Managed counterpart delegate of native function. 
+            If <paramref name="defName"/> not provided then <typeparamref name="T"/> <see cref="P:System.Reflection.MemberInfo.Name"/> is used for search.
+            </typeparam>
+            <paramref name="defName">Optional name of function. If not defined then name of<typeparamref name="T"/> is used</paramref>
             <returns></returns>
         </member>
-        <member name="P:NRegFreeCom.PortableExecutableHeaderReader.Is32BitHeader">
+        <member name="T:NRegFreeCom.AssemblySystem">
             <summary>
-            Gets if the file header is 32 bit or not
-            </summary>
-        </member>
-        <member name="P:NRegFreeCom.PortableExecutableHeaderReader.FileHeader">
-            <summary>
-            Gets the file header
-            </summary>
-        </member>
-        <member name="P:NRegFreeCom.PortableExecutableHeaderReader.OptionalHeader32">
-            <summary>
-            Gets the optional header
-            </summary>
-        </member>
-        <member name="P:NRegFreeCom.PortableExecutableHeaderReader.OptionalHeader64">
-            <summary>
-            Gets the optional header
-            </summary>
-        </member>
-        <member name="P:NRegFreeCom.PortableExecutableHeaderReader.TimeStamp">
-            <summary>
-            Gets the timestamp from the file header
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.TypeReg">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.TypeDsect">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.TypeNoLoad">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.TypeGroup">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.TypeNoPadded">
-            <summary>
-            The section should not be padded to the next boundary. This flag is obsolete and is replaced by IMAGE_SCN_ALIGN_1BYTES. This is valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.TypeCopy">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.ContentCode">
-            <summary>
-            The section contains executable code.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.ContentInitializedData">
-            <summary>
-            The section contains initialized data.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.ContentUninitializedData">
-            <summary>
-            The section contains uninitialized data.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.LinkOther">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.LinkInfo">
-            <summary>
-            The section contains comments or other information. The .drectve section has this type. This is valid for object files only.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.TypeOver">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.LinkRemove">
-            <summary>
-            The section will not become part of the image. This is valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.LinkComDat">
-            <summary>
-            The section contains COMDAT data. For more information, see section 5.5.6, COMDAT Sections (Object Only). This is valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.NoDeferSpecExceptions">
-            <summary>
-            Reset speculative exceptions handling bits in the TLB entries for this section.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.RelativeGP">
-            <summary>
-            The section contains data referenced through the global pointer (GP).
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.MemPurgeable">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.Memory16Bit">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.MemoryLocked">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.MemoryPreload">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.Align1Bytes">
-            <summary>
-            Align data on a 1-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.Align2Bytes">
-            <summary>
-            Align data on a 2-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.Align4Bytes">
-            <summary>
-            Align data on a 4-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.Align8Bytes">
-            <summary>
-            Align data on an 8-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.Align16Bytes">
-            <summary>
-            Align data on a 16-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.Align32Bytes">
-            <summary>
-            Align data on a 32-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.Align64Bytes">
-            <summary>
-            Align data on a 64-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.Align128Bytes">
-            <summary>
-            Align data on a 128-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.Align256Bytes">
-            <summary>
-            Align data on a 256-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.Align512Bytes">
-            <summary>
-            Align data on a 512-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.Align1024Bytes">
-            <summary>
-            Align data on a 1024-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.Align2048Bytes">
-            <summary>
-            Align data on a 2048-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.Align4096Bytes">
-            <summary>
-            Align data on a 4096-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.Align8192Bytes">
-            <summary>
-            Align data on an 8192-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.LinkExtendedRelocationOverflow">
-            <summary>
-            The section contains extended relocations.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.MemoryDiscardable">
-            <summary>
-            The section can be discarded as needed.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.MemoryNotCached">
-            <summary>
-            The section cannot be cached.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.MemoryNotPaged">
-            <summary>
-            The section is not pageable.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.MemoryShared">
-            <summary>
-            The section can be shared in memory.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.MemoryExecute">
-            <summary>
-            The section can be executed as code.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.MemoryRead">
-            <summary>
-            The section can be read.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PortableExecutableHeaderReader.DataSectionFlags.MemoryWrite">
-            <summary>
-            The section can be written to.
-            </summary>
-        </member>
-        <member name="T:NRegFreeCom.ReferenceCountedObject">
-            <summary>
-            Reference counted object base or delegation.
-            </summary>
-        </member>
-        <member name="M:NRegFreeCom.ReferenceCountedObject.Lock">
-            <summary>
-             Increment the lock count of objects in the COM server.
-            </summary>
-            <returns>The new lock count after the increment</returns>
-            <remarks>The method is thread-safe.</remarks>
-        </member>
-        <!-- Badly formed XML comment ignored for member "M:NRegFreeCom.ReferenceCountedObject.Unlock" -->
-        <member name="P:NRegFreeCom.ReferenceCountedObject.LockCount">
-            <summary>
-            Get the current lock count.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:NRegFreeCom.Regasm">
-            <summary>
-            Registers and unregisters COM objects for current user.
-            </summary>
-        </member>
-        <member name="M:NRegFreeCom.Regasm.RegisterLocalServer(System.Type)">
-            <summary>
-            Register the component as a local server.
-            </summary>
-            <param name="t"></param>
-        </member>
-        <member name="M:NRegFreeCom.Regasm.UnregisterLocalServer(System.Type)">
-            <summary>
-            Unregister the component.
-            </summary>
-            <param name="t"></param>
-        </member>
-        <member name="T:NRegFreeCom.RotRegFreeComInvoker">
-            <summary>
-            Allows to invoke Out of Proc COM object if Windows registy does  contains no info about COM class and interfaces.
-            Adds some layer of indirection with some overhead comparable with ovehead 
-            add by routing usual .NET call from C# to usual native COM via interop assembly.
+            Makes working with native dlls as with .NET ones. Helps define search paths and transform errors to .NET friendly.
+            Hides differences of windows versions. 
             </summary>
             <remarks>
-            Process monitor shows that .NET in client process goes to registry if do QueryInterface(cast) for COM object inteface. 
-            If there is no registry then cast fails. Hence this hack is needed.
-            If to debug view System._ComOject then it found interface inside only if registy is here, othervice no.
-            Potentilly this is optimization not to do inter process call to COM object...
+            Potential usages - runtime search and invocation of C routines; .NET plugin model extended with native dlls.
+            Instance methods are not thread safe.
             </remarks>
         </member>
-        <member name="T:NRegFreeCom.RunningObjectTable">
+        <member name="T:NRegFreeCom.IAssemblySystem">
             <summary>
-             Allows manipulations with Running Object Table like add and removing objects, enumerating registered. 
-             </summary>
-            <seealso href="https://sites.google.com/site/jozsefbekes/Home/windows-programming/dotnet-registering-an-object-to-the-running-object-table-from-a-non-com-project"/>
-            <seealso href="https://sites.google.com/site/jozsefbekes/Home/windows-programming/registering-an-object-to-the-running-object-table-from-a-non-com-project"/>
+            Makes working with native dlls as with .NET ones.
+            </summary>
+        </member>
+        <member name="M:NRegFreeCom.IAssemblySystem.GetAnyCpuPath(System.String)">
+            <summary>
+            Gets native libraries subdirectory of suitable processor architectue and bitness  for managed process (which can be Any Cpu).
+            Can be imploed in XCOPY deployment were managed code depends upon native libraries.
+            </summary>
+            <param name="directoryPath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NRegFreeCom.IAssemblySystem.LoadFrom(System.String,System.String)">
+            <summary>
+            Loads native dll into process.
+            </summary>
+            <param name="directoryPath">Full path to directory where dll located.</param>
+            <param name="name">Name with extension of dll to load.</param>
+            <returns></returns>
+        </member>
+        <member name="M:NRegFreeCom.IAssemblySystem.ReflectionOnlyLoadFrom(System.String)">
+            <summary>
+            Loads dll into process.You cannot execute code from an assembly that has been loaded such way.
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+            <seealso href="http://msdn.microsoft.com/en-us/library/system.reflection.assembly.reflectiononlyloadfrom.aspx"/>
+        </member>
+        <member name="M:NRegFreeCom.IAssemblySystem.LoadFrom(System.String)">
+            <summary>
+            Loads native dll into process.
+            </summary>
+            <param name="path">Full path to dll file.</param>
+            <returns></returns>
+        </member>
+        <member name="M:NRegFreeCom.IAssemblySystem.AddSearchPath(System.String)">
+            <summary>
+            Adds directoy to search pathes. 
+            When this <see cref="T:NRegFreeCom.AssemblySystem"/> loads new dll then dependecies of it are looked in added paths.
+            This is  unsafe hack for XP (but works). Safe on Vista/Win7 with patch applied, it here on Win8.
+            </summary>
+            <param name="directory">Full path to directoy</param>
+            <see href="http://support.microsoft.com/kb/2533623"/>
+            <seealso href="http://msdn.microsoft.com/en-us/library/ff919712.aspx"/>
+            <seealso href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms682586.aspx"/>
+        </member>
+        <member name="F:NRegFreeCom.AssemblySystem.Win32Directory">
+            <summary>
+            Default subdirectory to search 32 bit x86  dlls for <see cref="M:NRegFreeCom.AssemblySystem.GetAnyCpuPath(System.String)"/> .
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.AssemblySystem.x64Directory">
+            <summary>
+            Default subdirectory to search 64 bit x86  dlls for <see cref="M:NRegFreeCom.AssemblySystem.GetAnyCpuPath(System.String)"/> .
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.AssemblySystem._systemSupportsPatch">
+            Windows 7, Windows Server 2008 R2, Windows Vista, and Windows Server 2008: 
+              To use this function in an application, call GetProcAddress to retrieve the function's address from Kernel32.dll. 
+             KB2533623 must be installed on the target platform.
+        </member>
+        <member name="M:NRegFreeCom.AssemblySystem.GetAnyCpuPath(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:NRegFreeCom.AssemblySystem.LoadFrom(System.String,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:NRegFreeCom.AssemblySystem.LoadFrom(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:NRegFreeCom.AssemblySystem.AddSearchPath(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="T:NRegFreeCom.Interop.CLSCTX">
+            <summary>
+            Values from the CLSCTX enumeration are used in activation calls to 
+            indicate the execution contexts in which an object is to be run. These
+            values are also used in calls to CoRegisterClassObject to indicate the
+            set of execution contexts in which a class object is to be made available
+            for requests to construct instances.
+            </summary>
+        </member>
+        <member name="T:NRegFreeCom.Dispatcher">
+            <summary>
+            
+            </summary>
+            <seealso cref="!:System.Windows.Threading.Dispatcher"/>
+        </member>
+        <member name="T:NRegFreeCom.IDispatcher">
+            <summary>
+            Like <see cref="!:System.Windows.Threadin.Dispatcher"/> but without WPF libs and other stuff.
+            </summary>
+        </member>
+        <member name="M:NRegFreeCom.Dispatcher.Run">
+            <summary>
+            Runs the standard message loop. The message loop quits when it receives the WM_QUIT message.
+            </summary>
+        </member>
+        <member name="M:NRegFreeCom.PathAppender.Append(System.String,System.String)">
+            <summary>
+            Adds <paramref name="directory"/> to PATH  variable. Thread unsafe. Does not normalizes   <paramref name="directory"/> or PATH before search, can add already existing path
+            </summary>
+            <param name="paths"></param>
+            <param name="directory"></param>
+            <returns></returns>
+        </member>
+        <member name="T:NRegFreeCom.Interop.ComTypes.IClassFactory">
+            <summary>
+            You must implement this interface for every class that you register in 
+            the system registry and to which you assign a CLSID, so objects of that
+            class can be created.
+            http://msdn.microsoft.com/en-us/library/ms694364.aspx
+            </summary>
+        </member>
+        <member name="M:NRegFreeCom.Interop.ComTypes.IClassFactory.CreateInstance(System.IntPtr,System.Guid@,System.IntPtr@)">
+            <summary>
+            Creates an uninitialized object.
+            </summary>
+            <param name="pUnkOuter"></param>
+            <param name="riid">
+            Reference to the identifier of the interface to be used to 
+            communicate with the newly created object. If pUnkOuter is NULL, this
+            parameter is frequently the IID of the initializing interface.
+            </param>
+            <param name="ppvObject">
+            Address of pointer variable that receives the interface pointer 
+            requested in riid. 
+            </param>
+            <returns>S_OK means success.</returns>
+        </member>
+        <member name="M:NRegFreeCom.Interop.ComTypes.IClassFactory.LockServer(System.Boolean)">
+            <summary>
+            Locks object application open in memory.
+            </summary>
+            <param name="fLock">
+            If TRUE, increments the lock count; 
+            if FALSE, decrements the lock count.
+            </param>
+            <returns>S_OK means success.</returns>
         </member>
         <member name="T:NRegFreeCom.StaComCrossThreadInvoker">
             <summary>
@@ -2515,6 +1451,1237 @@
         <member name="P:NRegFreeCom.StaComCrossThreadInvoker.AffinedThreadId">
             <summary>
             <see cref="P:System.Threading.Thread.ManagedThreadId"/> were this object was created, can be used and should be disposed.
+            </summary>
+        </member>
+        <member name="T:NRegFreeCom.Interop.ACTCTX">
+            <summary>
+            Activation context structure
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.SYSTEM_ERROR_CODES.ERROR_FILE_NOT_FOUND">
+            <summary>
+            The system cannot find the file specified
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.SYSTEM_ERROR_CODES.ERROR_ENVVAR_NOT_FOUND">
+            <summary>
+            The system could not find the environment option that was entered (203).
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.SYSTEM_ERROR_CODES.ERROR_INVALID_PARAMETER">
+            <summary>
+            The parameter is incorrect (87).
+            </summary>
+        </member>
+        <member name="T:NRegFreeCom.Interop.LOAD_LIBRARY_FLAGS">
+            <summary>
+            
+            </summary>
+            <seealso href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms684179.aspx"/>
+        </member>
+        <member name="T:NRegFreeCom.Interop.ComTypes.IDispatch">
+            <summary>
+            A partial declaration of IDispatch used to lookup Type information and DISPIDs.
+            </summary>
+            <remarks>
+            This interface only declares the first three methods of IDispatch.  It omits the
+            fourth method (Invoke) because there are already plenty of ways to do dynamic
+            invocation in .NET.  But the first three methods provide dynamic type metadata
+            discovery, which .NET doesn't provide normally if you have a System.__ComObject
+            RCW instead of a strongly-typed RCW.
+            <para/>
+            Note: The original declaration of IDispatch is in OAIdl.idl.
+            </remarks>
+        </member>
+        <member name="M:NRegFreeCom.Interop.ComTypes.IDispatch.GetTypeInfoCount(System.Int32@)">
+            <summary>
+            Gets the number of Types that the object provides (0 or 1).
+            </summary>
+            <param name="typeInfoCount">Returns 0 or 1 for the number of Types provided by <see cref="M:NRegFreeCom.Interop.ComTypes.IDispatch.GetTypeInfo(System.Int32,System.Int32,System.Type@)"/>.</param>
+            <remarks>
+            http://msdn.microsoft.com/en-us/library/da876d53-cb8a-465c-a43e-c0eb272e2a12(VS.85)
+            </remarks>
+        </member>
+        <member name="M:NRegFreeCom.Interop.ComTypes.IDispatch.GetTypeInfo(System.Int32,System.Int32,System.Type@)">
+            <summary>
+            Gets the Type information for an object if <see cref="M:NRegFreeCom.Interop.ComTypes.IDispatch.GetTypeInfoCount(System.Int32@)"/> returned 1.
+            </summary>
+            <param name="typeInfoIndex">Must be 0.</param>
+            <param name="lcid">Typically, LOCALE_SYSTEM_DEFAULT (2048).</param>
+            <param name="typeInfo">Returns the object's Type information.</param>
+            <remarks>
+            http://msdn.microsoft.com/en-us/library/cc1ec9aa-6c40-4e70-819c-a7c6dd6b8c99(VS.85)
+            </remarks>
+        </member>
+        <member name="M:NRegFreeCom.Interop.ComTypes.IDispatch.GetIDsOfNames(System.Guid@,System.String@,System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            Gets the DISPID of the specified member name.
+            </summary>
+            <param name="riid">Must be IID_NULL.  Pass a copy of Guid.Empty.</param>
+            <param name="name">The name of the member to look up.</param>
+            <param name="nameCount">Must be 1.</param>
+            <param name="lcid">Typically, LOCALE_SYSTEM_DEFAULT (2048).</param>
+            <param name="dispId">If a member with the requested <paramref name="name"/>
+            is found, this returns its DISPID and the method's return value is 0.
+            If the method returns a non-zero value, then this parameter's output value is
+            undefined.</param>
+            <returns>Zero for success. Non-zero for failure.</returns>
+            <remarks>
+            http://msdn.microsoft.com/en-us/library/6f6cf233-3481-436e-8d6a-51f93bf91619(VS.85)
+            </remarks>
+        </member>
+        <member name="M:NRegFreeCom.ComMarshall.GetRealObjectByProxy``1(System.Object)">
+            <summary>
+            Gets the real COM object out of remoting proxy. If COM object was passed across AppDomains it was proxied. 
+            </summary>
+            <remarks>
+            Better to unproxy and call real COM (its RCW).
+            Fixes problem of dead COM RCW after some time withoyt any calls to COM.
+            </remarks>
+            <typeparam name="T">The type of COM object.</typeparam>
+            <param name="instance">The instance of remoting proxy.</param>
+            <returns> The instance of a type that represents a COM object.</returns>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_ACCEPTFILES">
+            <summary>
+            Specifies that a window created with this style accepts drag-drop files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_APPWINDOW">
+            <summary>
+            Forces a top-level window onto the taskbar when the window is visible.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_CLIENTEDGE">
+            <summary>
+            Specifies that a window has a border with a sunken edge.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_COMPOSITED">
+            <summary>
+            Windows XP: Paints all descendants of a window in bottom-to-top painting order using double-buffering. For more information, see Remarks. This cannot be used if the window has a class style of either CS_OWNDC or CS_CLASSDC. 
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_CONTEXTHELP">
+            <summary>
+            Includes a question mark in the title bar of the window. When the user clicks the question mark, the cursor changes to a question mark with a pointer. If the user then clicks a child window, the child receives a WM_HELP message. The child window should pass the message to the parent window procedure, which should call the WinHelp function using the HELP_WM_HELP command. The Help application displays a pop-up window that typically contains help for the child window.
+            WS_EX_CONTEXTHELP cannot be used with the WS_MAXIMIZEBOX or WS_MINIMIZEBOX styles.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_CONTROLPARENT">
+            <summary>
+            The window itself contains child windows that should take part in dialog box navigation. If this style is specified, the dialog manager recurses into children of this window when performing navigation operations such as handling the TAB key, an arrow key, or a keyboard mnemonic.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_DLGMODALFRAME">
+            <summary>
+            Creates a window that has a double border; the window can, optionally, be created with a title bar by specifying the WS_CAPTION style in the dwStyle parameter.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_LAYERED">
+            <summary>
+            Windows 2000/XP: Creates a layered window. Note that this cannot be used for child windows. Also, this cannot be used if the window has a class style of either CS_OWNDC or CS_CLASSDC. 
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_LAYOUTRTL">
+            <summary>
+            Arabic and Hebrew versions of Windows 98/Me, Windows 2000/XP: Creates a window whose horizontal origin is on the right edge. Increasing horizontal values advance to the left. 
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_LEFT">
+            <summary>
+            Creates a window that has generic left-aligned properties. This is the default.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_LEFTSCROLLBAR">
+            <summary>
+            If the shell language is Hebrew, Arabic, or another language that supports reading order alignment, the vertical scroll bar (if present) is to the left of the client area. For other languages, the style is ignored.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_LTRREADING">
+            <summary>
+            The window text is displayed using left-to-right reading-order properties. This is the default.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_MDICHILD">
+            <summary>
+            Creates a multiple-document interface (MDI) child window.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_NOACTIVATE">
+            <summary>
+            Windows 2000/XP: A top-level window created with this style does not become the foreground window when the user clicks it. The system does not bring this window to the foreground when the user minimizes or closes the foreground window. 
+            To activate the window, use the SetActiveWindow or SetForegroundWindow function.
+            The window does not appear on the taskbar by default. To force the window to appear on the taskbar, use the WS_EX_APPWINDOW style.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_NOINHERITLAYOUT">
+            <summary>
+            Windows 2000/XP: A window created with this style does not pass its window layout to its child windows.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_NOPARENTNOTIFY">
+            <summary>
+            Specifies that a child window created with this style does not send the WM_PARENTNOTIFY message to its parent window when it is created or destroyed.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_OVERLAPPEDWINDOW">
+            <summary>
+            Combines the WS_EX_CLIENTEDGE and WS_EX_WINDOWEDGE styles.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_PALETTEWINDOW">
+            <summary>
+            Combines the WS_EX_WINDOWEDGE, WS_EX_TOOLWINDOW, and WS_EX_TOPMOST styles.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_RIGHT">
+            <summary>
+            The window has generic "right-aligned" properties. This depends on the window class. This style has an effect only if the shell language is Hebrew, Arabic, or another language that supports reading-order alignment; otherwise, the style is ignored.
+            Using the WS_EX_RIGHT style for static or edit controls has the same effect as using the SS_RIGHT or ES_RIGHT style, respectively. Using this style with button controls has the same effect as using BS_RIGHT and BS_RIGHTBUTTON styles.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_RIGHTSCROLLBAR">
+            <summary>
+            Vertical scroll bar (if present) is to the right of the client area. This is the default.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_RTLREADING">
+            <summary>
+            If the shell language is Hebrew, Arabic, or another language that supports reading-order alignment, the window text is displayed using right-to-left reading-order properties. For other languages, the style is ignored.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_STATICEDGE">
+            <summary>
+            Creates a window with a three-dimensional border style intended to be used for items that do not accept user input.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_TOOLWINDOW">
+            <summary>
+            Creates a tool window; that is, a window intended to be used as a floating toolbar. A tool window has a title bar that is shorter than a normal title bar, and the window title is drawn using a smaller font. A tool window does not appear in the taskbar or in the dialog that appears when the user presses ALT+TAB. If a tool window has a system menu, its icon is not displayed on the title bar. However, you can display the system menu by right-clicking or by typing ALT+SPACE. 
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_TOPMOST">
+            <summary>
+            Specifies that a window created with this style should be placed above all non-topmost windows and should stay above them, even when the window is deactivated. To add or remove this style, use the SetWindowPos function.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_TRANSPARENT">
+            <summary>
+            Specifies that a window created with this style should not be painted until siblings beneath the window (that were created by the same thread) have been painted. The window appears transparent because the bits of underlying sibling windows have already been painted.
+            To achieve transparency without these restrictions, use the SetWindowRgn function.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_WINDOWEDGE">
+            <summary>
+            Specifies that a window has a border with a raised edge.
+            </summary>
+        </member>
+        <member name="T:NRegFreeCom.Interop.WindowStyles">
+            <summary>
+            Window Styles.
+            The following styles can be specified wherever a window style is required. After the control has been created, these styles cannot be modified, except as noted.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_BORDER">
+            <summary>The window has a thin-line border.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_CAPTION">
+            <summary>The window has a title bar (includes the WS_BORDER style).</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_CHILD">
+            <summary>The window is a child window. A window with this style cannot have a menu bar. This style cannot be used with the WS_POPUP style.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_CLIPCHILDREN">
+            <summary>Excludes the area occupied by child windows when drawing occurs within the parent window. This style is used when creating the parent window.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_CLIPSIBLINGS">
+            <summary>
+            Clips child windows relative to each other; that is, when a particular child window receives a WM_PAINT message, the WS_CLIPSIBLINGS style clips all other overlapping child windows out of the region of the child window to be updated.
+            If WS_CLIPSIBLINGS is not specified and child windows overlap, it is possible, when drawing within the client area of a child window, to draw within the client area of a neighboring child window.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_DISABLED">
+            <summary>The window is initially disabled. A disabled window cannot receive input from the user. To change this after a window has been created, use the EnableWindow function.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_DLGFRAME">
+            <summary>The window has a border of a style typically used with dialog boxes. A window with this style cannot have a title bar.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_GROUP">
+            <summary>
+            The window is the first control of a group of controls. The group consists of this first control and all controls defined after it, up to the next control with the WS_GROUP style.
+            The first control in each group usually has the WS_TABSTOP style so that the user can move from group to group. The user can subsequently change the keyboard focus from one control in the group to the next control in the group by using the direction keys.
+            You can turn this style on and off to change dialog box navigation. To change this style after a window has been created, use the SetWindowLong function.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_HSCROLL">
+            <summary>The window has a horizontal scroll bar.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_MAXIMIZE">
+            <summary>The window is initially maximized.</summary> 
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_MAXIMIZEBOX">
+            <summary>The window has a maximize button. Cannot be combined with the WS_EX_CONTEXTHELP style. The WS_SYSMENU style must also be specified.</summary> 
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_MINIMIZE">
+            <summary>The window is initially minimized.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_MINIMIZEBOX">
+            <summary>The window has a minimize button. Cannot be combined with the WS_EX_CONTEXTHELP style. The WS_SYSMENU style must also be specified.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_OVERLAPPED">
+            <summary>The window is an overlapped window. An overlapped window has a title bar and a border.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_OVERLAPPEDWINDOW">
+            <summary>The window is an overlapped window.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_POPUP">
+            <summary>The window is a pop-up window. This style cannot be used with the WS_CHILD style.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_POPUPWINDOW">
+            <summary>The window is a pop-up window. The WS_CAPTION and WS_POPUPWINDOW styles must be combined to make the window menu visible.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_SIZEFRAME">
+            <summary>The window has a sizing border.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_SYSMENU">
+            <summary>The window has a window menu on its title bar. The WS_CAPTION style must also be specified.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_TABSTOP">
+            <summary>
+            The window is a control that can receive the keyboard focus when the user presses the TAB key.
+            Pressing the TAB key changes the keyboard focus to the next control with the WS_TABSTOP style.  
+            You can turn this style on and off to change dialog box navigation. To change this style after a window has been created, use the SetWindowLong function.
+            For user-created windows and modeless dialogs to work with tab stops, alter the message loop to call the IsDialogMessage function.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_VISIBLE">
+            <summary>The window is initially visible. This style can be turned on and off by using the ShowWindow or SetWindowPos function.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WindowStyles.WS_VSCROLL">
+            <summary>The window has a vertical scroll bar.</summary>
+        </member>
+        <member name="M:NRegFreeCom.Assembly.GetDelegate``1(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:NRegFreeCom.Assembly.TryGetDelegate``1(``0@,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="T:NRegFreeCom.ComDispatchUtility">
+            www.codeproject.com/Articles/523417/Reflection-with-IDispatch-based-COM-objects
+             <summary>
+             Provides helper methods for working with COM IDispatch objects that have a registered type library.
+             </summary>
+        </member>
+        <member name="M:NRegFreeCom.ComDispatchUtility.ImplementsIDispatch(System.Object)">
+            <summary>
+            Gets whether the specified object implements IDispatch.
+            </summary>
+            <param name="obj">An object to check.</param>
+            <returns>True if the object implements IDispatch.  False otherwise.</returns>
+        </member>
+        <member name="M:NRegFreeCom.ComDispatchUtility.GetType(System.Object,System.Boolean)">
+            <summary>
+            Gets a Type that can be used with reflection.
+            </summary>
+            <param name="obj">An object that implements IDispatch.</param>
+            <param name="throwIfNotFound">Whether an exception should be thrown if a Type can't be obtained.</param>
+            <returns>A .NET Type that can be used with reflection.</returns>
+            <exception cref="T:System.InvalidCastException">If <paramref name="obj"/> doesn't implement IDispatch.</exception>
+        </member>
+        <member name="M:NRegFreeCom.ComDispatchUtility.TryGetDispId(System.Object,System.String,System.Int32@)">
+            <summary>
+            Tries to get the DISPID for the requested member name.
+            </summary>
+            <param name="obj">An object that implements IDispatch.</param>
+            <param name="name">The name of a member to lookup.</param>
+            <param name="dispId">If the method returns true, this holds the DISPID on output.
+            If the method returns false, this value should be ignored.</param>
+            <returns>True if the member was found and resolved to a DISPID.  False otherwise.</returns>
+            <exception cref="T:System.InvalidCastException">If <paramref name="obj"/> doesn't implement IDispatch.</exception>
+        </member>
+        <member name="M:NRegFreeCom.ComDispatchUtility.Invoke(System.Object,System.Int32,System.Object[])">
+            <summary>
+            Invokes a member by DISPID.
+            </summary>
+            <param name="obj">An object that implements IDispatch.</param>
+            <param name="dispId">The DISPID of a member.  This can be obtained using
+            <see cref="M:NRegFreeCom.ComDispatchUtility.TryGetDispId(System.Object,System.String,System.Int32@)"/>.</param>
+            <param name="args">The arguments to pass to the member.</param>
+            <returns>The member's return value.</returns>
+            <remarks>
+            This can invoke a method or a property get accessor.
+            </remarks>
+        </member>
+        <member name="M:NRegFreeCom.ComDispatchUtility.Invoke(System.Object,System.String,System.Object[])">
+            <summary>
+            Invokes a member by name.
+            </summary>
+            <param name="obj">An object.</param>
+            <param name="memberName">The name of the member to invoke.</param>
+            <param name="args">The arguments to pass to the member.</param>
+            <returns>The member's return value.</returns>
+            <remarks>
+            This can invoke a method or a property get accessor.
+            </remarks>
+        </member>
+        <member name="M:NRegFreeCom.ComDispatchUtility.requireReference``1(``0,System.String)">
+            <summary>
+            Requires that the value is non-null.
+            </summary>
+            <typeparam name="T">The type of the value.</typeparam>
+            <param name="value">The value to check.</param>
+            <param name="name">The name of the value.</param>
+        </member>
+        <member name="M:NRegFreeCom.ComDispatchUtility.getType(NRegFreeCom.Interop.ComTypes.IDispatch,System.Boolean)">
+            <summary>
+            Gets a Type that can be used with reflection.
+            </summary>
+            <param name="dispatch">An object that implements IDispatch.</param>
+            <param name="throwIfNotFound">Whether an exception should be thrown if a Type can't be obtained.</param>
+            <returns>A .NET Type that can be used with reflection.</returns>
+        </member>
+        <member name="M:NRegFreeCom.ComDispatchUtility.tryGetDispId(NRegFreeCom.Interop.ComTypes.IDispatch,System.String,System.Int32@)">
+            <summary>
+            Tries to get the DISPID for the requested member name.
+            </summary>
+            <param name="dispatch">An object that implements IDispatch.</param>
+            <param name="name">The name of a member to lookup.</param>
+            <param name="dispId">If the method returns true, this holds the DISPID on output.
+            If the method returns false, this value should be ignored.</param>
+            <returns>True if the member was found and resolved to a DISPID.  False otherwise.</returns>
+        </member>
+        <member name="T:NRegFreeCom.Interop.CoInit">
+            <summary>Determines the concurrency model used for incoming calls to objects created by this thread. This concurrency model can be either apartment-threaded or multi-threaded.</summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.CoInit.MultiThreaded">
+            <summary>
+            Initializes the thread for apartment-threaded object concurrency.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.CoInit.ApartmentThreaded">
+            <summary>
+            Initializes the thread for multi-threaded object concurrency.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.CoInit.DisableOle1Dde">
+            <summary>
+            Disables DDE for OLE1 support.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.CoInit.SpeedOverMemory">
+            <summary>
+            Trade memory for speed.
+            </summary>
+        </member>
+        <member name="T:NRegFreeCom.ActivationContext">
+            <summary>
+             Used tune activation context stack of thread for intializing and loading SxS components.
+             </summary>
+            <seealso cref="!:Microsoft.Windows.ActCtx"/>
+            <seealso href="http://www.atalasoft.com/blogs/spikemclarty/february-2012/dynamically-testing-an-activex-control-from-c-and"/>
+        </member>
+        <member name="M:NRegFreeCom.ActivationContext.CreateInstanceWithManifest(System.Guid,System.String)">
+            <summary>
+            Create an instance of a COM object given the GUID of its class
+            and a filepath of a client manifest (AKA an application manifest.)
+            </summary>
+            <param name="guid">GUID = CLSID of the COM object, {NNNN...NNN}</param>
+            <param name="manifest">full path of manifest to activate, should list the
+            desired COM class as a dependentAssembly.</param>
+            <returns>An instance of the specified COM class, or null.</returns>
+        </member>
+        <member name="M:NRegFreeCom.ActivationContext.UsingManifestDo(System.String,NRegFreeCom.ActivationContext.doSomething)">
+            <summary>
+            Applies content of <paramref name="pathToManifest"/> file to current context, invokes <paramref name="thingToDo"/> delegate, deactivates applied context.
+            </summary>
+            <param name="pathToManifest"></param>
+            <param name="thingToDo"></param>
+            <exception cref="T:System.IO.FileNotFoundException"></exception>
+        </member>
+        <member name="M:NRegFreeCom.ActivationContext.UsingAssemblyManifestDo(System.Reflection.Assembly,NRegFreeCom.ActivationContext.doSomething)">
+            <summary>
+            Given CLR assembly search manifest of it located in the same folder with .manifest suffix.
+            Activates manifest found, invokes <paramref name="thingToDo"/> delegate, deactivates applied context. 
+            </summary>
+            <param name="assembly"></param>
+            <param name="action"></param>
+        </member>
+        <member name="M:NRegFreeCom.ActivationContext.CreateInstanceDirectly(NRegFreeCom.IAssembly,System.Guid)">
+            <summary>
+            Creates  COM class instance directly without using any COM Activation or thread Marshaling services.
+            </summary>
+            <param name="libraryModule"></param>
+            <param name="clsid"></param>
+            <returns></returns>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WELL_KNOWN_IIDS.IID_IUnknown">
+            <summary>
+            Interface Id of IUnknown
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WELL_KNOWN_IIDS.IID_IDispatch">
+            <summary>
+            Interface Id of IDispatch
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.WELL_KNOWN_IIDS.IID_IClassFactory">
+            <summary>
+            Interface Id of IClassFactory
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.NativeMethods.CLASS_E_NOAGGREGATION">
+            <summary>
+            Class does not support aggregation (or class object is remote)
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.Interop.NativeMethods.E_NOINTERFACE">
+            <summary>
+            No such interface supported
+            </summary>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.OleLoadPicturePath(System.String,System.IntPtr,System.UInt32,System.UInt32,System.Guid@,NRegFreeCom.Interop.ComTypes.IUnknown@)">
+            <summary>
+            http://msdn.microsoft.com/en-us/library/windows/desktop/ms678485.aspx
+                            HRESULT OleLoadPicturePath(
+              _In_   LPOLESTR szURLorPath,
+              _In_   LPUNKNOWN punkCaller,
+              _In_   DWORD dwReserved,
+              _In_   OLE_COLOR clrReserved,
+              _In_   REFIID riid,
+              _Out_  LPVOID *ppvRet
+            );
+               </summary>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.UnregisterClass(System.IntPtr,System.IntPtr)">
+            <summary>
+            Unregisters a window class, freeing the memory required for the class.
+            </summary>
+            <param name="lpClassName">
+            Type: LPCTSTR
+            A null-terminated string or a class atom. If lpClassName is a string, it specifies the window class name. 
+            This class name must have been registered by a previous call to the RegisterClass or RegisterClassEx function. 
+            System classes, such as dialog box controls, cannot be unregistered. If this parameter is an atom, 
+              it must be a class atom created by a previous call to the RegisterClass or RegisterClassEx function. 
+            The atom must be in the low-order word of lpClassName; the high-order word must be zero.
+            
+            </param>
+            <param name="hInstance">
+            A handle to the instance of the module that created the class.
+            
+            </param>
+            <returns>
+            Type: BOOL
+            If the function succeeds, the return value is nonzero.
+            If the class could not be found or if a window still exists that was created with the class, the return value is zero. 
+            To get extended error information, call GetLastError.
+            
+            </returns>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.CreateWindowEx(NRegFreeCom.Interop.WindowStylesEx,System.IntPtr,System.String,NRegFreeCom.Interop.WindowStyles,System.Int32,System.Int32,System.Int32,System.Int32,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)">
+            <summary>
+            The CreateWindowEx function creates an overlapped, pop-up, or child window with an extended window style; otherwise, this function is identical to the CreateWindow function. 
+            </summary>
+            <param name="dwExStyle">Specifies the extended window style of the window being created.</param>
+            <param name="lpClassName">Pointer to a null-terminated string or a class atom created by a previous call to the RegisterClass or RegisterClassEx function. The atom must be in the low-order word of lpClassName; the high-order word must be zero. If lpClassName is a string, it specifies the window class name. The class name can be any name registered with RegisterClass or RegisterClassEx, provided that the module that registers the class is also the module that creates the window. The class name can also be any of the predefined system class names.</param>
+            <param name="lpWindowName">Pointer to a null-terminated string that specifies the window name. If the window style specifies a title bar, the window title pointed to by lpWindowName is displayed in the title bar. When using CreateWindow to create controls, such as buttons, check boxes, and static controls, use lpWindowName to specify the text of the control. When creating a static control with the SS_ICON style, use lpWindowName to specify the icon name or identifier. To specify an identifier, use the syntax "#num". </param>
+            <param name="dwStyle">Specifies the style of the window being created. This parameter can be a combination of window styles, plus the control styles indicated in the Remarks section.</param>
+            <param name="x">Specifies the initial horizontal position of the window. For an overlapped or pop-up window, the x parameter is the initial x-coordinate of the window's upper-left corner, in screen coordinates. For a child window, x is the x-coordinate of the upper-left corner of the window relative to the upper-left corner of the parent window's client area. If x is set to CW_USEDEFAULT, the system selects the default position for the window's upper-left corner and ignores the y parameter. CW_USEDEFAULT is valid only for overlapped windows; if it is specified for a pop-up or child window, the x and y parameters are set to zero.</param>
+            <param name="y">Specifies the initial vertical position of the window. For an overlapped or pop-up window, the y parameter is the initial y-coordinate of the window's upper-left corner, in screen coordinates. For a child window, y is the initial y-coordinate of the upper-left corner of the child window relative to the upper-left corner of the parent window's client area. For a list box y is the initial y-coordinate of the upper-left corner of the list box's client area relative to the upper-left corner of the parent window's client area.
+            <para>If an overlapped window is created with the WS_VISIBLE style bit set and the x parameter is set to CW_USEDEFAULT, then the y parameter determines how the window is shown. If the y parameter is CW_USEDEFAULT, then the window manager calls ShowWindow with the SW_SHOW flag after the window has been created. If the y parameter is some other value, then the window manager calls ShowWindow with that value as the nCmdShow parameter.</para></param>
+            <param name="nWidth">Specifies the width, in device units, of the window. For overlapped windows, nWidth is the window's width, in screen coordinates, or CW_USEDEFAULT. If nWidth is CW_USEDEFAULT, the system selects a default width and height for the window; the default width extends from the initial x-coordinates to the right edge of the screen; the default height extends from the initial y-coordinate to the top of the icon area. CW_USEDEFAULT is valid only for overlapped windows; if CW_USEDEFAULT is specified for a pop-up or child window, the nWidth and nHeight parameter are set to zero.</param>
+            <param name="nHeight">Specifies the height, in device units, of the window. For overlapped windows, nHeight is the window's height, in screen coordinates. If the nWidth parameter is set to CW_USEDEFAULT, the system ignores nHeight.</param> <param name="hWndParent">Handle to the parent or owner window of the window being created. To create a child window or an owned window, supply a valid window handle. This parameter is optional for pop-up windows.
+            <para>Windows 2000/XP: To create a message-only window, supply HWND_MESSAGE or a handle to an existing message-only window.</para></param>
+            <param name="hMenu">Handle to a menu, or specifies a child-window identifier, depending on the window style. For an overlapped or pop-up window, hMenu identifies the menu to be used with the window; it can be NULL if the class menu is to be used. For a child window, hMenu specifies the child-window identifier, an integer value used by a dialog box control to notify its parent about events. The application determines the child-window identifier; it must be unique for all child windows with the same parent window.</param>
+            <param name="hInstance">Handle to the instance of the module to be associated with the window.</param> <param name="lpParam">Pointer to a value to be passed to the window through the CREATESTRUCT structure (lpCreateParams member) pointed to by the lParam param of the WM_CREATE message. This message is sent to the created window by this function before it returns.
+            <para>If an application calls CreateWindow to create a MDI client window, lpParam should point to a CLIENTCREATESTRUCT structure. If an MDI client window calls CreateWindow to create an MDI child window, lpParam should point to a MDICREATESTRUCT structure. lpParam may be NULL if no additional data is needed.</para></param>
+            <returns>If the function succeeds, the return value is a handle to the new window.
+            <para>If the function fails, the return value is NULL. To get extended error information, call GetLastError.</para>
+            <para>This function typically fails for one of the following reasons:</para>
+            <list type="">
+            <item>an invalid parameter value</item>
+            <item>the system class was registered by a different module</item>
+            <item>The WH_CBT hook is installed and returns a failure code</item>
+            <item>if one of the controls in the dialog template is not registered, or its window window procedure fails WM_CREATE or WM_NCCREATE</item>
+            </list></returns>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.GetDllDirectory(System.Int32,System.Text.StringBuilder)">
+            <summary>
+                    DWORD WINAPI GetDllDirectory(
+              _In_   DWORD nBufferLength,
+              _Out_  LPTSTR lpBuffer
+            );
+             </summary>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.AddDllDirectory(System.String)">
+            <summary>
+                    DLL_DIRECTORY_COOKIE  WINAPI AddDllDirectory(
+              _In_  PCWSTR NewDirectory
+            );
+             </summary>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.SetDefaultDllDirectories(NRegFreeCom.Interop.DIRECTORY_FLAGS)">
+            <summary>
+                     BOOL  WINAPI SetDefaultDllDirectories(
+              _In_  DWORD DirectoryFlags
+            );
+             </summary>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.RemoveDllDirectory(System.IntPtr)">
+            <summary>
+                   BOOL  WINAPI RemoveDllDirectory(
+            _In_  DLL_DIRECTORY_COOKIE Cookie
+            );
+             </summary>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.SetDllDirectory(System.String)">
+            <seealso href="http://search.microsoft.com/en-US/results.aspx?q=SetDllDirectory"/>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.LoadLibraryEx(System.String,System.IntPtr,NRegFreeCom.Interop.LOAD_LIBRARY_FLAGS)">
+            <summary>
+            
+            </summary>
+            <param name="lpFileName"></param>
+            <param name="hFile"></param>
+            <param name="dwFlags">The action to be taken when loading the module. If no flags are specified, the behavior of this function is identical to that of the LoadLibrary function. This parameter can be one of the following values.</param>
+            <returns></returns>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.CoInitializeEx(System.IntPtr,NRegFreeCom.Interop.CoInit)">
+            <summary>Initializes the COM library for use by the calling thread, sets the thread's concurrency model, and creates a new apartment for the thread if one is required.</summary>
+            <param name="pvReserved">This parameter is reserved and must be NULL.</param>
+            <param name="coInit">The concurrency model and initialization options for the thread. Values for this parameter are taken from the CoInit enumeration. Any combination of values can be used, except that the ApartmentThreaded and MultiThreaded flags cannot both be set. The default is MultiThreaded.</param>
+            <returns>If function succeeds, it returns S_OK. Otherwise, it returns an error code.</returns>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.CoUninitialize">
+            <summary>
+            CoUninitialize() is used to uninitialize a COM thread.
+            </summary>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.CoRegisterClassObject(System.Guid@,NRegFreeCom.Interop.ComTypes.IClassFactory,NRegFreeCom.Interop.CLSCTX,NRegFreeCom.Interop.REGCLS,System.UInt32@)">
+            <summary>
+            Registers an EXE class object with OLE so other applications can 
+            connect to it. EXE object applications should call 
+            CoRegisterClassObject on startup. It can also be used to register 
+            internal objects for use by the same EXE or other code (such as DLLs)
+            that the EXE uses.
+            </summary>
+            <param name="rclsid">CLSID to be registered</param>
+            <param name="pUnk">
+            Pointer to the IUnknown interface on the class object whose 
+            availability is being published.
+            </param>
+            <param name="dwClsContext">
+            Context in which the executable code is to be run.
+            </param>
+            <param name="flags">
+            How connections are made to the class object.
+            </param>
+            <param name="lpdwRegister">
+            Pointer to a value that identifies the class object registered; 
+            </param>
+            <returns></returns>
+            <remarks>
+            PInvoking CoRegisterClassObject to register COM objects is not 
+            supported.
+            </remarks>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.CoRevokeClassObject(System.UInt32)">
+            <summary>
+            Informs OLE that a class object, previously registered with the 
+            CoRegisterClassObject function, is no longer available for use.
+            </summary>
+            <param name="dwRegister">
+            Token previously returned from the CoRegisterClassObject function
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.CoResumeClassObjects">
+            <summary>
+            Called by a server that can register multiple class objects to inform 
+            the SCM about all registered classes, and permits activation requests 
+            for those class objects.
+            </summary>
+            <returns></returns>
+            <remarks>
+            Servers that can register multiple class objects call 
+            CoResumeClassObjects once, after having first called 
+            CoRegisterClassObject, specifying REGCLS_LOCAL_SERVER | 
+            REGCLS_SUSPENDED for each CLSID the server supports. This function 
+            causes OLE to inform the SCM about all the registered classes, and 
+            begins letting activation requests into the server process.
+            
+            This reduces the overall registration time, and thus the server 
+            application startup time, by making a single call to the SCM, no 
+            matter how many CLSIDs are registered for the server. Another 
+            advantage is that if the server has multiple apartments with 
+            different CLSIDs registered in different apartments, or is a free-
+            threaded server, no activation requests will come in until the server 
+            calls CoResumeClassObjects. This gives the server a chance to 
+            register all of its CLSIDs and get properly set up before having to 
+            deal with activation requests, and possibly shutdown requests. 
+            </remarks>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.GetCurrentThreadId">
+            <summary>
+            Get current thread ID.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.GetCurrentProcessId">
+            <summary>
+            Get current process ID.
+            </summary>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.GetMessage(NRegFreeCom.Interop.MSG@,System.IntPtr,System.UInt32,System.UInt32)">
+            <summary>
+            The GetMessage function retrieves a message from the calling thread's 
+            message queue. The function dispatches incoming sent messages until a 
+            posted message is available for retrieval. 
+            </summary>
+            <param name="lpMsg">
+            Pointer to an MSG structure that receives message information from 
+            the thread's message queue.
+            </param>
+            <param name="hWnd">
+            Handle to the window whose messages are to be retrieved.
+            </param>
+            <param name="wMsgFilterMin">
+            Specifies the integer value of the lowest message value to be 
+            retrieved. 
+            </param>
+            <param name="wMsgFilterMax">
+            Specifies the integer value of the highest message value to be 
+            retrieved.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.TranslateMessage(NRegFreeCom.Interop.MSG@)">
+            <summary>
+            The TranslateMessage function translates virtual-key messages into 
+            character messages. The character messages are posted to the calling 
+            thread's message queue, to be read the next time the thread calls the 
+            GetMessage or PeekMessage function.
+            </summary>
+            <param name="lpMsg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.DispatchMessage(NRegFreeCom.Interop.MSG@)">
+            <summary>
+            The DispatchMessage function dispatches a message to a window 
+            procedure. It is typically used to dispatch a message retrieved by 
+            the GetMessage function.
+            </summary>
+            <param name="lpMsg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.DestroyWindow(System.IntPtr)">
+            <summary>
+            <para>The DestroyWindow function destroys the specified window. The function sends WM_DESTROY and WM_NCDESTROY messages to the window to deactivate it and remove the keyboard focus from it. The function also destroys the window's menu, flushes the thread message queue, destroys timers, removes clipboard ownership, and breaks the clipboard viewer chain (if the window is at the top of the viewer chain).</para>
+            <para>If the specified window is a parent or owner window, DestroyWindow automatically destroys the associated child or owned windows when it destroys the parent or owner window. The function first destroys child or owned windows, and then it destroys the parent or owner window.</para>
+            <para>DestroyWindow also destroys modeless dialog boxes created by the CreateDialog function.</para>
+            </summary>
+            <param name="hwnd">Handle to the window to be destroyed.</param>
+            <returns>If the function succeeds, the return value is nonzero. If the function fails, the return value is zero. To get extended error information, call GetLastError.</returns>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.PostThreadMessage(System.UInt32,System.UInt32,System.UIntPtr,System.IntPtr)">
+            <summary>
+            The PostThreadMessage function posts a message to the message queue 
+            of the specified thread. It returns without waiting for the thread to 
+            process the message.
+            </summary>
+            <param name="idThread">
+            Identifier of the thread to which the message is to be posted.
+            </param>
+            <param name="Msg">Specifies the type of message to be posted.</param>
+            <param name="wParam">
+            Specifies additional message-specific information.
+            </param>
+            <param name="lParam">
+            Specifies additional message-specific information.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:NRegFreeCom.Interop.NativeMethods.GetRunningObjectTable(System.UInt32,System.Runtime.InteropServices.ComTypes.IRunningObjectTable@)">
+            <summary>
+            Returns a pointer to the IRunningObjectTable
+            interface on the local running object table (ROT).
+            </summary>
+            <param name="reserved">This parameter is reserved and must be 0.</param>
+            <param name="prot">The address of an IRunningObjectTable* pointer variable
+            that receives the interface pointer to the local ROT. When the function is
+            successful, the caller is responsible for calling Release on the interface
+            pointer. If an error occurs, *pprot is undefined.</param>
+            <returns>This function can return the standard return values E_UNEXPECTED and S_OK.</returns>
+        </member>
+        <member name="T:NRegFreeCom.Interop.ComTypes.IServiceProvider">
+            <seealso href="http://msdn.microsoft.com/en-us/library/cc678965.aspx"/>
+        </member>
+        <member name="T:NRegFreeCom.RunningObjectTable">
+            <summary>
+             Allows manipulations with Running Object Table like add and removing objects, enumerating registered. 
+             </summary>
+            <seealso href="https://sites.google.com/site/jozsefbekes/Home/windows-programming/dotnet-registering-an-object-to-the-running-object-table-from-a-non-com-project"/>
+            <seealso href="https://sites.google.com/site/jozsefbekes/Home/windows-programming/registering-an-object-to-the-running-object-table-from-a-non-com-project"/>
+        </member>
+        <member name="T:NRegFreeCom.Interop.DEF.DllMain">
+            <seealso href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms682583.aspx"/>
+        </member>
+        <member name="M:NRegFreeCom.Interop.ComTypes.IBytesRequestResponse.Execute(System.Byte[])">
+            <summary>
+            Allows to request COM object with bytes and be responded with bytes.
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NRegFreeCom.IRegAsm.RegisterLocalServer(System.Type)">
+            <summary>
+            Register the component as a local server.
+            </summary>
+            <param name="t"></param>
+        </member>
+        <member name="M:NRegFreeCom.IRegAsm.UnregisterLocalServer(System.Type)">
+            <summary>
+            Unregister the component.
+            </summary>
+            <param name="t"></param>
+        </member>
+        <member name="M:NRegFreeCom.RegistryKeyExtensions.DeleteSubKeyTree(Microsoft.Win32.RegistryKey,System.String,System.Boolean)">
+            <summary>
+            Deletes the specified subkey and any child subkeys recursively, and specifies whether an exception is raised if the subkey is not found.
+            </summary>
+            <param name="subkey">The name of the subkey to delete. This string is not case-sensitive.</param><param name="throwOnMissingSubKey">Indicates whether an exception should be raised if the specified subkey cannot be found. If this argument is true and the specified subkey does not exist, an exception is raised. If this argument is false and the specified subkey does not exist, no action is taken.</param><exception cref="T:System.ArgumentException">An attempt was made to delete the root hive of the tree.-or-<paramref name="subkey"/> does not specify a valid registry subkey, and <paramref name="throwOnMissingSubKey"/> is true.</exception><exception cref="T:System.ArgumentNullException"><paramref name="subkey"/> is null.</exception><exception cref="T:System.ObjectDisposedException">The <see cref="T:Microsoft.Win32.RegistryKey"/> is closed (closed keys cannot be accessed).</exception><exception cref="T:System.UnauthorizedAccessException">The user does not have the necessary registry rights.</exception><exception cref="T:System.Security.SecurityException">The user does not have the permissions required to delete the key.</exception>
+        </member>
+        <member name="T:NRegFreeCom.RegFileObject">
+            <summary>
+            The main reg file parsing class.
+            Reads the given reg file and stores the content as
+            a Dictionary of registry keys and values as a Dictionary of registry values <see cref="T:NRegFreeCom.RegValueObject"/>
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.RegFileObject.path">
+            The full path of the reg file to be imported
+        </member>
+        <member name="F:NRegFreeCom.RegFileObject.filename">
+            The reg file name
+        </member>
+        <member name="F:NRegFreeCom.RegFileObject.encoding">
+            Encoding of the reg file (Regedit 4 - ANSI; Regedit 5 - UTF8)
+        </member>
+        <member name="F:NRegFreeCom.RegFileObject.content">
+            Raw content of the reg file
+        </member>
+        <member name="F:NRegFreeCom.RegFileObject.regvalues">
+            the dictionary containing parsed registry values
+        </member>
+        <member name="M:NRegFreeCom.RegFileObject.Read">
+            <summary>
+            Imports the reg file
+            </summary>
+        </member>
+        <member name="M:NRegFreeCom.RegFileObject.ParseFile">
+            <summary>
+            Parses the reg file for reg keys and reg values
+            </summary>
+            <returns>A Dictionary with reg keys as Dictionary keys and a Dictionary of (valuename, valuedata)</returns>
+        </member>
+        <member name="M:NRegFreeCom.RegFileObject.NormalizeDictionary(System.String,System.String,System.Boolean)">
+            <summary>
+            Creates a flat Dictionary using given searcn pattern
+            </summary>
+            <param name="searchPattern">The search pattern</param>
+            <param name="content">The content string to be parsed</param>
+            <param name="stripeBraces">Flag for striping braces (true for reg keys, false for reg values)</param>
+            <returns>A Dictionary with retrieved keys and remaining content</returns>
+        </member>
+        <member name="M:NRegFreeCom.RegFileObject.StripeLeadingChars(System.String,System.String)">
+            <summary>
+            Removes the leading and ending characters from the given string
+            </summary>
+            <param name="sLine">given string</param>
+            <returns>edited string</returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NRegFreeCom.RegFileObject.StripeBraces(System.String)">
+            <summary>
+            Removes the leading and ending parenthesis from the given string
+            </summary>
+            <param name="sLine">given string</param>
+            <returns>edited string</returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NRegFreeCom.RegFileObject.GetEncoding">
+            <summary>
+            Retrieves the ecoding of the reg file, checking the word "REGEDIT4"
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:NRegFreeCom.RegFileObject.FullPath">
+            <summary>
+            Gets or sets the full path of the reg file
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.RegFileObject.FileName">
+            <summary>
+            Gets the name of the reg file
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.RegFileObject.RegValues">
+            <summary>
+            Gets the dictionary containing all entries
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.RegFileObject.Encoding">
+            <summary>
+            Gets or sets the encoding schema of the reg file (UTF8 or Default)
+            </summary>
+        </member>
+        <member name="M:NRegFreeCom.RegValueObject.#ctor(System.String,System.String,System.String,System.String)">
+            <param name="propertyString">A line from the [Registry] section of the *.sig signature file</param>
+        </member>
+        <member name="M:NRegFreeCom.RegValueObject.ToString">
+            <returns>An entry for the [Registry] section of the *.sig signature file</returns>
+        </member>
+        <member name="M:NRegFreeCom.RegValueObject.GetRegEntryType(System.String@,System.String)">
+            <summary>
+            Retrieves the reg value type, parsing the prefix of the value
+            </summary>
+            <param name="sTextLine">Registry value row string</param>
+            <returns>Value</returns>
+        </member>
+        <member name="M:NRegFreeCom.RegValueObject.StripeLeadingChars(System.String,System.String)">
+            <summary>
+            Removes the leading and ending characters from the given string
+            </summary>
+            <param name="sline">given string</param>
+            <returns>edited string</returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NRegFreeCom.RegValueObject.StripeBraces(System.String)">
+            <summary>
+            Removes the leading and ending parenthesis from the given string
+            </summary>
+            <param name="sline">given string</param>
+            <returns>edited string</returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NRegFreeCom.RegValueObject.StripeContinueChar(System.String)">
+            <summary>
+            Removes the ending backslashes from the given string
+            </summary>
+            <param name="sline">given string</param>
+            <returns>edited string</returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NRegFreeCom.RegValueObject.GetStringRepresentation(System.String[],System.String)">
+            <summary>
+            Converts the byte arrays (saved as array of string) into string
+            </summary>
+            <param name="stringArray">Array of string</param>
+            <returns>String value</returns>
+        </member>
+        <member name="P:NRegFreeCom.RegValueObject.Entry">
+            <summary>
+            Regsitry value name
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.RegValueObject.ParentKey">
+            <summary>
+            Registry value parent key
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.RegValueObject.Root">
+            <summary>
+            Registry value root hive
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.RegValueObject.Type">
+            <summary>
+            Registry value type
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.RegValueObject.Value">
+            <summary>
+            Registry value data
+            </summary>
+        </member>
+        <member name="T:NRegFreeCom.RegAsm">
+            <summary>
+            Registers and unregisters COM objects.
+            </summary>
+        </member>
+        <member name="T:NRegFreeCom.PeHeaderReader">
+            <summary>
+            Reads in the header information of the Portable Executable format.
+            Provides information such as the date the assembly was compiled.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.dosHeader">
+            <summary>
+            The DOS header
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.fileHeader">
+            <summary>
+            The file header
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.optionalHeader32">
+            <summary>
+            Optional 32 bit file header 
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.optionalHeader64">
+            <summary>
+            Optional 64 bit file header 
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.imageSectionHeaders">
+            <summary>
+            Image Section headers. Number of sections is in the file header.
+            </summary>
+        </member>
+        <member name="M:NRegFreeCom.PeHeaderReader.fromBinaryReader``1(System.IO.BinaryReader)">
+            <summary>
+            Reads in a block from a file and converts it to the struct
+            type specified by the template parameter
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="reader"></param>
+            <returns></returns>
+        </member>
+        <member name="P:NRegFreeCom.PeHeaderReader.Is32BitHeader">
+            <summary>
+            Gets if the file header is 32 bit or not
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.PeHeaderReader.FileHeader">
+            <summary>
+            Gets the file header
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.PeHeaderReader.OptionalHeader32">
+            <summary>
+            Gets the optional header
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.PeHeaderReader.OptionalHeader64">
+            <summary>
+            Gets the optional header
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.PeHeaderReader.TimeStamp">
+            <summary>
+            Gets the timestamp from the file header
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.TypeReg">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.TypeDsect">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.TypeNoLoad">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.TypeGroup">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.TypeNoPadded">
+            <summary>
+            The section should not be padded to the next boundary. This flag is obsolete and is replaced by IMAGE_SCN_ALIGN_1BYTES. This is valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.TypeCopy">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.ContentCode">
+            <summary>
+            The section contains executable code.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.ContentInitializedData">
+            <summary>
+            The section contains initialized data.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.ContentUninitializedData">
+            <summary>
+            The section contains uninitialized data.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.LinkOther">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.LinkInfo">
+            <summary>
+            The section contains comments or other information. The .drectve section has this type. This is valid for object files only.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.TypeOver">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.LinkRemove">
+            <summary>
+            The section will not become part of the image. This is valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.LinkComDat">
+            <summary>
+            The section contains COMDAT data. For more information, see section 5.5.6, COMDAT Sections (Object Only). This is valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.NoDeferSpecExceptions">
+            <summary>
+            Reset speculative exceptions handling bits in the TLB entries for this section.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.RelativeGP">
+            <summary>
+            The section contains data referenced through the global pointer (GP).
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemPurgeable">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Memory16Bit">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryLocked">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryPreload">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align1Bytes">
+            <summary>
+            Align data on a 1-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align2Bytes">
+            <summary>
+            Align data on a 2-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align4Bytes">
+            <summary>
+            Align data on a 4-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align8Bytes">
+            <summary>
+            Align data on an 8-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align16Bytes">
+            <summary>
+            Align data on a 16-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align32Bytes">
+            <summary>
+            Align data on a 32-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align64Bytes">
+            <summary>
+            Align data on a 64-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align128Bytes">
+            <summary>
+            Align data on a 128-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align256Bytes">
+            <summary>
+            Align data on a 256-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align512Bytes">
+            <summary>
+            Align data on a 512-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align1024Bytes">
+            <summary>
+            Align data on a 1024-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align2048Bytes">
+            <summary>
+            Align data on a 2048-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align4096Bytes">
+            <summary>
+            Align data on a 4096-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align8192Bytes">
+            <summary>
+            Align data on an 8192-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.LinkExtendedRelocationOverflow">
+            <summary>
+            The section contains extended relocations.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryDiscardable">
+            <summary>
+            The section can be discarded as needed.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryNotCached">
+            <summary>
+            The section cannot be cached.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryNotPaged">
+            <summary>
+            The section is not pageable.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryShared">
+            <summary>
+            The section can be shared in memory.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryExecute">
+            <summary>
+            The section can be executed as code.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryRead">
+            <summary>
+            The section can be read.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryWrite">
+            <summary>
+            The section can be written to.
             </summary>
         </member>
     </members>
