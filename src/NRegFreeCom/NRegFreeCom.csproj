@@ -55,6 +55,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ComMarshall.cs" />
+    <Compile Include="ClrComRegistryInfo.cs" />
     <Compile Include="Interop\ACTCTX.cs" />
     <Compile Include="ActivationContext.cs" />
     <Compile Include="Interop\ClassStyles.cs" />
@@ -68,10 +69,16 @@
     <Compile Include="IAssemblySystem.cs" />
     <Compile Include="IDispatcher.cs" />
     <Compile Include="Interop\SafeLibraryHandle.cs" />
+    <Compile Include="IRegAsm.cs" />
+    <Compile Include="MachineRegAsm.cs" />
     <Compile Include="PathAppender.cs" />
-    <Compile Include="PortableExecutableHeaderReader.cs" />
+    <Compile Include="PeHeaderReader.cs" />
     <Compile Include="Properties\PackagingInfo.cs" />
     <Compile Include="ReferenceCountedObject.cs" />
+    <Compile Include="RegAsm.cs" />
+    <Compile Include="RegFileObject.cs" />
+    <Compile Include="RegistryKeyExtensions.cs" />
+    <Compile Include="RegValueObject.cs" />
     <Compile Include="Tracing.cs" />
     <Compile Include="Interop\CLSCTX.cs" />
     <Compile Include="ComExceptionChecker.cs" />
@@ -108,7 +115,7 @@
     <Compile Include="Interop\RESOURCE_TYPES.cs" />
     <Compile Include="Interop\ROTFLAGS.cs" />
     <Compile Include="RotRegFreeComInvoker.cs" />
-    <Compile Include="Regasm.cs" />
+    <Compile Include="UserRegAsm.cs" />
     <Compile Include="RunningObjectTable.cs" />
     <Compile Include="Interop\NativeMethods.cs" />
     <Compile Include="StaComCrossThreadInvoker.cs" />

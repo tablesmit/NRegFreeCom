@@ -1,11 +1,13 @@
 ## NRegFreeCom
 
- COM is good for native interop and easy IPC, but lacks clean coded way to do such interaction without registry in .NET.
+ Load native libraries, call native functions, do COM objects without registration, do COM registrations in runtime, in .NET
 
- This library contains samples and reusable patters of such interation without registration.
+ COM is good for native interop and easy IPC, but lacks clean coded way to do such interaction without deployment/compile time registry in .NET.
 
  Managed code is XCOPY on 32/64. Making native interlop also XCOPY by using pattern of deploying both versions of native libs and deciding in runtime, like OS libraries PInvokes work.
  Managed code have AppDomains with dll search and memory isolation, striving to do the same of native COM.
+
+ This project contains samples and reusable patters of things above.
 
 ## Content
 * PInvokes used to work with native libraries and reg free COM objects
@@ -22,8 +24,8 @@
 
 ### Samples build
 
-* Vistual Studio 2010 SP1 (needs Visual C++)
-* Debug x86 
+* Visual Studio 2010 SP1 (needs Visual C++)
+* Debug|Mixed Platforms
 * Windows 7 SP 2
 
 
@@ -97,6 +99,26 @@
 
 ```
 
+```csharp
+  [TestFixture]
+    public class RegAsmTests
+    {
+        [Test]
+        public void User_RegisterInProcSever()
+        {
+            var type = typeof (RuntimeRegServer);
+            RegAsm.User.RegisterInProcSever(type);
+        }
+
+        [Test]
+        public void User_UnregisterInProcSever()
+        {
+            var type = typeof(RuntimeRegServer);
+            RegAsm.User.UnregisterInProcSever(type);
+        }
+    }
+```
+
 See tests and samples in code for other functional (like inter process communication without server Windows registry entry; loading and initializing native libraries, methods and COM objects).
 
 ##Notes
@@ -136,14 +158,17 @@ This lib strives to make .NET engine to load native code in isolated manner.
 
 ## Other semi automatic approaches of doing native interop
 
-* C++/CLI
 * IDL COM ATL Wizards, tlbimp
+* https://github.com/mono/CppSharp
+* http://clrinterop.codeplex.com
+* C++/CLI
 * C++/CX, WRL
 * SWIG
 * CXXI (Linux, gcc)
-* CppSharp (https://github.com/mono/CppSharp, clang)
-* http://clrinterop.codeplex.com/
-* http://www.xinterop.com/
+
+## Registy related
+
+http://www.codeproject.com/Articles/125573/Registry-Export-File-reg-Parser
 
 ##Q&A
 

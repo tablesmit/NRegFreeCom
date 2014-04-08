@@ -18,7 +18,7 @@ namespace NRegFreeCom.Tests
 
             var dll64 = Path.Combine(loader.BaseDirectory, loader.x64Directory, "RegFreeComResources.dll");
             var stream = new FileStream(dll64, System.IO.FileMode.Open, System.IO.FileAccess.Read);
-            var current = new PortableExecutableHeaderReader(stream);
+            var current = new PeHeaderReader(stream);
 
         }
 
@@ -29,13 +29,13 @@ namespace NRegFreeCom.Tests
 
             var dll64 = Path.Combine(loader.BaseDirectory, loader.x64Directory, "RegFreeComResources.dll");
             var stream = new FileStream(dll64, System.IO.FileMode.Open, System.IO.FileAccess.Read);
-            var current = new PortableExecutableHeaderReader(stream);
+            var current = new PeHeaderReader(stream);
 
-            var actual = new List<PortableExecutableHeaderReader.IMAGE_SECTION_HEADER>();
+            var actual = new List<PeHeaderReader.IMAGE_SECTION_HEADER>();
 
             for (int headerNo = 0; headerNo < current.ImageSectionHeaders.Length; ++headerNo)
             {
-                PortableExecutableHeaderReader.IMAGE_SECTION_HEADER section = current.ImageSectionHeaders[headerNo];
+                PeHeaderReader.IMAGE_SECTION_HEADER section = current.ImageSectionHeaders[headerNo];
                actual.Add(section);
             }
             var customSection = actual.Single(x => new String(x.Name).StartsWith(".my_str"));
@@ -50,13 +50,13 @@ namespace NRegFreeCom.Tests
         [Test]
         public void Current()
         {
-            var current = new PortableExecutableHeaderReader(typeof(PortableExecutableHeaderReaderTests).Assembly.Location);
+            var current = new PeHeaderReader(typeof(PortableExecutableHeaderReaderTests).Assembly.Location);
             var expected = new List<string> { ".text", ".rsrs", ".reloc" };
             var actual = new List<string>();
 
             for (int headerNo = 0; headerNo < current.ImageSectionHeaders.Length; ++headerNo)
             {
-                PortableExecutableHeaderReader.IMAGE_SECTION_HEADER section = current.ImageSectionHeaders[headerNo];
+                PeHeaderReader.IMAGE_SECTION_HEADER section = current.ImageSectionHeaders[headerNo];
                actual.Add(new string(section.Name));
             }
             Assert.AreEqual(expected.Count,actual.Count);

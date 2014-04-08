@@ -13,7 +13,7 @@ namespace NRegFreeCom
     /// Reads in the header information of the Portable Executable format.
     /// Provides information such as the date the assembly was compiled.
     /// </summary>
-    public class PortableExecutableHeaderReader
+    public class PeHeaderReader
     {
         public struct IMAGE_DOS_HEADER
         {      // DOS .EXE header
@@ -400,7 +400,7 @@ namespace NRegFreeCom
         private IMAGE_SECTION_HEADER[] imageSectionHeaders;
 
 
-        public PortableExecutableHeaderReader(string filePath)
+        public PeHeaderReader(string filePath)
         {
             // Read in the DLL or EXE and get the timestamp
             using (var stream = new FileStream(filePath, System.IO.FileMode.Open, System.IO.FileAccess.Read))
@@ -409,7 +409,7 @@ namespace NRegFreeCom
             }
         }
 
-        public PortableExecutableHeaderReader(Stream steam)
+        public PeHeaderReader(Stream steam)
         {
             readOut(steam);
 

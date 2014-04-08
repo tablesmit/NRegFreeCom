@@ -21,7 +21,7 @@ namespace RuntimeRegCom.OutOfProcServer.Win32
         [ComRegisterFunction()]
         public static void Register(Type t)
         {
-            Regasm.RegisterLocalServer(t);
+            RegAsm.Machine.RegisterLocalServer(t);
 
         }
 
@@ -29,7 +29,7 @@ namespace RuntimeRegCom.OutOfProcServer.Win32
         [ComUnregisterFunction()]
         public static void Unregister(Type t)
         {
-            Regasm.UnregisterLocalServer(t);
+            RegAsm.Machine.UnregisterLocalServer(t);
         }
 
         private float fField = 0;
