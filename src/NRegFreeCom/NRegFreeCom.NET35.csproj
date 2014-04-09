@@ -58,6 +58,8 @@
     <Compile Include="ComMarshall.cs" />
     <Compile Include="Dispatcher.cs" />
     <Compile Include="IAssembly.cs" />
+    <Compile Include="IAssemblyInfo.cs" />
+    <Compile Include="IAssemblyNameInfo.cs" />
     <Compile Include="IAssemblySystem.cs" />
     <Compile Include="IDispatcher.cs" />
     <Compile Include="Interop\ACTCTX.cs" />

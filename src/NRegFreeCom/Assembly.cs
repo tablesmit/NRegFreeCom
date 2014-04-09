@@ -33,6 +33,11 @@ namespace NRegFreeCom
 
         }
 
+        public IAssemblyNameInfo GetName()
+        {
+            return null;
+        }
+
         public string Location
         {
             get { return _location; }

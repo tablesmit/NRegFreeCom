@@ -6,7 +6,7 @@ using NRegFreeCom.Interop;
 
 namespace NRegFreeCom
 {
-    public interface IAssembly : IDisposable
+    public interface IAssembly : IAssemblyInfo,IDisposable
     {
         string FullName { get; }
 

@@ -16,8 +16,8 @@ namespace NRegFreeCom
         /// <param name="t"></param>
         void UnregisterLocalServer(Type t);
 
-        void RegisterInProcSever(Type t, string customProgId = null);
+        void RegisterInProcSever(Type t);
 
-        void UnregisterInProcSever(Type t, string customProgId = null);
+        void UnregisterInProcSever(Type t);
     }
 }

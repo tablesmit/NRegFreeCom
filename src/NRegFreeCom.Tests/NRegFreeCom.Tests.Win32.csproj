@@ -75,13 +75,14 @@
   <ItemGroup>
     <Compile Include="AssemblySystemTests.cs" />
     <Compile Include="ActivationContextTests.cs" />
+    <Compile Include="ClrComRegistryInfoTests.cs" />
     <Compile Include="DispatcherTests.cs" />
     <Compile Include="NativeMethodsTests.cs" />
     <Compile Include="PathAppenderTests.cs" />
     <Compile Include="PortableExecutableHeaderReaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RotRegFreeComInvokerTests.cs" />
-    <Compile Include="RegasmTests.cs" />
+    <Compile Include="RegAsmTests.cs" />
     <Compile Include="RuntimeRegServer.cs" />
     <Compile Include="StaComCrossThreadInvokerTests.cs" />
   </ItemGroup>

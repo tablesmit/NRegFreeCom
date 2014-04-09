@@ -26,9 +26,9 @@ namespace NRegFreeCom
 
         //TODO: Support 32 bit process to register 64 bit entries and vice versa (Wow6432Node)
         //TODO: pass some abstract config obtained from type 
-        public void RegisterInProcSever(Type t, string customProgId = null)
+        public void RegisterInProcSever(Type t)
         {
-            var reg = ClrComRegistryInfo.Create(t, customProgId);
+            var reg = ClrComRegistryInfo.Create(t);
             using (RegistryKey classes = Registry.CurrentUser.CreateSubKey(CLASSES))
             {
                 using (RegistryKey clsidKey = classes.CreateSubKey(CLSID))
@@ -72,9 +72,9 @@ namespace NRegFreeCom
         }
 
         //TODO: Support 32 bit process to delete 64 bit entries and vice versa (Wow6432Node)
-        public void UnregisterInProcSever(Type t, string customProgId = null)
+        public void UnregisterInProcSever(Type t)
         {
-            var reg = ClrComRegistryInfo.Create(t, customProgId);
+            var reg = ClrComRegistryInfo.Create(t);
             using (RegistryKey classes = Registry.CurrentUser.CreateSubKey(CLASSES))
             {
                 using (RegistryKey clsidKey = classes.OpenSubKey(CLSID,RegistryKeyPermissionCheck.ReadWriteSubTree,RegistryRights.Delete))

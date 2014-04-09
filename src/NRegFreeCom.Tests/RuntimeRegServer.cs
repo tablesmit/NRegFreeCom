@@ -16,6 +16,7 @@ namespace NRegFreeCom.Tests
 
     [ComVisible(true)]
     [Guid(RuntimeRegServerConstants.CLSID)]
+    [ProgId("NRegFreeCom.Tests.RuntimeRegServer")]
     [ComDefaultInterface(typeof(IRegFreeCom))]
     public class RuntimeRegServer:IRuntimeRegServer
     {

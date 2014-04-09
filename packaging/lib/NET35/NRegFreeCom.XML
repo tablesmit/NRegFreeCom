@@ -42,6 +42,18 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:NRegFreeCom.IRegAsm.RegisterLocalServer(System.Type)">
+            <summary>
+            Register the component as a local server.
+            </summary>
+            <param name="t"></param>
+        </member>
+        <member name="M:NRegFreeCom.IRegAsm.UnregisterLocalServer(System.Type)">
+            <summary>
+            Unregister the component.
+            </summary>
+            <param name="t"></param>
+        </member>
         <member name="T:NRegFreeCom.Interop.WM">
             <summary>
             Windows Messages
@@ -1362,6 +1374,292 @@
             Runs the standard message loop. The message loop quits when it receives the WM_QUIT message.
             </summary>
         </member>
+        <member name="M:NRegFreeCom.RegistryKeyExtensions.DeleteSubKeyTree(Microsoft.Win32.RegistryKey,System.String,System.Boolean)">
+            <summary>
+            Deletes the specified subkey and any child subkeys recursively, and specifies whether an exception is raised if the subkey is not found.
+            </summary>
+            <param name="subkey">The name of the subkey to delete. This string is not case-sensitive.</param><param name="throwOnMissingSubKey">Indicates whether an exception should be raised if the specified subkey cannot be found. If this argument is true and the specified subkey does not exist, an exception is raised. If this argument is false and the specified subkey does not exist, no action is taken.</param><exception cref="T:System.ArgumentException">An attempt was made to delete the root hive of the tree.-or-<paramref name="subkey"/> does not specify a valid registry subkey, and <paramref name="throwOnMissingSubKey"/> is true.</exception><exception cref="T:System.ArgumentNullException"><paramref name="subkey"/> is null.</exception><exception cref="T:System.ObjectDisposedException">The <see cref="T:Microsoft.Win32.RegistryKey"/> is closed (closed keys cannot be accessed).</exception><exception cref="T:System.UnauthorizedAccessException">The user does not have the necessary registry rights.</exception><exception cref="T:System.Security.SecurityException">The user does not have the permissions required to delete the key.</exception>
+        </member>
+        <member name="T:NRegFreeCom.RegAsm">
+            <summary>
+            Registers and unregisters COM objects.
+            </summary>
+        </member>
+        <member name="T:NRegFreeCom.PeHeaderReader">
+            <summary>
+            Reads in the header information of the Portable Executable format.
+            Provides information such as the date the assembly was compiled.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.dosHeader">
+            <summary>
+            The DOS header
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.fileHeader">
+            <summary>
+            The file header
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.optionalHeader32">
+            <summary>
+            Optional 32 bit file header 
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.optionalHeader64">
+            <summary>
+            Optional 64 bit file header 
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.imageSectionHeaders">
+            <summary>
+            Image Section headers. Number of sections is in the file header.
+            </summary>
+        </member>
+        <member name="M:NRegFreeCom.PeHeaderReader.fromBinaryReader``1(System.IO.BinaryReader)">
+            <summary>
+            Reads in a block from a file and converts it to the struct
+            type specified by the template parameter
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="reader"></param>
+            <returns></returns>
+        </member>
+        <member name="P:NRegFreeCom.PeHeaderReader.Is32BitHeader">
+            <summary>
+            Gets if the file header is 32 bit or not
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.PeHeaderReader.FileHeader">
+            <summary>
+            Gets the file header
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.PeHeaderReader.OptionalHeader32">
+            <summary>
+            Gets the optional header
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.PeHeaderReader.OptionalHeader64">
+            <summary>
+            Gets the optional header
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.PeHeaderReader.TimeStamp">
+            <summary>
+            Gets the timestamp from the file header
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.TypeReg">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.TypeDsect">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.TypeNoLoad">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.TypeGroup">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.TypeNoPadded">
+            <summary>
+            The section should not be padded to the next boundary. This flag is obsolete and is replaced by IMAGE_SCN_ALIGN_1BYTES. This is valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.TypeCopy">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.ContentCode">
+            <summary>
+            The section contains executable code.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.ContentInitializedData">
+            <summary>
+            The section contains initialized data.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.ContentUninitializedData">
+            <summary>
+            The section contains uninitialized data.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.LinkOther">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.LinkInfo">
+            <summary>
+            The section contains comments or other information. The .drectve section has this type. This is valid for object files only.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.TypeOver">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.LinkRemove">
+            <summary>
+            The section will not become part of the image. This is valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.LinkComDat">
+            <summary>
+            The section contains COMDAT data. For more information, see section 5.5.6, COMDAT Sections (Object Only). This is valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.NoDeferSpecExceptions">
+            <summary>
+            Reset speculative exceptions handling bits in the TLB entries for this section.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.RelativeGP">
+            <summary>
+            The section contains data referenced through the global pointer (GP).
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemPurgeable">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Memory16Bit">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryLocked">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryPreload">
+            <summary>
+            Reserved for future use.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align1Bytes">
+            <summary>
+            Align data on a 1-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align2Bytes">
+            <summary>
+            Align data on a 2-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align4Bytes">
+            <summary>
+            Align data on a 4-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align8Bytes">
+            <summary>
+            Align data on an 8-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align16Bytes">
+            <summary>
+            Align data on a 16-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align32Bytes">
+            <summary>
+            Align data on a 32-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align64Bytes">
+            <summary>
+            Align data on a 64-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align128Bytes">
+            <summary>
+            Align data on a 128-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align256Bytes">
+            <summary>
+            Align data on a 256-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align512Bytes">
+            <summary>
+            Align data on a 512-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align1024Bytes">
+            <summary>
+            Align data on a 1024-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align2048Bytes">
+            <summary>
+            Align data on a 2048-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align4096Bytes">
+            <summary>
+            Align data on a 4096-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align8192Bytes">
+            <summary>
+            Align data on an 8192-byte boundary. Valid only for object files.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.LinkExtendedRelocationOverflow">
+            <summary>
+            The section contains extended relocations.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryDiscardable">
+            <summary>
+            The section can be discarded as needed.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryNotCached">
+            <summary>
+            The section cannot be cached.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryNotPaged">
+            <summary>
+            The section is not pageable.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryShared">
+            <summary>
+            The section can be shared in memory.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryExecute">
+            <summary>
+            The section can be executed as code.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryRead">
+            <summary>
+            The section can be read.
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryWrite">
+            <summary>
+            The section can be written to.
+            </summary>
+        </member>
         <member name="M:NRegFreeCom.PathAppender.Append(System.String,System.String)">
             <summary>
             Adds <paramref name="directory"/> to PATH  variable. Thread unsafe. Does not normalizes   <paramref name="directory"/> or PATH before search, can add already existing path
@@ -1541,6 +1839,90 @@
             <typeparam name="T">The type of COM object.</typeparam>
             <param name="instance">The instance of remoting proxy.</param>
             <returns> The instance of a type that represents a COM object.</returns>
+        </member>
+        <member name="T:NRegFreeCom.RegFileObject">
+            <summary>
+            The main reg file parsing class.
+            Reads the given reg file and stores the content as
+            a Dictionary of registry keys and values as a Dictionary of registry values <see cref="T:NRegFreeCom.RegValueObject"/>
+            </summary>
+        </member>
+        <member name="F:NRegFreeCom.RegFileObject.path">
+            The full path of the reg file to be imported
+        </member>
+        <member name="F:NRegFreeCom.RegFileObject.filename">
+            The reg file name
+        </member>
+        <member name="F:NRegFreeCom.RegFileObject.encoding">
+            Encoding of the reg file (Regedit 4 - ANSI; Regedit 5 - UTF8)
+        </member>
+        <member name="F:NRegFreeCom.RegFileObject.content">
+            Raw content of the reg file
+        </member>
+        <member name="F:NRegFreeCom.RegFileObject.regvalues">
+            the dictionary containing parsed registry values
+        </member>
+        <member name="M:NRegFreeCom.RegFileObject.Read">
+            <summary>
+            Imports the reg file
+            </summary>
+        </member>
+        <member name="M:NRegFreeCom.RegFileObject.ParseFile">
+            <summary>
+            Parses the reg file for reg keys and reg values
+            </summary>
+            <returns>A Dictionary with reg keys as Dictionary keys and a Dictionary of (valuename, valuedata)</returns>
+        </member>
+        <member name="M:NRegFreeCom.RegFileObject.NormalizeDictionary(System.String,System.String,System.Boolean)">
+            <summary>
+            Creates a flat Dictionary using given searcn pattern
+            </summary>
+            <param name="searchPattern">The search pattern</param>
+            <param name="content">The content string to be parsed</param>
+            <param name="stripeBraces">Flag for striping braces (true for reg keys, false for reg values)</param>
+            <returns>A Dictionary with retrieved keys and remaining content</returns>
+        </member>
+        <member name="M:NRegFreeCom.RegFileObject.StripeLeadingChars(System.String,System.String)">
+            <summary>
+            Removes the leading and ending characters from the given string
+            </summary>
+            <param name="sLine">given string</param>
+            <returns>edited string</returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NRegFreeCom.RegFileObject.StripeBraces(System.String)">
+            <summary>
+            Removes the leading and ending parenthesis from the given string
+            </summary>
+            <param name="sLine">given string</param>
+            <returns>edited string</returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NRegFreeCom.RegFileObject.GetEncoding">
+            <summary>
+            Retrieves the ecoding of the reg file, checking the word "REGEDIT4"
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:NRegFreeCom.RegFileObject.FullPath">
+            <summary>
+            Gets or sets the full path of the reg file
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.RegFileObject.FileName">
+            <summary>
+            Gets the name of the reg file
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.RegFileObject.RegValues">
+            <summary>
+            Gets the dictionary containing all entries
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.RegFileObject.Encoding">
+            <summary>
+            Gets or sets the encoding schema of the reg file (UTF8 or Default)
+            </summary>
         </member>
         <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_ACCEPTFILES">
             <summary>
@@ -1766,6 +2148,75 @@
         </member>
         <member name="M:NRegFreeCom.Assembly.TryGetDelegate``1(``0@,System.String)">
             <inheritdoc/>
+        </member>
+        <member name="M:NRegFreeCom.RegValueObject.#ctor(System.String,System.String,System.String,System.String)">
+            <param name="propertyString">A line from the [Registry] section of the *.sig signature file</param>
+        </member>
+        <member name="M:NRegFreeCom.RegValueObject.ToString">
+            <returns>An entry for the [Registry] section of the *.sig signature file</returns>
+        </member>
+        <member name="M:NRegFreeCom.RegValueObject.GetRegEntryType(System.String@,System.String)">
+            <summary>
+            Retrieves the reg value type, parsing the prefix of the value
+            </summary>
+            <param name="sTextLine">Registry value row string</param>
+            <returns>Value</returns>
+        </member>
+        <member name="M:NRegFreeCom.RegValueObject.StripeLeadingChars(System.String,System.String)">
+            <summary>
+            Removes the leading and ending characters from the given string
+            </summary>
+            <param name="sline">given string</param>
+            <returns>edited string</returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NRegFreeCom.RegValueObject.StripeBraces(System.String)">
+            <summary>
+            Removes the leading and ending parenthesis from the given string
+            </summary>
+            <param name="sline">given string</param>
+            <returns>edited string</returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NRegFreeCom.RegValueObject.StripeContinueChar(System.String)">
+            <summary>
+            Removes the ending backslashes from the given string
+            </summary>
+            <param name="sline">given string</param>
+            <returns>edited string</returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NRegFreeCom.RegValueObject.GetStringRepresentation(System.String[],System.String)">
+            <summary>
+            Converts the byte arrays (saved as array of string) into string
+            </summary>
+            <param name="stringArray">Array of string</param>
+            <returns>String value</returns>
+        </member>
+        <member name="P:NRegFreeCom.RegValueObject.Entry">
+            <summary>
+            Regsitry value name
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.RegValueObject.ParentKey">
+            <summary>
+            Registry value parent key
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.RegValueObject.Root">
+            <summary>
+            Registry value root hive
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.RegValueObject.Type">
+            <summary>
+            Registry value type
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.RegValueObject.Value">
+            <summary>
+            Registry value data
+            </summary>
         </member>
         <member name="T:NRegFreeCom.ComDispatchUtility">
             www.codeproject.com/Articles/523417/Reflection-with-IDispatch-based-COM-objects
@@ -2232,457 +2683,6 @@
             </summary>
             <param name="request"></param>
             <returns></returns>
-        </member>
-        <member name="M:NRegFreeCom.IRegAsm.RegisterLocalServer(System.Type)">
-            <summary>
-            Register the component as a local server.
-            </summary>
-            <param name="t"></param>
-        </member>
-        <member name="M:NRegFreeCom.IRegAsm.UnregisterLocalServer(System.Type)">
-            <summary>
-            Unregister the component.
-            </summary>
-            <param name="t"></param>
-        </member>
-        <member name="M:NRegFreeCom.RegistryKeyExtensions.DeleteSubKeyTree(Microsoft.Win32.RegistryKey,System.String,System.Boolean)">
-            <summary>
-            Deletes the specified subkey and any child subkeys recursively, and specifies whether an exception is raised if the subkey is not found.
-            </summary>
-            <param name="subkey">The name of the subkey to delete. This string is not case-sensitive.</param><param name="throwOnMissingSubKey">Indicates whether an exception should be raised if the specified subkey cannot be found. If this argument is true and the specified subkey does not exist, an exception is raised. If this argument is false and the specified subkey does not exist, no action is taken.</param><exception cref="T:System.ArgumentException">An attempt was made to delete the root hive of the tree.-or-<paramref name="subkey"/> does not specify a valid registry subkey, and <paramref name="throwOnMissingSubKey"/> is true.</exception><exception cref="T:System.ArgumentNullException"><paramref name="subkey"/> is null.</exception><exception cref="T:System.ObjectDisposedException">The <see cref="T:Microsoft.Win32.RegistryKey"/> is closed (closed keys cannot be accessed).</exception><exception cref="T:System.UnauthorizedAccessException">The user does not have the necessary registry rights.</exception><exception cref="T:System.Security.SecurityException">The user does not have the permissions required to delete the key.</exception>
-        </member>
-        <member name="T:NRegFreeCom.RegFileObject">
-            <summary>
-            The main reg file parsing class.
-            Reads the given reg file and stores the content as
-            a Dictionary of registry keys and values as a Dictionary of registry values <see cref="T:NRegFreeCom.RegValueObject"/>
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.RegFileObject.path">
-            The full path of the reg file to be imported
-        </member>
-        <member name="F:NRegFreeCom.RegFileObject.filename">
-            The reg file name
-        </member>
-        <member name="F:NRegFreeCom.RegFileObject.encoding">
-            Encoding of the reg file (Regedit 4 - ANSI; Regedit 5 - UTF8)
-        </member>
-        <member name="F:NRegFreeCom.RegFileObject.content">
-            Raw content of the reg file
-        </member>
-        <member name="F:NRegFreeCom.RegFileObject.regvalues">
-            the dictionary containing parsed registry values
-        </member>
-        <member name="M:NRegFreeCom.RegFileObject.Read">
-            <summary>
-            Imports the reg file
-            </summary>
-        </member>
-        <member name="M:NRegFreeCom.RegFileObject.ParseFile">
-            <summary>
-            Parses the reg file for reg keys and reg values
-            </summary>
-            <returns>A Dictionary with reg keys as Dictionary keys and a Dictionary of (valuename, valuedata)</returns>
-        </member>
-        <member name="M:NRegFreeCom.RegFileObject.NormalizeDictionary(System.String,System.String,System.Boolean)">
-            <summary>
-            Creates a flat Dictionary using given searcn pattern
-            </summary>
-            <param name="searchPattern">The search pattern</param>
-            <param name="content">The content string to be parsed</param>
-            <param name="stripeBraces">Flag for striping braces (true for reg keys, false for reg values)</param>
-            <returns>A Dictionary with retrieved keys and remaining content</returns>
-        </member>
-        <member name="M:NRegFreeCom.RegFileObject.StripeLeadingChars(System.String,System.String)">
-            <summary>
-            Removes the leading and ending characters from the given string
-            </summary>
-            <param name="sLine">given string</param>
-            <returns>edited string</returns>
-            <remarks></remarks>
-        </member>
-        <member name="M:NRegFreeCom.RegFileObject.StripeBraces(System.String)">
-            <summary>
-            Removes the leading and ending parenthesis from the given string
-            </summary>
-            <param name="sLine">given string</param>
-            <returns>edited string</returns>
-            <remarks></remarks>
-        </member>
-        <member name="M:NRegFreeCom.RegFileObject.GetEncoding">
-            <summary>
-            Retrieves the ecoding of the reg file, checking the word "REGEDIT4"
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:NRegFreeCom.RegFileObject.FullPath">
-            <summary>
-            Gets or sets the full path of the reg file
-            </summary>
-        </member>
-        <member name="P:NRegFreeCom.RegFileObject.FileName">
-            <summary>
-            Gets the name of the reg file
-            </summary>
-        </member>
-        <member name="P:NRegFreeCom.RegFileObject.RegValues">
-            <summary>
-            Gets the dictionary containing all entries
-            </summary>
-        </member>
-        <member name="P:NRegFreeCom.RegFileObject.Encoding">
-            <summary>
-            Gets or sets the encoding schema of the reg file (UTF8 or Default)
-            </summary>
-        </member>
-        <member name="M:NRegFreeCom.RegValueObject.#ctor(System.String,System.String,System.String,System.String)">
-            <param name="propertyString">A line from the [Registry] section of the *.sig signature file</param>
-        </member>
-        <member name="M:NRegFreeCom.RegValueObject.ToString">
-            <returns>An entry for the [Registry] section of the *.sig signature file</returns>
-        </member>
-        <member name="M:NRegFreeCom.RegValueObject.GetRegEntryType(System.String@,System.String)">
-            <summary>
-            Retrieves the reg value type, parsing the prefix of the value
-            </summary>
-            <param name="sTextLine">Registry value row string</param>
-            <returns>Value</returns>
-        </member>
-        <member name="M:NRegFreeCom.RegValueObject.StripeLeadingChars(System.String,System.String)">
-            <summary>
-            Removes the leading and ending characters from the given string
-            </summary>
-            <param name="sline">given string</param>
-            <returns>edited string</returns>
-            <remarks></remarks>
-        </member>
-        <member name="M:NRegFreeCom.RegValueObject.StripeBraces(System.String)">
-            <summary>
-            Removes the leading and ending parenthesis from the given string
-            </summary>
-            <param name="sline">given string</param>
-            <returns>edited string</returns>
-            <remarks></remarks>
-        </member>
-        <member name="M:NRegFreeCom.RegValueObject.StripeContinueChar(System.String)">
-            <summary>
-            Removes the ending backslashes from the given string
-            </summary>
-            <param name="sline">given string</param>
-            <returns>edited string</returns>
-            <remarks></remarks>
-        </member>
-        <member name="M:NRegFreeCom.RegValueObject.GetStringRepresentation(System.String[],System.String)">
-            <summary>
-            Converts the byte arrays (saved as array of string) into string
-            </summary>
-            <param name="stringArray">Array of string</param>
-            <returns>String value</returns>
-        </member>
-        <member name="P:NRegFreeCom.RegValueObject.Entry">
-            <summary>
-            Regsitry value name
-            </summary>
-        </member>
-        <member name="P:NRegFreeCom.RegValueObject.ParentKey">
-            <summary>
-            Registry value parent key
-            </summary>
-        </member>
-        <member name="P:NRegFreeCom.RegValueObject.Root">
-            <summary>
-            Registry value root hive
-            </summary>
-        </member>
-        <member name="P:NRegFreeCom.RegValueObject.Type">
-            <summary>
-            Registry value type
-            </summary>
-        </member>
-        <member name="P:NRegFreeCom.RegValueObject.Value">
-            <summary>
-            Registry value data
-            </summary>
-        </member>
-        <member name="T:NRegFreeCom.RegAsm">
-            <summary>
-            Registers and unregisters COM objects.
-            </summary>
-        </member>
-        <member name="T:NRegFreeCom.PeHeaderReader">
-            <summary>
-            Reads in the header information of the Portable Executable format.
-            Provides information such as the date the assembly was compiled.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.dosHeader">
-            <summary>
-            The DOS header
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.fileHeader">
-            <summary>
-            The file header
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.optionalHeader32">
-            <summary>
-            Optional 32 bit file header 
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.optionalHeader64">
-            <summary>
-            Optional 64 bit file header 
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.imageSectionHeaders">
-            <summary>
-            Image Section headers. Number of sections is in the file header.
-            </summary>
-        </member>
-        <member name="M:NRegFreeCom.PeHeaderReader.fromBinaryReader``1(System.IO.BinaryReader)">
-            <summary>
-            Reads in a block from a file and converts it to the struct
-            type specified by the template parameter
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="reader"></param>
-            <returns></returns>
-        </member>
-        <member name="P:NRegFreeCom.PeHeaderReader.Is32BitHeader">
-            <summary>
-            Gets if the file header is 32 bit or not
-            </summary>
-        </member>
-        <member name="P:NRegFreeCom.PeHeaderReader.FileHeader">
-            <summary>
-            Gets the file header
-            </summary>
-        </member>
-        <member name="P:NRegFreeCom.PeHeaderReader.OptionalHeader32">
-            <summary>
-            Gets the optional header
-            </summary>
-        </member>
-        <member name="P:NRegFreeCom.PeHeaderReader.OptionalHeader64">
-            <summary>
-            Gets the optional header
-            </summary>
-        </member>
-        <member name="P:NRegFreeCom.PeHeaderReader.TimeStamp">
-            <summary>
-            Gets the timestamp from the file header
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.TypeReg">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.TypeDsect">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.TypeNoLoad">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.TypeGroup">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.TypeNoPadded">
-            <summary>
-            The section should not be padded to the next boundary. This flag is obsolete and is replaced by IMAGE_SCN_ALIGN_1BYTES. This is valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.TypeCopy">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.ContentCode">
-            <summary>
-            The section contains executable code.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.ContentInitializedData">
-            <summary>
-            The section contains initialized data.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.ContentUninitializedData">
-            <summary>
-            The section contains uninitialized data.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.LinkOther">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.LinkInfo">
-            <summary>
-            The section contains comments or other information. The .drectve section has this type. This is valid for object files only.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.TypeOver">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.LinkRemove">
-            <summary>
-            The section will not become part of the image. This is valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.LinkComDat">
-            <summary>
-            The section contains COMDAT data. For more information, see section 5.5.6, COMDAT Sections (Object Only). This is valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.NoDeferSpecExceptions">
-            <summary>
-            Reset speculative exceptions handling bits in the TLB entries for this section.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.RelativeGP">
-            <summary>
-            The section contains data referenced through the global pointer (GP).
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemPurgeable">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Memory16Bit">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryLocked">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryPreload">
-            <summary>
-            Reserved for future use.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align1Bytes">
-            <summary>
-            Align data on a 1-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align2Bytes">
-            <summary>
-            Align data on a 2-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align4Bytes">
-            <summary>
-            Align data on a 4-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align8Bytes">
-            <summary>
-            Align data on an 8-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align16Bytes">
-            <summary>
-            Align data on a 16-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align32Bytes">
-            <summary>
-            Align data on a 32-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align64Bytes">
-            <summary>
-            Align data on a 64-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align128Bytes">
-            <summary>
-            Align data on a 128-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align256Bytes">
-            <summary>
-            Align data on a 256-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align512Bytes">
-            <summary>
-            Align data on a 512-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align1024Bytes">
-            <summary>
-            Align data on a 1024-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align2048Bytes">
-            <summary>
-            Align data on a 2048-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align4096Bytes">
-            <summary>
-            Align data on a 4096-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.Align8192Bytes">
-            <summary>
-            Align data on an 8192-byte boundary. Valid only for object files.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.LinkExtendedRelocationOverflow">
-            <summary>
-            The section contains extended relocations.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryDiscardable">
-            <summary>
-            The section can be discarded as needed.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryNotCached">
-            <summary>
-            The section cannot be cached.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryNotPaged">
-            <summary>
-            The section is not pageable.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryShared">
-            <summary>
-            The section can be shared in memory.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryExecute">
-            <summary>
-            The section can be executed as code.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryRead">
-            <summary>
-            The section can be read.
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.PeHeaderReader.DataSectionFlags.MemoryWrite">
-            <summary>
-            The section can be written to.
-            </summary>
         </member>
     </members>
 </doc>

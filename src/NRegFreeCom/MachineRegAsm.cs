@@ -42,12 +42,12 @@ namespace NRegFreeCom
             Registry.ClassesRoot.DeleteSubKeyTree(@"CLSID\" + t.GUID.ToString("B"));
         }
 
-        public void RegisterInProcSever(Type t, string customProgId = null)
+        public void RegisterInProcSever(Type t)
         {
             throw new NotImplementedException();
         }
 
-        public void UnregisterInProcSever(Type t, string customProgId = null)
+        public void UnregisterInProcSever(Type t)
         {
             throw new NotImplementedException();
         }
