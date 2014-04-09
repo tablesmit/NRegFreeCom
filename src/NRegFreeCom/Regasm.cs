@@ -28,12 +28,15 @@ namespace NRegFreeCom
             get { return _machine; }
 
         }
+        #if !NET35 // need to backport methods from 4.0
+     
 
         /// <summary>
         /// If this is true, then some registry calls are redirected.
         /// </summary>
         /// <see href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa384232.aspx"/>
         public static bool IsWoW64RedirectionOn { get { return Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess; } }
+#endif
 
         protected static void registerInProcServer(RegistryKey classes, ClrComRegistryInfo reg)
         {

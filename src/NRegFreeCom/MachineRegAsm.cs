@@ -1,6 +1,21 @@
 ﻿using System;
+using System.Security;
 using Microsoft.Win32;
 
+#if NET35
+namespace Microsoft.Win32
+{
+    /// <summary>
+    /// Specifies which registry view to target on a 64-bit operating system.
+    /// </summary>
+    public enum RegistryView
+    {
+        Default = 0,
+        Registry64 = 256,
+        Registry32 = 512,
+    }
+}
+#endif
 namespace NRegFreeCom
 {
     public class MachineRegAsm : RegAsm,IRegAsm
@@ -45,17 +60,28 @@ namespace NRegFreeCom
         public void RegisterInProcServer(Type t, RegistryView registryView = RegistryView.Default)
         {
             var reg = ClrComRegistryInfo.Create(t);
+#if NET35
+            throw new NotImplementedException("Need to backport 4.0 methods");
+#else
             var root = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, registryView);
             var classes = root.CreateSubKey(CLASSES);
             registerInProcServer(classes, reg);
+#endif
         }
 
         public void UnregisterInProcServer(Type t, RegistryView registryView = RegistryView.Default)
         {
             var reg = ClrComRegistryInfo.Create(t);
+         #if NET35
+            throw new NotImplementedException("Need to ");
+#else   
             var root = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, registryView);
             var classes = root.CreateSubKey(CLASSES);
             unregisterInProcServer(classes, reg);
+#endif
         }
+
+
+     
     }
 }
