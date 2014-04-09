@@ -97,10 +97,7 @@
             Assert.That(wasAct, Is.True);
         }
 
-```
-
-```csharp
-  [TestFixture]
+    [TestFixture]
     public class RegAsmTests
     {
         [Test]
@@ -117,6 +114,21 @@
             RegAsm.User.UnregisterInProcSever(type);
         }
     }
+
+	        [Test]
+        public void Create_oneKeyWithOneValue_OK()
+        {
+            var text = 
+@"Windows Registry Editor Version 5.00
+[HKEY_LOCAL_MACHINE\SOFTWARE\MyKey]
+" +
+"\"MyValue\"=\"_RegFreeComRotClass\"";
+            var stream = stringToStream(text,Encoding.UTF8);
+            var reader = new RegFileReader(stream);
+            var key = reader.RegValues[@"HKEY_LOCAL_MACHINE\SOFTWARE\MyKey"];
+            Assert.IsNotNull(key);
+            Assert.IsTrue(key.ContainsKey("MyValue"));
+        }
 ```
 
 See tests and samples in code for other functional (like inter process communication without server Windows registry entry; loading and initializing native libraries, methods and COM objects).
@@ -149,12 +161,11 @@ This lib strives to make .NET engine to load native code in isolated manner.
 * Try to do with resources what WinRT did. Embeed CLI metadata describing reg free COM component, generate manifest from it, and create COM, use Metadata Interfaces. http://msdn.microsoft.com/en-us/library/ms233411.aspx.
 * Make delegates for all standards DEFs( DLL, COM)
 * Fake registration out of process ROT client instead of using proxy
-* Tune Runtime reg samples to use only less restricted registry hives
 * Add dependency conflicts for managed and for native and resolve both by SxS manifests tests
 * Imitate AppDomains based on runtime binding
 * Add PE code (detecting managed headers, DEF and COM headers).
 * Research how  api-ms-win-core can be employed for isolation http://www.nirsoft.net/articles/windows_7_kernel_architecture_changes.html
-* Add WPF like ComponentDispatcher
+* User free tools. Use SharpDevelop to build all C#. Use NMAKE or Code::Blocks to build all C++. Compile C++/C# in runtime to make tests more robust.
 
 ## Other semi automatic approaches of doing native interop
 
@@ -166,7 +177,7 @@ This lib strives to make .NET engine to load native code in isolated manner.
 * SWIG
 * CXXI (Linux, gcc)
 
-## Registy related
+## Registry related
 
 http://www.codeproject.com/Articles/125573/Registry-Export-File-reg-Parser
 

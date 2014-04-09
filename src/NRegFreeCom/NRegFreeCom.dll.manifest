@@ -2,7 +2,7 @@
 <assembly xmlns="urn:schemas-microsoft-com:asm.v1"  manifestVersion="1.0">
   <assemblyIdentity
        name="NRegFreeCom.dll"
-       version="0.0.4.2"
+       version="0.1.4.0"
        type="win32"
        processorArchitecture="msil" />
 </assembly>

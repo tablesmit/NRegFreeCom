@@ -29,7 +29,7 @@ namespace NRegFreeCom
 
 
     /// <param name="propertyString">A line from the [Registry] section of the *.sig signature file</param>
-    public RegValueObject(string regKeyName, string regValueName, string regValueData, string encoding)
+    public RegValueObject(string regKeyName, string regValueName, string regValueData, Encoding encoding)
     {
       parentkey = regKeyName.Trim();
       parentkeywithoutroot = parentkey;
@@ -157,7 +157,7 @@ namespace NRegFreeCom
     /// </summary>
     /// <param name="sTextLine">Registry value row string</param>
     /// <returns>Value</returns>
-    private string GetRegEntryType(ref string sTextLine, String textEncoding)
+    private string GetRegEntryType(ref string sTextLine, Encoding textEncoding)
     {
 
       if (sTextLine.StartsWith("hex(a):"))
@@ -326,13 +326,13 @@ namespace NRegFreeCom
     /// </summary>
     /// <param name="stringArray">Array of string</param>
     /// <returns>String value</returns>
-    private string GetStringRepresentation(string[] stringArray, string encoding)
+    private string GetStringRepresentation(string[] stringArray, Encoding encoding)
     {
       if (stringArray.Length > 1)
       {
-        StringBuilder sb = new StringBuilder();
+        var sb = new StringBuilder();
 
-        if ((encoding == "UTF8"))
+        if ((encoding == Encoding.UTF8))
         {
           for (int i = 0; i < stringArray.Length - 2; i += 2)
           {

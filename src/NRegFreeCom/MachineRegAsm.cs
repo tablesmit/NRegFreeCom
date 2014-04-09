@@ -44,12 +44,18 @@ namespace NRegFreeCom
 
         public void RegisterInProcServer(Type t, RegistryView registryView = RegistryView.Default)
         {
-            throw new NotImplementedException();
+            var reg = ClrComRegistryInfo.Create(t);
+            var root = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, registryView);
+            var classes = root.CreateSubKey(CLASSES);
+            registerInProcServer(classes, reg);
         }
 
         public void UnregisterInProcServer(Type t, RegistryView registryView = RegistryView.Default)
         {
-            throw new NotImplementedException();
+            var reg = ClrComRegistryInfo.Create(t);
+            var root = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, registryView);
+            var classes = root.CreateSubKey(CLASSES);
+            unregisterInProcServer(classes, reg);
         }
     }
 }

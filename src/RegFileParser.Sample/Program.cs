@@ -8,7 +8,7 @@ namespace TestRegFileParser
 {
   class Program
   {
-    static string outputPath = Environment.ExpandEnvironmentVariables("%Temp%\\regfile.txt");
+    static string outputPath = Path.Combine(Environment.CurrentDirectory,"regfile.txt");
 
     static void Main(string[] args)
     {
@@ -45,12 +45,14 @@ namespace TestRegFileParser
 
       try
       {
-        var regfile = new RegFileObject(args[0]);
+        var file = new FileStream(args[0],FileMode.Open);
+        var regfile = new RegFileReader(file);
+
         Console.WriteLine("Reg file has been imported.");
 
         //For proofing purpose generate new txt file with imported content
         Int32 count = 0;
-        StringBuilder sb = new StringBuilder();
+        var sb = new StringBuilder();
         foreach (KeyValuePair<String, Dictionary<String, RegValueObject>> entry in regfile.RegValues)
         {
           sb.AppendLine(String.Format(@"[{0}]", entry.Key));

@@ -115,7 +115,8 @@
     <Compile Include="Properties\PackagingInfo.cs" />
     <Compile Include="ReferenceCountedObject.cs" />
     <Compile Include="Regasm.cs" />
-    <Compile Include="RegFileObject.cs" />
+    <Compile Include="RegFileParsingException.cs" />
+    <Compile Include="RegFileReader.cs" />
     <Compile Include="RegistryKeyExtensions.cs" />
     <Compile Include="RegValueObject.cs" />
     <Compile Include="RotRegFreeComInvoker.cs" />

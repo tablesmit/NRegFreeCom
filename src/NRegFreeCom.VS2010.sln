@@ -29,6 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegFreeCom.OutOfProcServer.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F7F4181E-0A1D-4910-9AC3-A5C16750F9E8}"
 	ProjectSection(SolutionItems) = preProject
+		NRegFreeCom\NRegFreeCom.dll.manifest = NRegFreeCom\NRegFreeCom.dll.manifest
 		..\packaging\NRegFreeCom.nuspec = ..\packaging\NRegFreeCom.nuspec
 		NRegFreeCom\Properties\PackagingInfo.cs = NRegFreeCom\Properties\PackagingInfo.cs
 		..\README.md = ..\README.md
