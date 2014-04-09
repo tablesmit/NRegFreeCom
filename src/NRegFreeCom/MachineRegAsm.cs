@@ -3,7 +3,7 @@ using Microsoft.Win32;
 
 namespace NRegFreeCom
 {
-    public class MachineRegAsm:IRegAsm
+    public class MachineRegAsm : RegAsm,IRegAsm
     {
 
         public void RegisterLocalServer(Type t)
@@ -42,12 +42,12 @@ namespace NRegFreeCom
             Registry.ClassesRoot.DeleteSubKeyTree(@"CLSID\" + t.GUID.ToString("B"));
         }
 
-        public void RegisterInProcSever(Type t)
+        public void RegisterInProcServer(Type t, RegistryView registryView = RegistryView.Default)
         {
             throw new NotImplementedException();
         }
 
-        public void UnregisterInProcSever(Type t)
+        public void UnregisterInProcServer(Type t, RegistryView registryView = RegistryView.Default)
         {
             throw new NotImplementedException();
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Win32;
 
 namespace NRegFreeCom
 {
@@ -16,8 +17,8 @@ namespace NRegFreeCom
         /// <param name="t"></param>
         void UnregisterLocalServer(Type t);
 
-        void RegisterInProcSever(Type t);
+        void RegisterInProcServer(Type t, RegistryView registryView = RegistryView.Default);
 
-        void UnregisterInProcSever(Type t);
+        void UnregisterInProcServer(Type t,RegistryView registryView = RegistryView.Default);
     }
 }
