@@ -12,6 +12,7 @@ namespace NRegFreeCom
     /// <summary>
     ///  Reads the given reg file and stores the content as  a Dictionary of registry keys and values as a Dictionary of registry values <see cref="RegValueObject"/>
     /// </summary>
+    /// <see href="http://www.codeproject.com/Articles/125573/Registry-Export-File-reg-Parser"/>
     public class RegFileReader
     {
         private Encoding _encoding = System.Text.Encoding.UTF8;

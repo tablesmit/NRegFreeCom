@@ -143,17 +143,16 @@ See tests and samples in code for other functional (like inter process communica
 
 
 
-### Isolation and integration
+## Other semi automatic approaches of doing native interop
 
-  Native code does not have AppDomains and have static linking for isolation. There are technologies which helps to solve/mitigate problems of conflicting components while dynamic linking of native components:
-* Windows provided features like Activation Contexts, application `manifest`s, `dll.2.config`, dynamic and controlled libraries loading and symbols binding, SxS
-* EasyHook - The reinvention of Windows API Hooking https://easyhook.codeplex.com/
-  
-  Isolation can be achieved by design:
-* Multiprocess architecture
-* There are Dependency Injection and Inversion of Control tools for C++, but because of lack of runtime metadata in native code by default not so powerful as in .NET
+* IDL COM ATL Wizards, tlbimp
+* https://github.com/mono/CppSharp
+* http://clrinterop.codeplex.com
+* C++/CLI
+* C++/CX, WRL
+* SWIG
+* CXXI (Linux, gcc)
 
-This lib strives to make .NET engine to load native code in isolated manner.
 
 ## TODO:
 * Enumerate DLL exports
@@ -166,20 +165,19 @@ This lib strives to make .NET engine to load native code in isolated manner.
 * Add PE code (detecting managed headers, DEF and COM headers).
 * Research how  api-ms-win-core can be employed for isolation http://www.nirsoft.net/articles/windows_7_kernel_architecture_changes.html
 * User free tools. Use SharpDevelop to build all C#. Use NMAKE or Code::Blocks to build all C++. Compile C++/C# in runtime to make tests more robust.
+* Investigate WiX and Import/Export reg to Xml projects which contain reg parsing and to XML code, drop support here or reuse then
 
-## Other semi automatic approaches of doing native interop
+### Isolation and integration
 
-* IDL COM ATL Wizards, tlbimp
-* https://github.com/mono/CppSharp
-* http://clrinterop.codeplex.com
-* C++/CLI
-* C++/CX, WRL
-* SWIG
-* CXXI (Linux, gcc)
+  Native code does not have AppDomains and have static linking for isolation. There are technologies which helps to solve/mitigate problems of conflicting components while dynamic linking of native components:
+* Windows provided features like Activation Contexts, application `manifest`s, `dll.2.config`, dynamic and controlled libraries loading and symbols binding, SxS
+* EasyHook - The reinvention of Windows API Hooking https://easyhook.codeplex.com/
+  
+  Isolation can be achieved by design:
+* Multiprocess architecture
+* There are Dependency Injection and Inversion of Control tools for C++, but because of lack of runtime metadata in native code by default not so powerful as in .NET
 
-## Registry related
-
-http://www.codeproject.com/Articles/125573/Registry-Export-File-reg-Parser
+This lib strives to make .NET engine to load native code in isolated manner.
 
 ##Q&A
 

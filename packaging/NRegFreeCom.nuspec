@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>NRegFreeCom</id>
-    <version>0.1.4.0</version>
+    <version>0.1.4.1</version>
     <authors>Dzmitry Lahoda</authors>
     <owners>dzmitry_lahoda</owners>
     <licenseUrl>http://creativecommons.org/publicdomain/zero/1.0/</licenseUrl>
@@ -11,21 +11,23 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Load native libraries, call native functions, do COM objects without registration, do COM registrations in runtime, in .NET</description>
     <releaseNotes>
-	* 0.1.3.0
-	- added utils to work with registry
-	* 0.1.2.0
-	- made changes to COM utils
-	* 0.0.4.2
-	- added COM related methods, updated docs
-	* 0.0.4.1
-	- fixed dependant dll loading on some systems
-	* 0.0.4.0
-	- fixed custom dispatcher
-	- added resources reading from cpp dlls
-	* 0.0.3.0
-	- make use of out of proc reg free
-	- added custom dispatcher using Windows Message loop
-	</releaseNotes>
+      * 0.1.4.1
+      - added 
+      * 0.1.3.0
+      - added utils to work with registry
+      * 0.1.2.0
+      - made changes to COM utils
+      * 0.0.4.2
+      - added COM related methods, updated docs
+      * 0.0.4.1
+      - fixed dependant dll loading on some systems
+      * 0.0.4.0
+      - fixed custom dispatcher
+      - added resources reading from cpp dlls
+      * 0.0.3.0
+      - make use of out of proc reg free
+      - added custom dispatcher using Windows Message loop
+    </releaseNotes>
 
     <tags>com c interop registry</tags>
   </metadata>

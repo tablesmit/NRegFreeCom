@@ -23,6 +23,70 @@
             Potentilly this is optimization not to do inter process call to COM object...
             </remarks>
         </member>
+        <member name="T:NRegFreeCom.RegFileReader">
+            <summary>
+             Reads the given reg file and stores the content as  a Dictionary of registry keys and values as a Dictionary of registry values <see cref="T:NRegFreeCom.RegValueObject"/>
+            </summary>
+            <see href="http://www.codeproject.com/Articles/125573/Registry-Export-File-reg-Parser"/>
+        </member>
+        <member name="F:NRegFreeCom.RegFileReader._content">
+            Raw content of the reg file
+        </member>
+        <member name="F:NRegFreeCom.RegFileReader._regvalues">
+            the dictionary containing parsed registry values
+        </member>
+        <member name="M:NRegFreeCom.RegFileReader.Read(System.IO.Stream)">
+            <summary>
+            Imports the reg file
+            </summary>
+        </member>
+        <member name="M:NRegFreeCom.RegFileReader.parseFile">
+            <summary>
+            Parses the reg file for reg keys and reg values
+            </summary>
+            <returns>A Dictionary with reg keys as Dictionary keys and a Dictionary of (valuename, valuedata)</returns>
+        </member>
+        <member name="M:NRegFreeCom.RegFileReader.normalizeDictionary(System.String,System.String,System.Boolean)">
+            <summary>
+            Creates a flat Dictionary using given searcn pattern
+            </summary>
+            <param name="searchPattern">The search pattern</param>
+            <param name="content">The content string to be parsed</param>
+            <param name="stripeBraces">Flag for striping braces (true for reg keys, false for reg values)</param>
+            <returns>A Dictionary with retrieved keys and remaining content</returns>
+        </member>
+        <member name="M:NRegFreeCom.RegFileReader.stripeLeadingChars(System.String,System.String)">
+            <summary>
+            Removes the leading and ending characters from the given string
+            </summary>
+            <param name="sLine">given string</param>
+            <returns>edited string</returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NRegFreeCom.RegFileReader.stripeBraces(System.String)">
+            <summary>
+            Removes the leading and ending parenthesis from the given string
+            </summary>
+            <param name="sLine">given string</param>
+            <returns>edited string</returns>
+            <remarks></remarks>
+        </member>
+        <member name="M:NRegFreeCom.RegFileReader.getEncoding">
+            <summary>
+            Retrieves the ecoding of the reg file, checking the word "REGEDIT4"
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:NRegFreeCom.RegFileReader.RegValues">
+            <summary>
+            Gets the dictionary containing all entries
+            </summary>
+        </member>
+        <member name="P:NRegFreeCom.RegFileReader.Encoding">
+            <summary>
+            Gets encoding schema of the reg file (UTF8 or Default). Encoding of the reg file (Regedit 4 - ANSI; Regedit 5 - UTF8)
+            </summary>
+        </member>
         <member name="T:NRegFreeCom.ReferenceCountedObject">
             <summary>
             Reference counted object base or delegation.
@@ -1702,6 +1766,11 @@
             </param>
             <returns>S_OK means success.</returns>
         </member>
+        <member name="T:Microsoft.Win32.RegistryView">
+            <summary>
+            Specifies which registry view to target on a 64-bit operating system.
+            </summary>
+        </member>
         <member name="T:NRegFreeCom.StaComCrossThreadInvoker">
             <summary>
              Rejected COM calls will retry automatically in current thread when instance of this object is used.
@@ -1839,90 +1908,6 @@
             <typeparam name="T">The type of COM object.</typeparam>
             <param name="instance">The instance of remoting proxy.</param>
             <returns> The instance of a type that represents a COM object.</returns>
-        </member>
-        <member name="T:NRegFreeCom.RegFileObject">
-            <summary>
-            The main reg file parsing class.
-            Reads the given reg file and stores the content as
-            a Dictionary of registry keys and values as a Dictionary of registry values <see cref="T:NRegFreeCom.RegValueObject"/>
-            </summary>
-        </member>
-        <member name="F:NRegFreeCom.RegFileObject.path">
-            The full path of the reg file to be imported
-        </member>
-        <member name="F:NRegFreeCom.RegFileObject.filename">
-            The reg file name
-        </member>
-        <member name="F:NRegFreeCom.RegFileObject.encoding">
-            Encoding of the reg file (Regedit 4 - ANSI; Regedit 5 - UTF8)
-        </member>
-        <member name="F:NRegFreeCom.RegFileObject.content">
-            Raw content of the reg file
-        </member>
-        <member name="F:NRegFreeCom.RegFileObject.regvalues">
-            the dictionary containing parsed registry values
-        </member>
-        <member name="M:NRegFreeCom.RegFileObject.Read">
-            <summary>
-            Imports the reg file
-            </summary>
-        </member>
-        <member name="M:NRegFreeCom.RegFileObject.ParseFile">
-            <summary>
-            Parses the reg file for reg keys and reg values
-            </summary>
-            <returns>A Dictionary with reg keys as Dictionary keys and a Dictionary of (valuename, valuedata)</returns>
-        </member>
-        <member name="M:NRegFreeCom.RegFileObject.NormalizeDictionary(System.String,System.String,System.Boolean)">
-            <summary>
-            Creates a flat Dictionary using given searcn pattern
-            </summary>
-            <param name="searchPattern">The search pattern</param>
-            <param name="content">The content string to be parsed</param>
-            <param name="stripeBraces">Flag for striping braces (true for reg keys, false for reg values)</param>
-            <returns>A Dictionary with retrieved keys and remaining content</returns>
-        </member>
-        <member name="M:NRegFreeCom.RegFileObject.StripeLeadingChars(System.String,System.String)">
-            <summary>
-            Removes the leading and ending characters from the given string
-            </summary>
-            <param name="sLine">given string</param>
-            <returns>edited string</returns>
-            <remarks></remarks>
-        </member>
-        <member name="M:NRegFreeCom.RegFileObject.StripeBraces(System.String)">
-            <summary>
-            Removes the leading and ending parenthesis from the given string
-            </summary>
-            <param name="sLine">given string</param>
-            <returns>edited string</returns>
-            <remarks></remarks>
-        </member>
-        <member name="M:NRegFreeCom.RegFileObject.GetEncoding">
-            <summary>
-            Retrieves the ecoding of the reg file, checking the word "REGEDIT4"
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:NRegFreeCom.RegFileObject.FullPath">
-            <summary>
-            Gets or sets the full path of the reg file
-            </summary>
-        </member>
-        <member name="P:NRegFreeCom.RegFileObject.FileName">
-            <summary>
-            Gets the name of the reg file
-            </summary>
-        </member>
-        <member name="P:NRegFreeCom.RegFileObject.RegValues">
-            <summary>
-            Gets the dictionary containing all entries
-            </summary>
-        </member>
-        <member name="P:NRegFreeCom.RegFileObject.Encoding">
-            <summary>
-            Gets or sets the encoding schema of the reg file (UTF8 or Default)
-            </summary>
         </member>
         <member name="F:NRegFreeCom.Interop.WindowStylesEx.WS_EX_ACCEPTFILES">
             <summary>
@@ -2149,13 +2134,13 @@
         <member name="M:NRegFreeCom.Assembly.TryGetDelegate``1(``0@,System.String)">
             <inheritdoc/>
         </member>
-        <member name="M:NRegFreeCom.RegValueObject.#ctor(System.String,System.String,System.String,System.String)">
+        <member name="M:NRegFreeCom.RegValueObject.#ctor(System.String,System.String,System.String,System.Text.Encoding)">
             <param name="propertyString">A line from the [Registry] section of the *.sig signature file</param>
         </member>
         <member name="M:NRegFreeCom.RegValueObject.ToString">
             <returns>An entry for the [Registry] section of the *.sig signature file</returns>
         </member>
-        <member name="M:NRegFreeCom.RegValueObject.GetRegEntryType(System.String@,System.String)">
+        <member name="M:NRegFreeCom.RegValueObject.GetRegEntryType(System.String@,System.Text.Encoding)">
             <summary>
             Retrieves the reg value type, parsing the prefix of the value
             </summary>
@@ -2186,7 +2171,7 @@
             <returns>edited string</returns>
             <remarks></remarks>
         </member>
-        <member name="M:NRegFreeCom.RegValueObject.GetStringRepresentation(System.String[],System.String)">
+        <member name="M:NRegFreeCom.RegValueObject.GetStringRepresentation(System.String[],System.Text.Encoding)">
             <summary>
             Converts the byte arrays (saved as array of string) into string
             </summary>
