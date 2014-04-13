@@ -2,7 +2,7 @@
 using System.Security;
 using Microsoft.Win32;
 
-#if NET35
+#if NET35 && !NET40
 namespace Microsoft.Win32
 {
     /// <summary>
