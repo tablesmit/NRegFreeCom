@@ -17,6 +17,10 @@ namespace NRegFreeCom
     /// Potential usages - runtime search and invocation of C routines; .NET plugin model extended with native dlls.
     /// Instance methods are not thread safe.
     /// </remarks>
+    /// <seealso href="https://gist.github.com/1568627/76da6e65a2d925fffdb48a0ae5efd783281f9244"/>
+    /// <seealso href="http://blogs.msdn.com/b/jonathanswift/archive/2006/10/03/dynamically-calling-an-unmanaged-dll-from-.net-_2800_c_23002900_.aspx"/>
+    /// <seealso href="http://www.codeproject.com/Articles/1557/Late-binding-on-native-DLLs-with-C"/>
+    //TODO: use SafeHandle instead of IntPtr
     //TODO: create UnsafeAssemblySystem which does not integrity checking and path normalization
     //TODO: create SynchrnousAssemblySystem
     public class AssemblySystem : IAssemblySystem, IDisposable
@@ -81,26 +85,26 @@ namespace NRegFreeCom
         public IAssembly LoadFrom(string path)
         {
             path = normalize(path);//fixes problem with dot in paths like "C:/."
-            SafeLibraryHandle hModule;
+            IntPtr hModule;
             if (supportsCustomSearch)
             {
                 var flags = LOAD_LIBRARY_FLAGS.LOAD_LIBRARY_SEARCH_DEFAULT_DIRS |
                             LOAD_LIBRARY_FLAGS.LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR;
 
-                hModule = NativeMethods.LoadLibraryEx_Marshaled(path, IntPtr.Zero, flags);
+                hModule = NativeMethods.LoadLibraryEx(path, IntPtr.Zero, flags);
             }
             else
             {
-                hModule = NativeMethods.LoadLibraryEx_Marshaled(path, IntPtr.Zero, 0);
+                hModule = NativeMethods.LoadLibraryEx(path, IntPtr.Zero, 0);
             }
 
             ThrowOnError(path, hModule);
             return new Assembly(hModule, Path.GetFileName(path), path);
         }
 
-        private static void ThrowOnError(string path, SafeLibraryHandle hModule)
+        private static void ThrowOnError(string path, IntPtr hModule)
         {
-            if (hModule.IsInvalid)
+            if (hModule == IntPtr.Zero)
             {
                 var error = Marshal.GetLastWin32Error();
                 var ex = new Win32Exception(error);
@@ -226,7 +230,7 @@ namespace NRegFreeCom
             //TODO: I think it is .NET design to be safe if possible
             var flags = LOAD_LIBRARY_FLAGS.LOAD_LIBRARY_AS_DATAFILE;
 
-            var hModule = NativeMethods.LoadLibraryEx_Marshaled(path, IntPtr.Zero, flags);
+            var hModule = NativeMethods.LoadLibraryEx(path, IntPtr.Zero, flags);
             return new Assembly(hModule, Path.GetFileName(path), path);
         }
     }

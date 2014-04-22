@@ -13,14 +13,14 @@ namespace NRegFreeCom
 {
     public class Assembly : IAssembly
     {
-        private readonly SafeLibraryHandle _hModule;
+        private readonly IntPtr _hModule;
         private bool _disposed;
         private string _name;
         private string _location;
 
-        internal Assembly(SafeLibraryHandle hModule, string name, string location)
+        internal Assembly(IntPtr hModule, string name, string location)
         {
-            if (hModule == null || hModule.IsClosed)
+            if (hModule == IntPtr.Zero)
                 throw new ArgumentException("hModule", "Should be valid opened handle");
             _hModule = hModule;
             _name = name;
@@ -50,7 +50,7 @@ namespace NRegFreeCom
             ThrowIfDisposed();
             if (defName == null)
                 defName = typeof(T).Name;
-            IntPtr fPtr = NativeMethods.GetProcAddress(_hModule.DangerousGetHandle(), defName);
+            IntPtr fPtr = NativeMethods.GetProcAddress(_hModule, defName);
             if (fPtr == IntPtr.Zero)
             {
                 var msg = string.Format("Failed to find {0} function in {1} module", defName, FullName);
@@ -66,7 +66,7 @@ namespace NRegFreeCom
             ThrowIfDisposed();
             if (defName == null)
                 defName = typeof(T).Name;
-            IntPtr fPtr = NativeMethods.GetProcAddress(_hModule.DangerousGetHandle(), defName);
+            IntPtr fPtr = NativeMethods.GetProcAddress(_hModule, defName);
             if (fPtr == IntPtr.Zero)
             {
                 nativeDelegate = null;
@@ -87,7 +87,7 @@ namespace NRegFreeCom
         public Stream LoadCompiledResource(uint id)
         {
             // locate resources
-            IntPtr hResInfo = NativeMethods.FindResource(_hModule.DangerousGetHandle(), id, RESOURCE_TYPES.RCDATA);
+            IntPtr hResInfo = NativeMethods.FindResource(_hModule, id, RESOURCE_TYPES.RCDATA);
             if (hResInfo == IntPtr.Zero)
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
@@ -100,7 +100,7 @@ namespace NRegFreeCom
         public Stream LoadResource(uint id, RESOURCE_TYPES type)
         {
             // locate resources
-            IntPtr hResInfo = NativeMethods.FindResource(_hModule.DangerousGetHandle(), id, type);
+            IntPtr hResInfo = NativeMethods.FindResource(_hModule, id, type);
             if (hResInfo == IntPtr.Zero)
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
@@ -116,7 +116,7 @@ namespace NRegFreeCom
 
             //NOTE: like Environment.GetEnvironmentVariable - increase initially small buffer
         TRYREAD:
-            int readLength = NativeMethods.LoadString(_hModule.DangerousGetHandle(), id, buffer, buffer.Capacity);
+            int readLength = NativeMethods.LoadString(_hModule, id, buffer, buffer.Capacity);
 
             if (readLength == 0)
             {
@@ -135,9 +135,9 @@ namespace NRegFreeCom
 
         private unsafe Stream loadResources(IntPtr hResInfo)
         {
-            var sizeOfRes = NativeMethods.SizeofResource(_hModule.DangerousGetHandle(), hResInfo);
+            var sizeOfRes = NativeMethods.SizeofResource(_hModule, hResInfo);
             // get handle to memory pointer of resources
-            IntPtr hGLOBAL = NativeMethods.LoadResource(_hModule.DangerousGetHandle(), hResInfo);
+            IntPtr hGLOBAL = NativeMethods.LoadResource(_hModule, hResInfo);
             if (hGLOBAL == IntPtr.Zero)
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
@@ -159,8 +159,7 @@ namespace NRegFreeCom
             if (!_disposed)
             {
                 _disposed = true;
-               _hModule.Close();
-     
+                NativeMethods.FreeLibrary(this._hModule);
                 GC.SuppressFinalize(this);
             }
 

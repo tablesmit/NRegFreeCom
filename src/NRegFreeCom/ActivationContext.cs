@@ -118,6 +118,7 @@ namespace NRegFreeCom
             return obj;
         }
 
+        /// <seealso href="https://gist.github.com/1568627/76da6e65a2d925fffdb48a0ae5efd783281f9244"/>
         private static IClassFactory_AutoMarshal GetClassFactory(NRegFreeCom.IAssembly libraryModule, Guid clsid)
         {
             var getClassFactory = libraryModule.GetDelegate<DEF_Objbase.DllGetClassObject>();
