@@ -122,6 +122,7 @@
     <Compile Include="RotRegFreeComInvoker.cs" />
     <Compile Include="RunningObjectTable.cs" />
     <Compile Include="StaComCrossThreadInvoker.cs" />
+    <Compile Include="Threading\WaitHandleExtensions.cs" />
     <Compile Include="Tracing.cs" />
     <Compile Include="UserRegasm.cs" />
   </ItemGroup>

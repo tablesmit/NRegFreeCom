@@ -1,1 +1,1 @@
-packages\nuget.exe pack packaging\NRegFreeCom.nuspec
+call ".nuget/nuget.exe" pack nuget\NRegFreeCom.nuspec

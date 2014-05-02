@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Security;
 using System.Text;
+using Microsoft.Win32.SafeHandles;
 using NRegFreeCom.Interop.ComTypes;
 
 namespace NRegFreeCom.Interop
@@ -11,6 +12,15 @@ namespace NRegFreeCom.Interop
     [SuppressUnmanagedCodeSecurity]
     public static class NativeMethods
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hHandle"></param>
+        /// <param name="dwMilliseconds"></param>
+        /// <returns>If the function succeeds, the return value indicates the event that caused the function to return.</returns>
+        [DllImport("kernel32.dll", SetLastError = true)]
+        internal static extern UInt32 WaitForSingleObject(SafeWaitHandle hHandle, UInt32 dwMilliseconds);
+
         ///<summary>
         ///http://msdn.microsoft.com/en-us/library/windows/desktop/ms678485.aspx
         ///                HRESULT OleLoadPicturePath(

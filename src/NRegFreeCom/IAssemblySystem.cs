@@ -37,11 +37,11 @@
         IAssembly LoadFrom(string path);
 
         /// <summary>
-        /// Adds directoy to search pathes. 
-        /// When this <see cref="AssemblySystem"/> loads new dll then dependecies of it are looked in added paths.
-        /// This is  unsafe hack for XP (but works). Safe on Vista/Win7 with patch applied, it here on Win8.
+        /// Adds directory to search paths. 
+        /// When this <see cref="AssemblySystem"/> loads new dll then dependencies of it are looked in added paths.
+        /// This is unsafe hack for XP (but works). Safe on Vista/Win7 with patch(KB2533623) applied, patch already installed on Windows 8.
         /// </summary>
-        /// <param name="directory">Full path to directoy</param>
+        /// <param name="directory">Full path to directory</param>
         /// <see href="http://support.microsoft.com/kb/2533623"/>
         /// <seealso href="http://msdn.microsoft.com/en-us/library/ff919712.aspx"/>
         /// <seealso href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms682586.aspx"/>

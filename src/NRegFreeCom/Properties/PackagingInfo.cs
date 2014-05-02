@@ -6,5 +6,5 @@
 [assembly: AssemblyProduct("NRegFreeCom")]
 
 
-[assembly: AssemblyVersion("0.1.4.2")]
-[assembly: AssemblyFileVersion("0.1.4.2")]
+[assembly: AssemblyVersion("0.1.4.3")]
+[assembly: AssemblyFileVersion("0.1.4.3")]

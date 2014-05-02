@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>NRegFreeCom</id>
-    <version>0.1.4.1</version>
+    <version>0.1.4.3</version>
     <authors>Dzmitry Lahoda</authors>
     <owners>dzmitry_lahoda</owners>
     <licenseUrl>http://creativecommons.org/publicdomain/zero/1.0/</licenseUrl>
@@ -11,8 +11,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Load native libraries, call native functions, do COM objects without registration, do COM registrations in runtime, in .NET</description>
     <releaseNotes>
+      * 0.1.4.3
+      - added non alertable PInvoke wait operation 
       * 0.1.4.1
-      - added 
+      - added reg files tools
       * 0.1.3.0
       - added utils to work with registry
       * 0.1.2.0

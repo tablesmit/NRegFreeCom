@@ -11,6 +11,10 @@ Release
 bin
 obj
 
+//nuget
+*.nupkg
+packages
+
 // Visual Studio + Plugins
 _ReSharper.*
 
