@@ -21,6 +21,7 @@
 
 * `NRegFreeCom` is redistributable managed library, can be build in Release and Debug mode ShardDevelop or Visual Studio 2010 SP1. Is build for `Any Cpu`
 * Library testing is done on XP SP3 and Windows 7 SP2
+* Run `deploy.bat`
 
 ### Samples build
 
@@ -164,7 +165,7 @@ See tests and samples in code for other functional (like inter process communica
 * Imitate AppDomains based on runtime binding
 * Add PE code (detecting managed headers, DEF and COM headers).
 * Research how  api-ms-win-core can be employed for isolation http://www.nirsoft.net/articles/windows_7_kernel_architecture_changes.html
-* User free tools. Use SharpDevelop to build all C#. Use NMAKE or Code::Blocks to build all C++. Compile C++/C# in runtime to make tests more robust.
+* User free tools. Use SharpDevelop to build all C#. Use NMAKE/CL/MIDL and/or C++ template of SD to build all C++. Compile C++/C# in runtime and start processes to make tests more robust.
 * Investigate WiX and Import/Export reg to Xml projects which contain reg parsing and to XML code, drop support here or reuse then
 
 ### Isolation and integration
