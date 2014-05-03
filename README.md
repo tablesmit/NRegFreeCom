@@ -7,8 +7,6 @@
  Managed code is XCOPY on 32/64. This lib helps making native interlop also XCOPY by using pattern of deploying both versions of native libs and deciding in runtime, like OS libraries PInvokes work. 
 
  This project contains samples and reusable patters of things above.
- 
- See (Notes)[#notes] for project design and reasoning.
 
 ## Content
 * PInvokes used to work with native libraries and reg free COM objects
@@ -137,6 +135,8 @@
 See tests and samples in code for other functional (like inter process communication without server Windows registry entry; loading and initializing native libraries, methods and COM objects).
 
 ##Notes
+
+Project design and reasoning:
 
 [Isolation and integration : native vs. managed](doc/isolateintegrate.md)
 

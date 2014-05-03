@@ -24,7 +24,7 @@ For now
 - Fast first usage of XML serializes by default, faster start up time. .NET 4.5 has it.
 - Coexsitence of big C++ and big C# heap in the same process. Looks almost each new version  of .NET adds more APIs for GC and CLR hosting tuning.
 - Enough of free and opensource tools for .NET profiling.
-- Opensource tools and libraries of COM and C interop [2] [3]
+- Opensource tools and libraries of COM and C interop [2] 
 
 Better to have in future
 ---
@@ -38,4 +38,4 @@ Better to have in future
 
 [1]: http://visualstudio.uservoice.com/forums/121579-visual-studio/suggestions/4034029-add-support-of-ms-rpc-into-c-generate-c-from-i
 
-[2]: https://clrinterop.codeplex.com/
+[2]: isolateintegrate.md
