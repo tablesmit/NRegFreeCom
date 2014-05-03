@@ -36,5 +36,6 @@ Better to have in future
 - Support for fast interface/attribute based inter process communication(IPC) with pregeneration of proxy/stub like in [1]
 - Some way to do RAII to release references counted objects (specifically STA COM) instead of calling Marshal.Release or wrapping into using directly.
 
-[1] http://visualstudio.uservoice.com/forums/121579-visual-studio/suggestions/4034029-add-support-of-ms-rpc-into-c-generate-c-from-i
-[2] https://clrinterop.codeplex.com/
+[1]: http://visualstudio.uservoice.com/forums/121579-visual-studio/suggestions/4034029-add-support-of-ms-rpc-into-c-generate-c-from-i
+
+[2]: https://clrinterop.codeplex.com/

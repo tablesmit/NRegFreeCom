@@ -8,7 +8,7 @@
 
  This project contains samples and reusable patters of things above.
  
- See *Notes* for project design and reasoning.
+ See (Notes)[#notes] for project design and reasoning.
 
 ## Content
 * PInvokes used to work with native libraries and reg free COM objects
