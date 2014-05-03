@@ -4,16 +4,18 @@
 
  COM is good for native interop and easy IPC, but lacks clean coded way to do such interaction without deployment/compile time registry in .NET.
 
- Managed code is XCOPY on 32/64. Making native interlop also XCOPY by using pattern of deploying both versions of native libs and deciding in runtime, like OS libraries PInvokes work.
- Managed code have AppDomains with dll search and memory isolation, striving to do the same of native COM.
+ Managed code is XCOPY on 32/64. This lib helps making native interlop also XCOPY by using pattern of deploying both versions of native libs and deciding in runtime, like OS libraries PInvokes work. 
 
  This project contains samples and reusable patters of things above.
+ 
+ See *Notes* for project design and reasoning.
 
 ## Content
 * PInvokes used to work with native libraries and reg free COM objects
 * Sample how to load native library with module definition as assembly and providing it with managed COM services
-* Sample of native library implementing managed COM interface searched and  instatiated by managed code using manifest
-* Managed out of process COM server which uses Running Object Table to broadcast it instance (zero Windows Registy info)
+* Helpers to work with native and COM threading
+* Sample of native library implementing managed COM interface searched and  instantiated by managed code using manifest
+* Managed out of process COM server which uses Running Object Table to broadcast it instance (zero Windows Registry info)
 * Managed out of process COM server which does registration at start and unregisters when closing
 * Working with native library dependencies and resources
 
@@ -136,24 +138,11 @@ See tests and samples in code for other functional (like inter process communica
 
 ##Notes
 
-### In order to ease integration of C++ and C# I think could be good to:
+[Isolation and integration : native vs. managed](doc/isolateintegrate.md)
 
-* C libs loaded to provide HRESULT STDAPICALLTYPE exports with COM memory management methods used to be similar to COM lifecylte functions exported for uniformity of calls. 
-* Strive to have expericene of new WinRT (*.winmd, C++/CX, WRL). No Windows registy involved. XCOPY deployment. 
-* COM interfaces to be as simple as possible so these could be implemented manually (without wizards) by developer with low C++ skill.
+[What makes C# .NET ready for developing Windows desktop applications](doc/netnative.md)
 
-
-
-## Other semi automatic approaches of doing native interop
-
-* IDL COM ATL Wizards, tlbimp
-* https://github.com/mono/CppSharp
-* http://clrinterop.codeplex.com
-* C++/CLI
-* C++/CX, WRL
-* SWIG
-* CXXI (Linux, gcc)
-
+[Guide to ease integration of C++ and C#](doc/nativemanagedeasy.md)
 
 ## TODO:
 * Enumerate DLL exports
@@ -167,59 +156,6 @@ See tests and samples in code for other functional (like inter process communica
 * Research how  api-ms-win-core can be employed for isolation http://www.nirsoft.net/articles/windows_7_kernel_architecture_changes.html
 * User free tools. Use SharpDevelop to build all C#. Use NMAKE/CL/MIDL and/or C++ template of SD to build all C++. Compile C++/C# in runtime and start processes to make tests more robust.
 * Investigate WiX and Import/Export reg to Xml projects which contain reg parsing and to XML code, drop support here or reuse then
-
-### Isolation and integration
-
-  Native code does not have AppDomains and have static linking for isolation. There are technologies which helps to solve/mitigate problems of conflicting components while dynamic linking of native components:
-* Windows provided features like Activation Contexts, application `manifest`s, `dll.2.config`, dynamic and controlled libraries loading and symbols binding, SxS
-* EasyHook - The reinvention of Windows API Hooking https://easyhook.codeplex.com/
-  
-  Isolation can be achieved by design:
-* Multiprocess architecture
-* There are Dependency Injection and Inversion of Control tools for C++, but because of lack of runtime metadata in native code by default not so powerful as in .NET
-
-This lib strives to make .NET engine to load native code in isolated manner.
-
-## What makes C# .NET ready for developing Windows deskops apps
-
-Problem
----
-.NET desktop applications take long time to start, are slow and CPU consuming while using runtime features like reflection, are slow and CPU consuming when integrating with native code (e.g. can call only high level COM API while native code can call hich performance API of native components).
-
-Context
----
-- User can open and close desktop application many times.
-- Desktop application can be deployed and run in restricted environment, hence cannot put assemblies into GAC.
-- Windows is unmanaged OS with all core user apps written in unmanaged code, hence .NET need to be well integrated into these to call API with high performance.
--  Main .NET language - C# - does not have compile time meta programming build in.
--  .NET has many places with runtime code generations which should avoided.
-
-Enforces
----
-Using 3rd party tools for compile time code degeneration instead of runtime. Loose will be mostly in ease of build and support. But this will allow .NET be good citizen e.g. as MS Office add-in or as applications which does auto start after window launch.
-
-For now
----
-- Parallel Just in Time(JIT) compilation and good Ahead of Time(AOT) support (NGEN). .NET 4.5 has both.
-- Low overhead COM events support via ComEventsHelper. .NET 4.0 has it.
-- More COM support like ICustomQueryInterface since .NET 4.0. Looks almost each new version of .NET adds more stuff.
-- Fast first usage of XML serializes by default, faster start up time. .NET 4.5 has it.
-- Coexsitence of big C++ and big C# heap in the same process. Looks almost each new version  of .NET adds more APIs for GC and CLR hosting tuning.
-- Enough of free and opensource tools for .NET profiling.
-- Opensource tools and libraries of COM and C interop [2] [3]
-
-Better to have in future
----
-- Widespread of .NET 4.5.
-- Integration of COM with CLI metadata. WinRT apps has some. Need the same for Desktop.
-- Compile time generics-templates, good tool for AOP or other kind of metaprogramming.
-- Compile time Dependency Injection container.
-- Compile time analysis of runtime reflection and code generation usage to prevent both.
-- Support for fast interface/attribute based inter process communication(IPC) with pregeneration of proxy/stub like in [1]
-- Some way to do RAII to release references counted objects (specifically STA COM) instead of calling Marshal.Release or wrapping into using directly.
-
-[1] http://visualstudio.uservoice.com/forums/121579-visual-studio/suggestions/4034029-add-support-of-ms-rpc-into-c-generate-c-from-i
-[2] https://clrinterop.codeplex.com/
 
 
 ##Q&A
