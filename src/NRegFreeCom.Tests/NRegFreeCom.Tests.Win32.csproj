@@ -86,7 +86,7 @@
     <Compile Include="RegAsmTests.cs" />
     <Compile Include="RuntimeRegServer.cs" />
     <Compile Include="StaComCrossThreadInvokerTests.cs" />
-    <Compile Include="WaitHandleExtensionsTests.cs" />
+    <Compile Include="WindowsWaitHandleExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NRegFreeCom\NRegFreeCom.csproj">

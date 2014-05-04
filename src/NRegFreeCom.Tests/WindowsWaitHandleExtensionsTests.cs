@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace NRegFreeCom.Tests
 {
     [TestFixture]
-    public class WaitHandleExtensionsTests
+    public class WindowsWaitHandleExtensionsTests
     {
         [Test]
         public void WaitOneNonAlertable_signaled_true()

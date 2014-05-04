@@ -82,7 +82,7 @@
     <Compile Include="RegFileReader.cs" />
     <Compile Include="RegistryKeyExtensions.cs" />
     <Compile Include="RegValueObject.cs" />
-    <Compile Include="Threading\WaitHandleExtensions.cs" />
+    <Compile Include="Threading\WindowsWaitHandleExtensions.cs" />
     <Compile Include="Tracing.cs" />
     <Compile Include="Interop\CLSCTX.cs" />
     <Compile Include="ComExceptionChecker.cs" />

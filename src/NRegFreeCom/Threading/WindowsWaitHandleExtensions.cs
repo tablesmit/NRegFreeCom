@@ -5,7 +5,7 @@ using NRegFreeCom.Interop;
 
 namespace NRegFreeCom.Threading
 {
-    public static class WaitHandleExtensions
+    public static class WindowsWaitHandleExtensions
     {
         const UInt32 INFINITE = 0xFFFFFFFF;
         const UInt32 WAIT_ABANDONED = 0x00000080;
