@@ -14,17 +14,31 @@ namespace NRegFreeCom.Threading
         const UInt32 WAIT_FAILED = INFINITE;
 
         /// <summary>
-        /// Waits preventing an I/O completion routine or an APC for execution by the waiting thread (unlike default `alertable`  .NET wait). E.g. prevents STA message pump in background. 
+        /// Waits preventing an I/O completion routine or an APC for execution by the waiting thread (unlike default `alertable`  .NET wait). 
+        /// E.g. prevents STA message pump in background.
+        /// </summary>
+        public static bool WaitOneNonAlertable(this WaitHandle current){
+        	return WaitOneNonAlertable(current,INFINITE);
+        }
+        
+                
+        /// <summary>
+        /// Waits preventing an I/O completion routine or an APC for execution by the waiting thread (unlike default `alertable`  .NET wait). 
+        /// E.g. prevents STA message pump in background.
         /// </summary>
         /// <returns></returns>
         /// <seealso cref="http://stackoverflow.com/questions/8431221/why-did-entering-a-lock-on-a-ui-thread-trigger-an-onpaint-event">
         /// Why did entering a lock on a UI thread trigger an OnPaint event?
         /// </seealso>
-        public static bool WaitOneNonAlertable(this WaitHandle current, int millisecondsTimeout)
-        {
-            if (millisecondsTimeout < -1)
+        public static bool WaitOneNonAlertable(this WaitHandle current, int millisecondsTimeout){
+        	if (millisecondsTimeout < -1)
                 throw new ArgumentOutOfRangeException("millisecondsTimeout", millisecondsTimeout, "Bad wait timeout");
-            uint ret = NativeMethods.WaitForSingleObject(current.SafeWaitHandle, (UInt32)millisecondsTimeout);
+        	return WaitOneNonAlertable(current,(UInt32)millisecondsTimeout);
+        }
+
+        private static bool WaitOneNonAlertable(this WaitHandle current, UInt32 millisecondsTimeout)
+        {
+            uint ret = NativeMethods.WaitForSingleObject(current.SafeWaitHandle, millisecondsTimeout);
             switch (ret)
             {
                 case WAIT_OBJECT_0:

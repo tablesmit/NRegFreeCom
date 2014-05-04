@@ -15,6 +15,14 @@ namespace NRegFreeCom.Tests
             bool result = e.WaitOneNonAlertable(10);
             Assert.IsTrue(result);
         }
+        
+       [Test]
+        public void WaitOneNonAlertable_signaledInfinite_true()
+        {
+            var e = new ManualResetEvent(true);
+            bool result = e.WaitOneNonAlertable();
+            Assert.IsTrue(result);
+        }
 
         [Test]
         public void WaitOneNonAlertable_nonSignaled_false()

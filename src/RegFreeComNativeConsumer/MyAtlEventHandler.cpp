@@ -3,8 +3,6 @@
 #include <assert.h>
 
 
-
-
 MyAtlEventHandler::MyAtlEventHandler(void)
     :m_refCount(1)
 {
