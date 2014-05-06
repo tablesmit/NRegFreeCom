@@ -17,6 +17,7 @@ namespace NRegFreeCom
         /// <param name="t"></param>
         void UnregisterLocalServer(Type t);
 
+
         void RegisterInProcServer(Type t, RegistryView registryView = RegistryView.Default);
 
         void UnregisterInProcServer(Type t,RegistryView registryView = RegistryView.Default);

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<asmv1:assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <assemblyIdentity
+       name="RegFreeCom.Implementations.dll"
+       version="1.0.0.0"
+       type="win32"
+       processorArchitecture="msil" />
+  <file name = "RegFreeCom.Implementations.dll">
+    <typelib tlbid="{B102BE73-8951-4FB7-BA0D-DF4EEF74DDEA}" version="1.0" helpdir=""/>
+  </file>
+
+  <clrClass
+        clsid="{9C21B7EB-7E27-4405-BCE0-62B338DF83BB}"
+        progid="RegFreeCom.Implementations.RegFreeLocalServer"
+        threadingModel="Both"
+        name="RegFreeCom.Implementations.RegFreeLocalServer" >
+  </clrClass>
+  <clrClass
+      clsid="{DB9935C1-19C5-4ed2-ADD2-9A57E19F53A3}"
+      progid="RegFreeCom.Implementations.SimpleObject"
+      threadingModel="Both"
+      name="RegFreeCom.Implementations.SimpleObject" >
+  </clrClass>
+  <clrClass
+    clsid="{581FBD61-BD82-4E2A-8200-519D90BBB1F7}"
+    progid="RegFreeCom.Implementations.RegFreeComRotClass"
+    threadingModel="Both"
+    name="RegFreeCom.Implementations.RegFreeComRotClass" >
+  </clrClass>
+  <dependency>
+    <dependentAssembly>
+      <assemblyIdentity
+           name="RegFreeCom.Interfaces.dll"
+           version="1.0.0.0"
+          type="win32"
+           processorArchitecture="msil" />
+    </dependentAssembly>
+  </dependency>
+</asmv1:assembly>

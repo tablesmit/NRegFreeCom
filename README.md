@@ -145,6 +145,9 @@ Project design and reasoning:
 [Guide to ease integration of C++ and C#](doc/nativemanagedeasy.md)
 
 ## TODO:
+* add support for Record Interface and TypeLib, connection Class-Inteface Class-TypeLib Interface-TypeLib
+* todo add method to transform positive reg file to negative (add - to remove all keys)
+* add rgs parser, add xml with semantics of rgs
 * Enumerate DLL exports
 * Make custom resources sample and read this.
 * Try to do with resources what WinRT did. Embeed CLI metadata describing reg free COM component, generate manifest from it, and create COM, use Metadata Interfaces. http://msdn.microsoft.com/en-us/library/ms233411.aspx.

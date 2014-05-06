@@ -30,7 +30,7 @@ namespace NRegFreeCom
             //TODO: ensure that most resticed is used, may be HKEY_CURRENT_USER\Software\Classes\Interface
             // Open the CLSID key of the component.
          
-            using (RegistryKey keyCLSID = Registry.ClassesRoot.OpenSubKey(@"CLSID\" + t.GUID.ToString("B"), /*writable*/true))
+            using (RegistryKey keyCLSID = Registry.ClassesRoot.OpenSubKey(RegAsm.CLSID + t.GUID.ToString("B"), /*writable*/true))
             {
                 // Remove the auto-generated InprocServer32 key after registration
                 // (REGASM puts it there but we are going out-of-proc).
@@ -54,7 +54,7 @@ namespace NRegFreeCom
             }
 
             // Delete the CLSID key of the component
-            Registry.ClassesRoot.DeleteSubKeyTree(@"CLSID\" + t.GUID.ToString("B"));
+            Registry.ClassesRoot.DeleteSubKeyTree(RegAsm.CLSID + t.GUID.ToString("B"));
         }
 
         public void RegisterInProcServer(Type t, RegistryView registryView = RegistryView.Default)
@@ -73,7 +73,7 @@ namespace NRegFreeCom
         {
             var reg = ClrComRegistryInfo.Create(t);
          #if NET35
-            throw new NotImplementedException("Need to ");
+            throw new NotImplementedException("Need to backport 4.0 methods");
 #else   
             var root = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, registryView);
             var classes = root.CreateSubKey(CLASSES);
