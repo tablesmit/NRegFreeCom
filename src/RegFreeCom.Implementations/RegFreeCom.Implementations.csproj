@@ -69,12 +69,12 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>::echo Generate type library.
-C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe /tlb:"$(TargetName).tlb" "$(TargetPath)"
+%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\regasm.exe /tlb:"$(TargetName).tlb" "$(TargetPath)"
 ::echo Create reg for custom registration
-C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe /regfile "$(TargetPath)"
+%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\regasm.exe /regfile "$(TargetPath)"
 
 ::echo Unregister the component
-C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe /u "$(TargetPath)"
+%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\regasm.exe /u "$(TargetPath)"
 
 :: clean up registy not cleaned up by regasm
 regedit /s "$(ProjectDir)Remove_RegFreeComRotClass.reg"</PostBuildEvent>
