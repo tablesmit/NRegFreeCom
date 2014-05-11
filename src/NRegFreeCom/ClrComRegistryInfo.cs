@@ -6,38 +6,81 @@ using System.Runtime.InteropServices;
 
 namespace NRegFreeCom
 {
-    public class ClrComRegistryInfo
-    {
-        public IAssemblyInfo Assembly { get; set; }//TODO: avoid direct dependency on assembly to allow assembly touchless registration
-        public string Class { get; set; }
-        public string ProgId { get; set; }
-        public string ThreadingModel { get; set; }
-        public string Guid { get; set; }
-        public string NetVersion { get; set; }
-        public string NetEntryPoint { get; set; }
-
-        public static ClrComRegistryInfo Create(Type t)
+	/// <summary>
+	/// Creates COM related desciptions out of CLR types.
+	/// </summary>
+	public static class ComClrInfoFactory{
+	
+		public static ComClassInfo CreateClass(System.Reflection.Assembly reflectionAssembly, string fullClassName)
         {
-            raiseErrorOnBadType(t);
+            var type = reflectionAssembly.GetType(fullClassName,true);
+            return CreateClass(type);
+        }
+		
+		/// <summary>
+		/// Creates COM class desciptions out of ComVisible CLR class type.
+		/// </summary>
+		/// <param name="t"></param>
+		/// <returns></returns>
+		public static ComClassInfo CreateClass(Type t)
+        {
+            raiseErrorOnBadClassType(t);
             var attrs = CustomAttributeData.GetCustomAttributes(t);// GetCustomAttributes() is not usable against reflection only assemblies
-             raiseErrorOnBadAttrs(attrs);
-
-            var reg = new ClrComRegistryInfo();
+            raiseErrorOnBadAttrs(attrs);
+             
+            var reg = new ComClassInfo();
 
             reg.Assembly = new AssemblyInfo(t.Assembly);
             reg.Class = t.FullName;
             //TODO: optimize string usage for many calls of this
-            var progIdMatch = string.Format("[{0}", typeof(ProgIdAttribute).FullName);
-            var progIdAttr = attrs.FirstOrDefault(x => x.ToString().StartsWith(progIdMatch));
+            CustomAttributeData progIdAttr = getCustomAttribute(attrs,typeof(ProgIdAttribute));
             reg.ProgId = progIdAttr != null ? progIdAttr.ConstructorArguments.First().Value.ToString() : reg.Class;
-            reg.ThreadingModel = "Both";
+            reg.ThreadingModel = "Both";//NOTE: looks like this is default for .NET 
             reg.Guid = t.GUID.ToString("B").ToUpper();
-            reg.NetVersion = "v4.0.30319";
-            reg.NetEntryPoint = "mscoree.dll";
+            reg.RuntimeVersion = t.Assembly.ImageRuntimeVersion;
+            reg.RuntimeEntryPoint = "mscoree.dll";//TODO: change this depending on runtime version
             return reg;
         }
+		
+		private static CustomAttributeData getCustomAttribute(IEnumerable<CustomAttributeData> attrs, Type ofAttr){
+			var match = string.Format("[{0}", ofAttr.FullName);
+            var attr = attrs.FirstOrDefault(x => x.ToString().StartsWith(match));
+            return attr;
+		}
+		
+		public static ITypeLibAttributes CreateTypeLib(System.Reflection.Assembly typeLib)
+		{
+			return new TypeLib(typeLib);
+		}
+		
+		public static ComInterfaceInfo CreateInterface(Type t)
+        {
+            raiseErrorOnBadInterfaceType(t);
+            var attrs = CustomAttributeData.GetCustomAttributes(t);// GetCustomAttributes() is not usable against reflection only assemblies
+            raiseErrorOnBadAttrs(attrs);
+             
+            var reg = new ComInterfaceInfo();
+            reg.TypeLib = new TypeLib(t.Assembly);
+            reg.Guid = t.GUID.ToString("B").ToUpper();
+          
+            return reg;
+        }
+		
+		private static void raiseErrorOnBadInterfaceType(Type t)
+        {
+            if (t == null || !t.IsInterface) //NOTE: may be more checks needed
+                throw new ArgumentException("The  CLR interface type must be specified.", "t");
+        }
 
-        private static void raiseErrorOnBadAttrs(IList<CustomAttributeData> attrs)
+		
+		private static void raiseErrorOnBadClassType(Type t)
+        {
+            if (t == null || t.IsAbstract || t.IsCOMObject) //NOTE: may be more checks needed
+                throw new ArgumentException("The non abstract CLR class type must be specified.", "t");
+        }
+
+		
+		private static void raiseErrorOnBadAttrs(IList<CustomAttributeData> attrs)
         {
             var comVisibleMatch = string.Format("[{0}",typeof(ComVisibleAttribute).FullName);
             var combVisibleAttr = attrs.FirstOrDefault(x => x.ToString().StartsWith(comVisibleMatch));
@@ -46,27 +89,41 @@ namespace NRegFreeCom
             if ((bool)combVisibleAttr.ConstructorArguments.First().Value == false)
                 throw new ArgumentException("The CLR type must be COM visible.", "t");
         }
-
-        private static void raiseErrorOnBadType(Type t)
-        {
-            if (t == null || t.IsAbstract || t.IsCOMObject) //NOTE: may be more checks needed
-                throw new ArgumentException("The non abstract CLR type must be specified.", "t");
-        }
-
-
-        public static ClrComRegistryInfo Create(string assemblyLocation, string fullClassName)
-        {
-            var asm = System.Reflection.Assembly.ReflectionOnlyLoadFrom(assemblyLocation);
-            var type = asm.GetType(fullClassName,true);
-            return Create(type);
-        }
-
-        private class AssemblyInfo : IAssemblyInfo
+		
+		private sealed class TypeLib:ITypeLibAttributes{
+			
+			public TypeLib(System.Reflection.Assembly asm){
+              	
+				// Only 2 numbers sypported by COM instead of 4 in CLR
+				var ver = asm.GetName().Version;
+				Version  = new Version(ver.Major,ver.Minor);
+				
+              	var attrs = CustomAttributeData.GetCustomAttributes(asm);
+              	var attr = ComClrInfoFactory.getCustomAttribute(attrs,typeof(GuidAttribute));
+              	if (attr == null)
+              		throw new ArgumentException("Assembly must have GuidAttribute defined","asm");
+              	var guidValue = attr.ConstructorArguments.First().ToString();//raw, as is directly in code           
+              	Guid =  new Guid(guidValue.Remove(guidValue.Length-1,1).Remove(0,1));
+			}
+			
+			public Version Version
+			{ 
+				get; private set;
+			}
+			
+			public Guid Guid{
+				get; private set;
+			}
+			
+		}
+		
+		private sealed class AssemblyInfo : IAssemblyInfo
         {
             private readonly System.Reflection.Assembly _assembly;
 
             public AssemblyInfo(System.Reflection.Assembly assembly)
             {
+            	//TODO: get all values eagerly and release assembly 
                 _assembly = assembly;
 
             }
@@ -78,16 +135,61 @@ namespace NRegFreeCom
             }
         }
 
-        private class AssemblyNameInfo : IAssemblyNameInfo
+        private sealed class AssemblyNameInfo : IAssemblyNameInfo
         {
             private AssemblyName _name;
 
             public AssemblyNameInfo(AssemblyName name)
             {
                 _name = name;
+              
             }
 
             public Version Version { get { return _name.Version; } }
         }
+		
+
+	}
+	
+	public abstract class ComClrInfoBase
+	{
+	    
+		public abstract  System.Runtime.InteropServices.ComTypes.TYPEKIND TypeKind { get; }
+		public string Guid { get;  internal set; }
+		
+
+	}
+	
+	public sealed class ComInterfaceInfo:ComClrInfoBase{
+	   
+        public override   System.Runtime.InteropServices.ComTypes.TYPEKIND TypeKind { 
+        	get { return System.Runtime.InteropServices.ComTypes.TYPEKIND.TKIND_INTERFACE;}
+        }
+		
+		public ITypeLibAttributes TypeLib {get;internal set;}
+
+	}
+	
+	public class ComClassInfo:ComClrInfoBase
+    {
+        public IAssemblyInfo Assembly { get; set; }
+        public string Class { get;  set; }
+        public string ProgId { get; set; }
+        public string ThreadingModel { get; set; }
+ 
+        public string RuntimeVersion { get; set; }
+        public string RuntimeEntryPoint { get; set; }
+
+
+        public override   System.Runtime.InteropServices.ComTypes.TYPEKIND TypeKind { 
+        	get { return System.Runtime.InteropServices.ComTypes.TYPEKIND.TKIND_COCLASS;}
+        }
+
+
+
+
+
+
+ 
     }
 }

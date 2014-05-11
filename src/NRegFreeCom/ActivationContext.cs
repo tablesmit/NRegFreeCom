@@ -109,7 +109,7 @@ namespace NRegFreeCom
         /// <param name="libraryModule"></param>
         /// <param name="clsid"></param>
         /// <returns></returns>
-        public static object CreateInstanceDirectly(NRegFreeCom.IAssembly libraryModule, Guid clsid)
+        public static object DangerousCreateInstanceDirectly(NRegFreeCom.IAssembly libraryModule, Guid clsid)
         {
             var classFactory = GetClassFactory(libraryModule, clsid);
             var iid = new Guid(WELL_KNOWN_IIDS.IID_IUnknown);

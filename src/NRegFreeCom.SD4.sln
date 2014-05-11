@@ -1,12 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRegFreeCom", "NRegFreeCom\NRegFreeCom.csproj", "{F7B5AE2C-7A0E-4496-A03B-9065C9A9A1C6}"
+# SharpDevelop 4.4
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F7F4181E-0A1D-4910-9AC3-A5C16750F9E8}"
+	ProjectSection(SolutionItems) = preProject
+		NRegFreeCom\NRegFreeCom.dll.manifest = NRegFreeCom\NRegFreeCom.dll.manifest
+		..\packaging\NRegFreeCom.nuspec = ..\packaging\NRegFreeCom.nuspec
+		NRegFreeCom\Properties\PackagingInfo.cs = NRegFreeCom\Properties\PackagingInfo.cs
+		..\README.md = ..\README.md
+	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RegFreeComNativeImplementer", "RegFreeComNativeImplementer\RegFreeComNativeImplementer.vcxproj", "{78AF6FE7-FC6A-4B13-A42F-06B4CCD434F9}"
-	ProjectSection(ProjectDependencies) = postProject
-		{318D444F-8E6D-4823-9F14-9F61F7698B68} = {318D444F-8E6D-4823-9F14-9F61F7698B68}
-		{198707BF-25CA-4F36-90DC-A6CFAAFC6C5C} = {198707BF-25CA-4F36-90DC-A6CFAAFC6C5C}
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{76192D29-6506-44E5-9CD4-3F36C3DE1F39}"
+	ProjectSection(SolutionItems) = postProject
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegFreeCom.Interfaces", "RegFreeCom.Interfaces\RegFreeCom.Interfaces.csproj", "{318D444F-8E6D-4823-9F14-9F61F7698B68}"
@@ -18,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegFreeCom.ManagedHost.Win3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegFreeCom.Implementations", "RegFreeCom.Implementations\RegFreeCom.Implementations.csproj", "{F3F9979A-65FE-4098-920D-9FB075BC3C7E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RegFreeComNativeConsumer", "RegFreeComNativeConsumer\RegFreeComNativeConsumer.vcxproj", "{6623CA71-25DF-4A93-9688-152CE7C24908}"
+Project("{0E96FCFA-9DAC-4534-AC18-01A90C368873}") = "RegFreeComNativeConsumer", "RegFreeComNativeConsumer\RegFreeComNativeConsumer.vcxproj", "{6623CA71-25DF-4A93-9688-152CE7C24908}"
 	ProjectSection(ProjectDependencies) = postProject
 		{318D444F-8E6D-4823-9F14-9F61F7698B68} = {318D444F-8E6D-4823-9F14-9F61F7698B68}
 	EndProjectSection
@@ -27,13 +32,32 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegFreeCom.OutOfProcClient.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegFreeCom.OutOfProcServer.Win32", "RegFreeCom.OutOfProcServer\RegFreeCom.OutOfProcServer.Win32.csproj", "{7B4FB722-905A-4851-8399-1E0F3361CCD8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F7F4181E-0A1D-4910-9AC3-A5C16750F9E8}"
-	ProjectSection(SolutionItems) = preProject
-		NRegFreeCom\NRegFreeCom.dll.manifest = NRegFreeCom\NRegFreeCom.dll.manifest
-		..\packaging\NRegFreeCom.nuspec = ..\packaging\NRegFreeCom.nuspec
-		NRegFreeCom\Properties\PackagingInfo.cs = NRegFreeCom\Properties\PackagingInfo.cs
-		..\README.md = ..\README.md
+Project("{0E96FCFA-9DAC-4534-AC18-01A90C368873}") = "NativeLibrary", "NativeLibrary\NativeLibrary.vcxproj", "{CC23D6DF-245D-4D2D-915D-7CF3ACE72BD3}"
+EndProject
+Project("{0E96FCFA-9DAC-4534-AC18-01A90C368873}") = "NativeLibraryConsumer", "NativeLibraryConsumer\NativeLibraryConsumer.vcxproj", "{43F37471-7928-4FEA-B865-0241A1EB328D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CC23D6DF-245D-4D2D-915D-7CF3ACE72BD3} = {CC23D6DF-245D-4D2D-915D-7CF3ACE72BD3}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuntimeRegCom.OutOfProcServer.Win32", "RuntimeRegCom.OutOfProcServer.Win32\RuntimeRegCom.OutOfProcServer.Win32.csproj", "{0F1DA357-D2F0-486F-A0E5-CC4B4B4575C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuntimeRegCom.OutOfProcClient.Win32", "RuntimeRegCom.OutOfProcClient.Win32\RuntimeRegCom.OutOfProcClient.Win32.csproj", "{0DD7D6D8-8CD4-49B3-8AA5-3CA321D521F5}"
+EndProject
+Project("{0E96FCFA-9DAC-4534-AC18-01A90C368873}") = "RegFreeComNativeInterfaces", "RegFreeComNativeInterfaces\RegFreeComNativeInterfaces.vcxproj", "{198707BF-25CA-4F36-90DC-A6CFAAFC6C5C}"
+EndProject
+Project("{0E96FCFA-9DAC-4534-AC18-01A90C368873}") = "RegFreeComResources.x64", "RegFreeComResources\RegFreeComResources.vcxproj", "{D0AF18B1-34AB-4A66-BEC4-7013F6DD6AB6}"
+EndProject
+Project("{0E96FCFA-9DAC-4534-AC18-01A90C368873}") = "RegFreeComNativeImplementer", "RegFreeComNativeImplementer\RegFreeComNativeImplementer.vcxproj", "{78AF6FE7-FC6A-4B13-A42F-06B4CCD434F9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{318D444F-8E6D-4823-9F14-9F61F7698B68} = {318D444F-8E6D-4823-9F14-9F61F7698B68}
+		{198707BF-25CA-4F36-90DC-A6CFAAFC6C5C} = {198707BF-25CA-4F36-90DC-A6CFAAFC6C5C}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRegFreeCom.IntegrationTests", "NRegFreeCom.IntegrationTests\NRegFreeCom.IntegrationTests.csproj", "{10EEF602-A93B-4844-9C62-5294A77FA484}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegFileParser.Sample", "RegFileParser.Sample\RegFileParser.Sample.csproj", "{F8708285-A12B-479D-BAFA-B0398396554E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRegFreeCom", "NRegFreeCom\NRegFreeCom.csproj", "{F7B5AE2C-7A0E-4496-A03B-9065C9A9A1C6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRegFreeCom.Tests.Win32", "NRegFreeCom.Tests\NRegFreeCom.Tests.Win32.csproj", "{F952915F-DF3C-4068-B79D-A1475905A985}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -44,28 +68,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRegFreeCom.Tests.Win32", "
 		{78AF6FE7-FC6A-4B13-A42F-06B4CCD434F9} = {78AF6FE7-FC6A-4B13-A42F-06B4CCD434F9}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NativeLibrary", "NativeLibrary\NativeLibrary.vcxproj", "{CC23D6DF-245D-4D2D-915D-7CF3ACE72BD3}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NativeLibraryConsumer", "NativeLibraryConsumer\NativeLibraryConsumer.vcxproj", "{43F37471-7928-4FEA-B865-0241A1EB328D}"
-	ProjectSection(ProjectDependencies) = postProject
-		{CC23D6DF-245D-4D2D-915D-7CF3ACE72BD3} = {CC23D6DF-245D-4D2D-915D-7CF3ACE72BD3}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuntimeRegCom.OutOfProcServer.Win32", "RuntimeRegCom.OutOfProcServer.Win32\RuntimeRegCom.OutOfProcServer.Win32.csproj", "{0F1DA357-D2F0-486F-A0E5-CC4B4B4575C1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuntimeRegCom.OutOfProcClient.Win32", "RuntimeRegCom.OutOfProcClient.Win32\RuntimeRegCom.OutOfProcClient.Win32.csproj", "{0DD7D6D8-8CD4-49B3-8AA5-3CA321D521F5}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RegFreeComNativeInterfaces", "RegFreeComNativeInterfaces\RegFreeComNativeInterfaces.vcxproj", "{198707BF-25CA-4F36-90DC-A6CFAAFC6C5C}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RegFreeComResources.x64", "RegFreeComResources\RegFreeComResources.vcxproj", "{D0AF18B1-34AB-4A66-BEC4-7013F6DD6AB6}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{76192D29-6506-44E5-9CD4-3F36C3DE1F39}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRegFreeCom.IntegrationTests", "NRegFreeCom.IntegrationTests\NRegFreeCom.IntegrationTests.csproj", "{10EEF602-A93B-4844-9C62-5294A77FA484}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRegFreeCom.NET35", "NRegFreeCom\NRegFreeCom.NET35.csproj", "{91088DCB-6622-44A8-B5B9-10ED1C977B93}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegFileParser.Sample", "RegFileParser.Sample\RegFileParser.Sample.csproj", "{F8708285-A12B-479D-BAFA-B0398396554E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

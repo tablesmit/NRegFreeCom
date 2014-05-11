@@ -136,6 +136,8 @@ See tests and samples in code for other functional (like inter process communica
 
 ##Notes
 
+[Guide to COM activation and use in relation to registration ](doc/regfreecomguide.md)
+
 Project design and reasoning:
 
 [Isolation and integration : native vs. managed](doc/isolateintegrate.md)
@@ -144,10 +146,15 @@ Project design and reasoning:
 
 [Guide to ease integration of C++ and C#](doc/nativemanagedeasy.md)
 
+
 ## TODO:
-* add support for Record Interface and TypeLib, connection Class-Inteface Class-TypeLib Interface-TypeLib
-* todo add method to transform positive reg file to negative (add - to remove all keys)
+* automate Nuget build
+* generate reg file during COM registrations
+* add support for Record and TypeLib, connection Class-Inteface Class-TypeLib Interface-TypeLib
+* avoid direct dependency on assembly to allow assembly touchless registration (e.g. if metadata was read out via Mono.Cecil)
 * add rgs parser, add xml with semantics of rgs, reg-xml-rgs translator
+* add regasm options (unregister all version or only this, register type interfaces or not)
+* todo add method to transform positive reg file to negative (add - to remove all keys)
 * Enumerate DLL exports
 * Make custom resources sample and read this.
 * Try to do with resources what WinRT did. Embeed CLI metadata describing reg free COM component, generate manifest from it, and create COM, use Metadata Interfaces. http://msdn.microsoft.com/en-us/library/ms233411.aspx.
@@ -159,26 +166,16 @@ Project design and reasoning:
 * Research how  api-ms-win-core can be employed for isolation http://www.nirsoft.net/articles/windows_7_kernel_architecture_changes.html
 * User free tools. Use SharpDevelop to build all C#. Use NMAKE/CL/MIDL and/or C++ template of SD to build all C++. Compile C++/C# in runtime and start processes to make tests more robust.
 * Investigate WiX and Import/Export reg to Xml projects which contain reg parsing and to XML code, drop support here or reuse then
-
+* Check Mono and write COM activation if needed for it
 
 ##Q&A
 
-Q: If I want to load some DLLs of which are there inside "Program" folder, using Regfree way?
+Q: If I want to load some DLLs of which are there inside "Bin" folder
 A:
 If just dll then 
 ```csharp
-            var program = Path.GetFullPath("Program");
+            var bin = Path.GetFullPath("Bin");
             var dlls = new NRegFreeCom.AssemblySystem();
-            dlls.AddSearchPath(program);
-            var dll = dlls.LoadFrom(Path.Combine(program, "MyDll.dll"));
+            dlls.AddSearchPath(bin);
+            var dll = dlls.LoadFrom(Path.Combine(bin, "MyDll.dll"));
 ```
-If want COM object 
-```csharp
-            var manifest = Path.Combine(program, "MyDll.dll.manifest");
-            NRegFreeCom.ActivationContext.UsingManifestDo(manifest,
-                                                          () =>
-                                                              {
-                                                                  IMyCom comObj = new MyCom();// COM object with manifest
-                                                              });
-```
-COM will load all dll dependencies mentioned in manifest automatically if these are located in the same folder (and with manifests if have).

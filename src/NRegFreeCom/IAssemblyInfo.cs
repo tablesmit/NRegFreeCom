@@ -5,4 +5,6 @@
         string FullName { get; }
         IAssemblyNameInfo GetName();
     }
+    
+
 }

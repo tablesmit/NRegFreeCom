@@ -59,7 +59,7 @@ namespace NRegFreeCom
 
         public void RegisterInProcServer(Type t, RegistryView registryView = RegistryView.Default)
         {
-            var reg = ClrComRegistryInfo.Create(t);
+            var reg = ComClrInfoFactory.CreateClass(t);
 #if NET35
             throw new NotImplementedException("Need to backport 4.0 methods");
 #else
@@ -71,7 +71,7 @@ namespace NRegFreeCom
 
         public void UnregisterInProcServer(Type t, RegistryView registryView = RegistryView.Default)
         {
-            var reg = ClrComRegistryInfo.Create(t);
+            var reg = ComClrInfoFactory.CreateClass(t);
          #if NET35
             throw new NotImplementedException("Need to backport 4.0 methods");
 #else   
@@ -83,5 +83,20 @@ namespace NRegFreeCom
 
 
      
+    	
+		public void RegisterRecord(Type type, RegistryView registryView)
+		{
+			throw new NotImplementedException();
+		}
+    	
+		public void RegisterInterface(Type type, RegistryView registryView)
+		{
+			throw new NotImplementedException();
+		}
+		
+		public void RegisterTypeLib(System.Reflection.Assembly typeLib, RegistryView registryView)
+		{
+			throw new NotImplementedException();
+		}
     }
 }

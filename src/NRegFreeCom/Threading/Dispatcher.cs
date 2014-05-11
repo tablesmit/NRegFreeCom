@@ -9,7 +9,7 @@ using NRegFreeCom.Interop;
 namespace NRegFreeCom
 {
     /// <summary>
-    /// 
+    /// Raw dispatcher with good access to underlying Windows Message Pump if needed.
     /// </summary>
     /// <seealso cref="System.Windows.Threading.Dispatcher"/>
     public class Dispatcher : IDispatcher

@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices.ComTypes;
 using System.Security.AccessControl;
 using Microsoft.Win32;
 
@@ -13,7 +14,9 @@ namespace NRegFreeCom
         protected const string CLASSES = @"SOFTWARE\Classes\";
         protected const string CLSID = @"CLSID\";
         protected const string INTERFACE = @"Interface\";
-
+        protected const string ProxyStubClsid32Key = "ProxyStubClsid32";
+        protected const string TypeLibKey = @"TypeLib\";
+        
         private static IRegAsm _user = new UserRegAsm();
         private static IRegAsm _machine = new MachineRegAsm();
 
@@ -28,9 +31,46 @@ namespace NRegFreeCom
             get { return _machine; }
 
         }
+        
+        protected void registerTypeLib(RegistryKey classes, ITypeLibAttributes reg){
+        	using(classes)
+        	{
+        		using (RegistryKey tlbKey = classes.CreateSubKey(TypeLibKey)){
+        			using (RegistryKey guidKey = tlbKey.CreateSubKey(reg.Guid.ToString("B"))){
+        				using (RegistryKey verKey = guidKey.CreateSubKey(reg.Version.ToString())){
+        				  //TODO: verKey.SetValue("", contnet of AssemblyDescriptionAttr);
+        				  //TODO: are any flags needed?
+        				  //using (RegistryKey flags = verKey.CreateSubKey("FLAGS")){
+        				  	//flags.SetValue("","0");
+        				  //}
+        				}        		
+        			}
+        		}
+        	}
+        }
 
+        protected void registerInterface(RegistryKey classes, ComInterfaceInfo reg)
+		{
+        	using(classes)
+        	{
+        		using (RegistryKey infKey = classes.CreateSubKey(INTERFACE)){
+        			using (RegistryKey guidKey = infKey.CreateSubKey(reg.Guid)){
+        				
+        				//some PSDispatch oleaut32 value needed
+        				using (RegistryKey ps32 = guidKey.CreateSubKey(ProxyStubClsid32Key)){
+        					ps32.SetValue("","{00020420-0000-0000-C000-000000000046}");
+        				}
+        				
+        				using (RegistryKey typeLibKey = guidKey.CreateSubKey(TypeLibKey)){
+        					typeLibKey.SetValue("",reg.TypeLib.Guid.ToString("B"));//with curly braces
+        					typeLibKey.SetValue("Version",reg.TypeLib.Version);
+        				}
+        			}
+        		}
+        	}
+		}
 
-        protected static void registerInProcServer(RegistryKey classes, ClrComRegistryInfo reg)
+        protected static void registerInProcServer(RegistryKey classes, ComClassInfo reg)
         {
             using (classes)
             {
@@ -41,16 +81,16 @@ namespace NRegFreeCom
                         guidKey.SetValue("", reg.Class);
                         using (RegistryKey inprocServer32 = guidKey.CreateSubKey("InprocServer32"))
                         {
-                            inprocServer32.SetValue("", reg.NetEntryPoint);
+                            inprocServer32.SetValue("", reg.RuntimeEntryPoint);
                             inprocServer32.SetValue("ThreadingModel", reg.ThreadingModel);
                             inprocServer32.SetValue("Class", reg.Class);
-                            inprocServer32.SetValue("RuntimeVersion", reg.NetVersion);
+                            inprocServer32.SetValue("RuntimeVersion", reg.RuntimeVersion);
                             inprocServer32.SetValue("Assembly", reg.Assembly.FullName);
                             using (RegistryKey version = inprocServer32.CreateSubKey(reg.Assembly.GetName().Version.ToString()))
                             {
                                 version.SetValue("Class", reg.Class);
                                 version.SetValue("Assembly", reg.Assembly.FullName);
-                                version.SetValue("RuntimeVersion", reg.NetVersion);
+                                version.SetValue("RuntimeVersion", reg.RuntimeVersion);
                             }
                         }
                         using (RegistryKey progIdKey = guidKey.CreateSubKey("ProgId"))
@@ -76,7 +116,7 @@ namespace NRegFreeCom
             }
         }
 
-        protected static void unregisterInProcServer(RegistryKey classes, ClrComRegistryInfo reg)
+        protected static void unregisterInProcServer(RegistryKey classes, ComClassInfo reg)
         {
             using (classes)
             {

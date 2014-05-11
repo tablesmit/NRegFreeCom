@@ -33,19 +33,19 @@ namespace NRegFreeCom
     {
       parentkey = regKeyName.Trim();
       parentkeywithoutroot = parentkey;
-      root = GetHive(ref parentkeywithoutroot);
+      root = getHive(ref parentkeywithoutroot);
       entry = regValueName;
       value = regValueData;
       type = "";
       string tmpStringValue = value;
-      type = GetRegEntryType(ref tmpStringValue, encoding);
+      type = getRegEntryType(ref tmpStringValue, encoding);
       value = tmpStringValue;
     }
 
     /// <returns>An entry for the [Registry] section of the *.sig signature file</returns>
     public override string ToString()
     {
-      return String.Format("{0}\\\\{1}={2}{3}", this.parentkey, this.entry, SetRegEntryType(this.type), this.value);
+      return String.Format("{0}\\\\{1}={2}{3}", this.parentkey, this.entry, setRegEntryType(this.type), this.value);
     }
 
     /// <summary>
@@ -69,7 +69,7 @@ namespace NRegFreeCom
       { 
         parentkey = value;
         parentkeywithoutroot = parentkey;
-        root = GetHive(ref parentkeywithoutroot);
+        root = getHive(ref parentkeywithoutroot);
       }
     }
     
@@ -110,7 +110,7 @@ namespace NRegFreeCom
       set { parentkeywithoutroot = value; }
     }
 
-    private string GetHive(ref string skey)
+    private string getHive(ref string skey)
     {
       string tmpLine = skey.Trim();
 
@@ -157,7 +157,7 @@ namespace NRegFreeCom
     /// </summary>
     /// <param name="sTextLine">Registry value row string</param>
     /// <returns>Value</returns>
-    private string GetRegEntryType(ref string sTextLine, Encoding textEncoding)
+    private string getRegEntryType(ref string sTextLine, Encoding textEncoding)
     {
 
       if (sTextLine.StartsWith("hex(a):"))
@@ -180,22 +180,22 @@ namespace NRegFreeCom
 
       if (sTextLine.StartsWith("hex(7):"))
       {
-        sTextLine = StripeContinueChar(sTextLine.Substring(7));
-        sTextLine = GetStringRepresentation(sTextLine.Split(new char[] { ',' }), textEncoding);
+        sTextLine = stripeContinueChar(sTextLine.Substring(7));
+        sTextLine = getStringRepresentation(sTextLine.Split(new char[] { ',' }), textEncoding);
         return "REG_MULTI_SZ";
       }
 
       if (sTextLine.StartsWith("hex(6):"))
       {
-        sTextLine = StripeContinueChar(sTextLine.Substring(7));
-        sTextLine = GetStringRepresentation(sTextLine.Split(new char[] { ',' }), textEncoding);
+        sTextLine = stripeContinueChar(sTextLine.Substring(7));
+        sTextLine = getStringRepresentation(sTextLine.Split(new char[] { ',' }), textEncoding);
         return "REG_LINK";
       }
 
       if (sTextLine.StartsWith("hex(2):"))
       {
-        sTextLine = StripeContinueChar(sTextLine.Substring(7));
-        sTextLine = GetStringRepresentation(sTextLine.Split(new char[] { ',' }), textEncoding);
+        sTextLine = stripeContinueChar(sTextLine.Substring(7));
+        sTextLine = getStringRepresentation(sTextLine.Split(new char[] { ',' }), textEncoding);
         return "REG_EXPAND_SZ";
       }
 
@@ -207,7 +207,7 @@ namespace NRegFreeCom
 
       if (sTextLine.StartsWith("hex:"))
       {
-        sTextLine = StripeContinueChar(sTextLine.Substring(4));
+        sTextLine = stripeContinueChar(sTextLine.Substring(4));
         if (sTextLine.EndsWith(","))
         {
           sTextLine = sTextLine.Substring(0, sTextLine.Length - 1);
@@ -216,11 +216,11 @@ namespace NRegFreeCom
       }
 
       sTextLine = Regex.Unescape(sTextLine);
-      sTextLine = StripeLeadingChars(sTextLine, "\"");
+      sTextLine = stripeLeadingChars(sTextLine, "\"");
       return "REG_SZ";
     }
 
-    private string SetRegEntryType(string sRegDataType)
+    private string setRegEntryType(string sRegDataType)
     {
       switch (sRegDataType)
       {
@@ -283,7 +283,7 @@ namespace NRegFreeCom
     /// <param name="sline">given string</param>
     /// <returns>edited string</returns>
     /// <remarks></remarks>
-    private string StripeLeadingChars(string sline, string LeadChar)
+    private string stripeLeadingChars(string sline, string LeadChar)
     {
       string tmpvalue = sline.Trim();
       if (tmpvalue.StartsWith(LeadChar) & tmpvalue.EndsWith(LeadChar))
@@ -299,7 +299,7 @@ namespace NRegFreeCom
     /// <param name="sline">given string</param>
     /// <returns>edited string</returns>
     /// <remarks></remarks>
-    private string StripeBraces(string sline)
+    private string stripeBraces(string sline)
     {
       string tmpvalue = sline.Trim();
       if (tmpvalue.StartsWith("[") & tmpvalue.EndsWith("]"))
@@ -315,7 +315,7 @@ namespace NRegFreeCom
     /// <param name="sline">given string</param>
     /// <returns>edited string</returns>
     /// <remarks></remarks>
-    private string StripeContinueChar(string sline)
+    private string stripeContinueChar(string sline)
     {
       String tmpString = Regex.Replace(sline, "\\\\\r\n[ ]*", String.Empty);
       return tmpString;
@@ -326,7 +326,7 @@ namespace NRegFreeCom
     /// </summary>
     /// <param name="stringArray">Array of string</param>
     /// <returns>String value</returns>
-    private string GetStringRepresentation(string[] stringArray, Encoding encoding)
+    private string getStringRepresentation(string[] stringArray, Encoding encoding)
     {
       if (stringArray.Length > 1)
       {

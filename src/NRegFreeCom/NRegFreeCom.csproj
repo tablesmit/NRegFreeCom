@@ -62,14 +62,15 @@
     <Compile Include="ActivationContext.cs" />
     <Compile Include="Interop\ClassStyles.cs" />
     <Compile Include="Interop\CoInit.cs" />
-    <Compile Include="Dispatcher.cs" />
+    <Compile Include="ITypeLibAttributes.cs" />
+    <Compile Include="Threading\Dispatcher.cs" />
     <Compile Include="Interop\ComTypes\IClassFactory_AutoMarshal.cs" />
     <Compile Include="Interop\ComTypes\IDispatch.cs" />
     <Compile Include="Interop\DEF_Objbase.cs" />
     <Compile Include="Interop\HRESULTS.cs" />
     <Compile Include="IAssembly.cs" />
     <Compile Include="IAssemblySystem.cs" />
-    <Compile Include="IDispatcher.cs" />
+    <Compile Include="Threading\IDispatcher.cs" />
     <Compile Include="Interop\SafeLibraryHandle.cs" />
     <Compile Include="IRegAsm.cs" />
     <Compile Include="MachineRegAsm.cs" />
@@ -122,7 +123,7 @@
     <Compile Include="UserRegAsm.cs" />
     <Compile Include="RunningObjectTable.cs" />
     <Compile Include="Interop\NativeMethods.cs" />
-    <Compile Include="StaComCrossThreadInvoker.cs" />
+    <Compile Include="Threading\StaComCrossThreadInvoker.cs" />
     <Compile Include="Interop\WELL_KNOWN_IIDS.cs" />
     <Compile Include="Interop\WindowStyles.cs" />
     <Compile Include="Interop\WindowStylesEx.cs" />

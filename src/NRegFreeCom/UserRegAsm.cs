@@ -21,7 +21,7 @@ namespace NRegFreeCom
  
         public void RegisterInProcServer(Type t,RegistryView registryView = RegistryView.Default)
         {
-            var reg = ClrComRegistryInfo.Create(t);
+            var reg = ComClrInfoFactory.CreateClass(t);
             #if NET35
             throw new NotImplementedException("Need to backport 4.0 methods");
 #else
@@ -33,7 +33,7 @@ namespace NRegFreeCom
 
         public void UnregisterInProcServer(Type t,RegistryView registryView = RegistryView.Default)
         {
-            var reg = ClrComRegistryInfo.Create(t);
+            var reg = ComClrInfoFactory.CreateClass(t);
             #if NET35
             throw new NotImplementedException("Need to backport 4.0 methods");
 #else
@@ -43,6 +43,38 @@ namespace NRegFreeCom
 #endif
         }
 
+        public void RegisterRecord(Type type, RegistryView registryView = RegistryView.Default)
+        {
+	throw new NotImplementedException();
+
+        }
+    	
+		public void RegisterInterface(Type type, RegistryView registryView)
+		{
+            var reg = ComClrInfoFactory.CreateInterface(type);
+            #if NET35
+            throw new NotImplementedException("Need to backport 4.0 methods");
+#else
+            var root = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, registryView);
+            var classes = root.CreateSubKey(CLASSES);
+            registerInterface(classes, reg);
+#endif
+		}
+		
+	
+    	
+		public void RegisterTypeLib(System.Reflection.Assembly typeLib, RegistryView registryView)
+		{
+            var reg = ComClrInfoFactory.CreateTypeLib(typeLib);
+            #if NET35
+            throw new NotImplementedException("Need to backport 4.0 methods");
+#else
+            var root = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, registryView);
+            var classes = root.CreateSubKey(CLASSES);
+            registerTypeLib(classes, reg);
+#endif
+		}
+    	
 
     }
 }
