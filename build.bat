@@ -1,1 +1,1 @@
-%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe "src\NRegFreeCom.VS2010.sln" /p:Configuration=Release
+%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe "src\NRegFreeCom.SD4.sln" /p:Configuration=Release

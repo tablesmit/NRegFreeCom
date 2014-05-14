@@ -41,5 +41,8 @@ namespace NRegFreeCom
         /// </summary>
         /// <param name="registryView"></param>
         void RegisterTypeLib(System.Reflection.Assembly typeLib, RegistryView registryView = RegistryView.Default);
+
+        void UnregisterInterface(Type type, RegistryView registryView = RegistryView.Default);
+        void UnregisterTypeLib(System.Reflection.Assembly typeLib, RegistryView registryView = RegistryView.Default);
     }
 }

@@ -49,8 +49,8 @@ namespace CsComWin32
            
             var module = loader.LoadFrom(loader.GetAnyCpuPath(loader.BaseDirectory), "RegFreeComNativeConsumer.dll");
 
-            //call dll enty point if needed
-            //var main = module.GetDelegate<DEF.DllMain>();
+            //call dll entry point if needed - 
+            //var main = module.GetDelegate<DEF.DllMain>();//enty point is not declared as export
             //bool result = main(module.Handle, FDW_REASONS.DLL_PROCESS_ATTACH, IntPtr.Zero);
             //if (!result) throw new Exception("Failed to init dll");
 
@@ -84,8 +84,6 @@ namespace CsComWin32
             var srvRepeat = (RegFreeComNativeInterfacesLib.IMyService)Marshal.GetObjectForIUnknown(otherHandle);
             // pointer to itself was used to simplify testing
             Assert.AreEqual(services[0],srvRepeat);
-
-
 
             Console.ReadKey();
         }

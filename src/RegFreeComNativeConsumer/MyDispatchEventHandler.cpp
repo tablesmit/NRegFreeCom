@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "MyDispatchEventHandler.h"
 #include <assert.h>
+#include <iostream>
 
 #if _DEBUG
 #import "..\..\build\Debug\RegFreeCom.Interfaces.tlb" 
@@ -48,6 +49,7 @@ STDMETHODIMP MyDispatchEventHandler::EnsureGCIsNotObstacle()
 
 STDMETHODIMP MyDispatchEventHandler::PassString(BSTR str)
 {
+	std::cout << "PassString" << str << std::endl;
 	m_str = str;
     return S_OK;
 }
@@ -65,7 +67,7 @@ STDMETHODIMP MyDispatchEventHandler::PassClass(RegFreeCom_Interfaces::IMyCoolCla
 
 STDMETHODIMP MyDispatchEventHandler::SimpleEmptyEvent()
 {
-
+		std::cout << "SimpleEmptyEvent" << std::endl;
     return S_OK;
 }
 
@@ -233,6 +235,21 @@ HRESULT MyDispatchEventHandler::Invoke(DISPID dispIdMember,
 			{
 
 				EnsureGCIsNotObstacle();
+
+				return S_OK;
+			}
+		 break;
+		}
+		case 11:
+		{
+			if (pDispParams->cArgs!=0)
+			{
+				return DISP_E_BADPARAMCOUNT;
+			}
+			else
+			{
+
+				SimpleEmptyEvent();
 
 				return S_OK;
 			}

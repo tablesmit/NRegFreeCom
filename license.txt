@@ -1,4 +1,4 @@
 CC0 1.0 Universal (CC0 1.0) Public Domain Dedication
 http://creativecommons.org/publicdomain/zero/1.0/
 
-Other codes, if used, are under MIT, CPOL, BSD
+Other codes, if any used, are under MIT, CPOL, BSD, Apache, MS-PL

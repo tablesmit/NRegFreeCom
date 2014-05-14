@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IABC.cs" />
+    <Compile Include="ICustomSimpleObjectEvents.cs" />
     <Compile Include="ILoadedByManagedImplementedByNative.cs" />
     <Compile Include="IMyCoolClass.cs" />
     <Compile Include="IRegFreeCom.cs" />
@@ -63,11 +64,17 @@
     <Content Include="RegFreeCom.Interfaces.dll.manifest">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Remove_RegFreeCom.Interfaces.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\NRegFreeCom\NRegFreeCom.snk">
       <Link>NRegFreeCom.snk</Link>
     </None>
+    <Content Include="Remove_RegFreeCom.Interfaces.reg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -77,7 +84,9 @@ C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe /tlb:"$(TargetName).tlb
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe /regfile "$(TargetPath)"
 
 ::echo Unregister the component
-::C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe /u "$(TargetPath)"</PostBuildEvent>
+::C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe /u "$(TargetPath)"
+
+::Remove_RegFreeCom.Interfaces.bat</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

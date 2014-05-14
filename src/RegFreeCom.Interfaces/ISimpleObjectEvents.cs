@@ -5,7 +5,7 @@ namespace RegFreeCom.Interfaces
 
 
     [Guid(SimpleObjectId.EventsId)]
-    [ ComVisible(true)]
+    [ComVisible(true)]
     [InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
     public interface ISimpleObjectEvents
     {
@@ -21,22 +21,10 @@ namespace RegFreeCom.Interfaces
         [DispId(7)]
         void PassString(string str);
 
-              [DispId(9)]
+        [DispId(9)]
         void EnsureGCIsNotObstacle();
 
-         [DispId(11)]
-        void   SimpleEmptyEvent();
-    }
-
-
-    [Guid(SimpleObjectId.CustomEventsId)]
-    [ComVisible(true)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface ICustomSimpleObjectEvents
-    {
-
-        [DispId(1)]
-        void EmptyEvent();
-
+        [DispId(11)]
+        void SimpleEmptyEvent();
     }
 }

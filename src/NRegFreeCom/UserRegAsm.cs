@@ -60,10 +60,10 @@ namespace NRegFreeCom
             registerInterface(classes, reg);
 #endif
 		}
-		
-	
-    	
-		public void RegisterTypeLib(System.Reflection.Assembly typeLib, RegistryView registryView)
+
+
+
+        public void RegisterTypeLib(System.Reflection.Assembly typeLib, RegistryView registryView )
 		{
             var reg = ComClrInfoFactory.CreateTypeLib(typeLib);
             #if NET35
@@ -74,7 +74,33 @@ namespace NRegFreeCom
             registerTypeLib(classes, reg);
 #endif
 		}
-    	
 
+        public void UnregisterInterface(Type type, RegistryView registryView = RegistryView.Default)
+        {
+            var reg = ComClrInfoFactory.CreateInterface(type);
+#if NET35
+            throw new NotImplementedException("Need to backport 4.0 methods");
+#else
+            var root = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, registryView);
+            var classes = root.CreateSubKey(CLASSES);
+            unregisterInterface(classes, reg);
+#endif
+        }
+
+      
+
+        public void UnregisterTypeLib(System.Reflection.Assembly typeLib, RegistryView registryView = RegistryView.Default)
+        {
+            var reg = ComClrInfoFactory.CreateTypeLib(typeLib);
+#if NET35
+            throw new NotImplementedException("Need to backport 4.0 methods");
+#else
+            var root = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, registryView);
+            var classes = root.CreateSubKey(CLASSES);
+            unregisterTypeLib(classes, reg);
+#endif
+        }
+
+     
     }
 }

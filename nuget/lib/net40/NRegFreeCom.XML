@@ -4,6 +4,18 @@
         <name>NRegFreeCom</name>
     </assembly>
     <members>
+        <member name="T:NRegFreeCom.ComClrInfoFactory">
+            <summary>
+            Creates COM related desciptions out of CLR types.
+            </summary>
+        </member>
+        <member name="M:NRegFreeCom.ComClrInfoFactory.CreateClass(System.Type)">
+            <summary>
+            Creates COM class desciptions out of ComVisible CLR class type.
+            </summary>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
         <member name="T:NRegFreeCom.ComDispatchUtility">
             www.codeproject.com/Articles/523417/Reflection-with-IDispatch-based-COM-objects
              <summary>
@@ -138,7 +150,7 @@
             <param name="assembly"></param>
             <param name="action"></param>
         </member>
-        <member name="M:NRegFreeCom.ActivationContext.CreateInstanceDirectly(NRegFreeCom.IAssembly,System.Guid)">
+        <member name="M:NRegFreeCom.ActivationContext.DangerousCreateInstanceDirectly(NRegFreeCom.IAssembly,System.Guid)">
             <summary>
             Creates  COM class instance directly without using any COM Activation or thread Marshaling services.
             </summary>
@@ -227,13 +239,13 @@
         </member>
         <member name="T:NRegFreeCom.Dispatcher">
             <summary>
-            
+            Raw dispatcher with good access to underlying Windows Message Pump if needed.
             </summary>
             <seealso cref="!:System.Windows.Threading.Dispatcher"/>
         </member>
         <member name="T:NRegFreeCom.IDispatcher">
             <summary>
-            Like <see cref="!:System.Windows.Threadin.Dispatcher"/> but without WPF libs and other stuff.
+            Like <see cref="!:System.Windows.Threadin.Dispatcher"/> but without WPF specific stuff.
             </summary>
         </member>
         <member name="M:NRegFreeCom.Dispatcher.Run">
@@ -378,9 +390,29 @@
         </member>
         <member name="M:NRegFreeCom.IRegAsm.UnregisterLocalServer(System.Type)">
             <summary>
-            Unregister the component.
+            Unregisters the component.
             </summary>
             <param name="t"></param>
+        </member>
+        <member name="M:NRegFreeCom.IRegAsm.RegisterRecord(System.Type,Microsoft.Win32.RegistryView)">
+            <summary>
+            Registers any <seealso cref="T:System.ValueType"/>
+            </summary>
+            <param name="type"></param>
+            <param name="registryView"></param>
+        </member>
+        <member name="M:NRegFreeCom.IRegAsm.RegisterInterface(System.Type,Microsoft.Win32.RegistryView)">
+            <summary>
+            Registers COM visible CLR interface.
+            </summary>
+            <param name="type"></param>
+            <param name="registryView"></param>
+        </member>
+        <member name="M:NRegFreeCom.IRegAsm.RegisterTypeLib(System.Reflection.Assembly,Microsoft.Win32.RegistryView)">
+            <summary>
+            Registers CLR assembly as COM TypeLib.
+            </summary>
+            <param name="registryView"></param>
         </member>
         <member name="T:NRegFreeCom.RegAsm">
             <summary>
@@ -753,26 +785,20 @@
             Gets encoding schema of the reg file (UTF8 or Default). Encoding of the reg file (Regedit 4 - ANSI; Regedit 5 - UTF8)
             </summary>
         </member>
-        <member name="M:NRegFreeCom.RegistryKeyExtensions.DeleteSubKeyTree(Microsoft.Win32.RegistryKey,System.String,System.Boolean)">
-            <summary>
-            Deletes the specified subkey and any child subkeys recursively, and specifies whether an exception is raised if the subkey is not found.
-            </summary>
-            <param name="subkey">The name of the subkey to delete. This string is not case-sensitive.</param><param name="throwOnMissingSubKey">Indicates whether an exception should be raised if the specified subkey cannot be found. If this argument is true and the specified subkey does not exist, an exception is raised. If this argument is false and the specified subkey does not exist, no action is taken.</param><exception cref="T:System.ArgumentException">An attempt was made to delete the root hive of the tree.-or-<paramref name="subkey"/> does not specify a valid registry subkey, and <paramref name="throwOnMissingSubKey"/> is true.</exception><exception cref="T:System.ArgumentNullException"><paramref name="subkey"/> is null.</exception><exception cref="T:System.ObjectDisposedException">The <see cref="T:Microsoft.Win32.RegistryKey"/> is closed (closed keys cannot be accessed).</exception><exception cref="T:System.UnauthorizedAccessException">The user does not have the necessary registry rights.</exception><exception cref="T:System.Security.SecurityException">The user does not have the permissions required to delete the key.</exception>
-        </member>
         <member name="M:NRegFreeCom.RegValueObject.#ctor(System.String,System.String,System.String,System.Text.Encoding)">
             <param name="propertyString">A line from the [Registry] section of the *.sig signature file</param>
         </member>
         <member name="M:NRegFreeCom.RegValueObject.ToString">
             <returns>An entry for the [Registry] section of the *.sig signature file</returns>
         </member>
-        <member name="M:NRegFreeCom.RegValueObject.GetRegEntryType(System.String@,System.Text.Encoding)">
+        <member name="M:NRegFreeCom.RegValueObject.getRegEntryType(System.String@,System.Text.Encoding)">
             <summary>
             Retrieves the reg value type, parsing the prefix of the value
             </summary>
             <param name="sTextLine">Registry value row string</param>
             <returns>Value</returns>
         </member>
-        <member name="M:NRegFreeCom.RegValueObject.StripeLeadingChars(System.String,System.String)">
+        <member name="M:NRegFreeCom.RegValueObject.stripeLeadingChars(System.String,System.String)">
             <summary>
             Removes the leading and ending characters from the given string
             </summary>
@@ -780,7 +806,7 @@
             <returns>edited string</returns>
             <remarks></remarks>
         </member>
-        <member name="M:NRegFreeCom.RegValueObject.StripeBraces(System.String)">
+        <member name="M:NRegFreeCom.RegValueObject.stripeBraces(System.String)">
             <summary>
             Removes the leading and ending parenthesis from the given string
             </summary>
@@ -788,7 +814,7 @@
             <returns>edited string</returns>
             <remarks></remarks>
         </member>
-        <member name="M:NRegFreeCom.RegValueObject.StripeContinueChar(System.String)">
+        <member name="M:NRegFreeCom.RegValueObject.stripeContinueChar(System.String)">
             <summary>
             Removes the ending backslashes from the given string
             </summary>
@@ -796,7 +822,7 @@
             <returns>edited string</returns>
             <remarks></remarks>
         </member>
-        <member name="M:NRegFreeCom.RegValueObject.GetStringRepresentation(System.String[],System.Text.Encoding)">
+        <member name="M:NRegFreeCom.RegValueObject.getStringRepresentation(System.String[],System.Text.Encoding)">
             <summary>
             Converts the byte arrays (saved as array of string) into string
             </summary>
@@ -828,9 +854,16 @@
             Registry value data
             </summary>
         </member>
-        <member name="M:NRegFreeCom.Threading.WaitHandleExtensions.WaitOneNonAlertable(System.Threading.WaitHandle,System.Int32)">
+        <member name="M:NRegFreeCom.Threading.WindowsWaitHandleExtensions.WaitOneNonAlertable(System.Threading.WaitHandle)">
             <summary>
-            Waits preventing an I/O completion routine or an APC for execution by the waiting thread (unlike default `alertable`  .NET wait). E.g. prevents STA message pump in background. 
+            Waits preventing an I/O completion routine or an APC for execution by the waiting thread (unlike default `alertable`  .NET wait). 
+            E.g. prevents STA message pump in background.
+            </summary>
+        </member>
+        <member name="M:NRegFreeCom.Threading.WindowsWaitHandleExtensions.WaitOneNonAlertable(System.Threading.WaitHandle,System.Int32)">
+            <summary>
+            Waits preventing an I/O completion routine or an APC for execution by the waiting thread (unlike default `alertable`  .NET wait). 
+            E.g. prevents STA message pump in background.
             </summary>
             <returns></returns>
             <seealso cref="!:http://stackoverflow.com/questions/8431221/why-did-entering-a-lock-on-a-ui-thread-trigger-an-onpaint-event">

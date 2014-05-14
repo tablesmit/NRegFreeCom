@@ -1,21 +1,7 @@
 ﻿using System;
-using System.Security;
 using Microsoft.Win32;
 
-#if NET35 && !NET40
-namespace Microsoft.Win32
-{
-    /// <summary>
-    /// Specifies which registry view to target on a 64-bit operating system.
-    /// </summary>
-    public enum RegistryView
-    {
-        Default = 0,
-        Registry64 = 256,
-        Registry32 = 512,
-    }
-}
-#endif
+
 namespace NRegFreeCom
 {
     public class MachineRegAsm : RegAsm,IRegAsm
@@ -34,7 +20,7 @@ namespace NRegFreeCom
             {
                 // Remove the auto-generated InprocServer32 key after registration
                 // (REGASM puts it there but we are going out-of-proc).
-                keyCLSID.DeleteSubKeyTree("InprocServer32");
+                keyCLSID.DeleteSubKeyTree("InprocServer32",false);
 
                 // Create "LocalServer32" under the CLSID key
                 using (RegistryKey subkey = keyCLSID.CreateSubKey("LocalServer32"))
@@ -93,10 +79,20 @@ namespace NRegFreeCom
 		{
 			throw new NotImplementedException();
 		}
-		
-		public void RegisterTypeLib(System.Reflection.Assembly typeLib, RegistryView registryView)
+
+        public void RegisterTypeLib(System.Reflection.Assembly typeLib, RegistryView registryView= RegistryView.Default)
 		{
 			throw new NotImplementedException();
 		}
+
+        public void UnregisterInterface(Type type, RegistryView registryView = RegistryView.Default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UnregisterTypeLib(System.Reflection.Assembly typeLib, RegistryView registryView = RegistryView.Default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -18,7 +18,7 @@
 using namespace RegFreeCom_Interfaces;
 using namespace ATL;
 
-// can subscribe custom object withou using ATL (copy paste atlcom.h)
+// can subscribe custom object without using ATL (copy paste atlcom.h)
 static HRESULT STDAPICALLTYPE  MyEventAdvise(
 	_Inout_ IUnknown* pUnkCP,
 	_Inout_opt_ IUnknown* pUnk,
@@ -59,20 +59,20 @@ CCOM_API  HRESULT STDAPICALLTYPE	Initialize(IUnknown* service)
 	DWORD cookie;
 	IUnknown* cp;
 	myHandler->QueryInterface(IID_IUnknown,(void**)&cp);
-	MyEventAdvise(obj,cp,__uuidof(RegFreeCom_Interfaces::ISimpleObjectEvents),&cookie);
+	HRESULT hr = myHandler->DispEventAdvise(service);
+	//MyEventAdvise(obj,cp,__uuidof(RegFreeCom_Interfaces::ISimpleObjectEvents),&cookie);
 
 	// custom observer patter
-	//obj->PutRefCallbacks((RegFreeCom_Interfaces::ISimpleObjectEvents*)myHandler);
+	obj->PutRefCallbacks((RegFreeCom_Interfaces::ISimpleObjectEvents*)myHandler);
 
-	//TODO: fix ATL
-	// ATL over COM observer pattern
-	//MyAtlEventHandler* atlHandler = new MyAtlEventHandler();	
-	//HRESULT hr = atlHandler->DispEventAdvise(service);
-		
-	//std::cout << obj->GetFloatProperty() << std::endl;
-	obj->RaiseEmptyEvent();
-	//hr = atlHandler->DispEventAdvise(service);
 	
+	// ATL over COM observer pattern
+	MyAtlEventHandler* atlHandler = new MyAtlEventHandler();	
+	//atlHandler->Subscribe(service);
+	
+		
+	std::cout << obj->GetFloatProperty() << std::endl;
+	obj->RaiseEmptyEvent();
 	obj->PutFloatProperty(100);
 	obj->RaisePassString();
 	obj->RaisePassClass();

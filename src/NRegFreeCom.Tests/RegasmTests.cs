@@ -89,6 +89,21 @@ namespace NRegFreeCom.Tests
             RegAsm.User.RegisterTypeLib(asm, RegistryView.Default);
         }
 
+        [Test]
+        public void User_UnregisterInterface_Ok()
+        {
+            var type = typeof(INeverRegistered);
+            RegAsm.User.UnregisterInterface(type, RegistryView.Default);
+        }
+        
+
+        [Test]
+        public void User_UnregisterTypeLib_Ok()
+        {
+            var asm = System.Reflection.Assembly.GetExecutingAssembly();
+            RegAsm.User.UnregisterTypeLib(asm, RegistryView.Default);
+        }
+
 
 
         [Test]

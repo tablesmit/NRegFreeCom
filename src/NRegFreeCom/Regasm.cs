@@ -1,10 +1,24 @@
 using System;
 using System.Runtime.InteropServices.ComTypes;
 using System.Security.AccessControl;
+using System.Xml.Linq;
 using Microsoft.Win32;
 
 namespace NRegFreeCom
 {
+    internal static class ComRegistryExtensions
+    {
+        public static RegistryKey OpenSubKeyDeletion(this RegistryKey parent, string name)
+        {
+            return parent.OpenSubKey(name, RegistryKeyPermissionCheck.ReadWriteSubTree, RegistryRights.Delete);
+        }
+
+        public static string ToRegistry(this Guid current)
+        {
+            return current.ToString("B");
+        }
+    }
+
     /// <summary>
     /// Registers and unregisters COM objects.
     /// </summary>
@@ -15,8 +29,8 @@ namespace NRegFreeCom
         protected const string CLSID = @"CLSID\";
         protected const string INTERFACE = @"Interface\";
         protected const string ProxyStubClsid32Key = "ProxyStubClsid32";
-        protected const string TypeLibKey = @"TypeLib\";
-        
+        protected const string TYPE_LIB = @"TypeLib\";
+
         private static IRegAsm _user = new UserRegAsm();
         private static IRegAsm _machine = new MachineRegAsm();
 
@@ -31,44 +45,78 @@ namespace NRegFreeCom
             get { return _machine; }
 
         }
-        
-        protected void registerTypeLib(RegistryKey classes, ITypeLibAttributes reg){
-        	using(classes)
-        	{
-        		using (RegistryKey tlbKey = classes.CreateSubKey(TypeLibKey)){
-        			using (RegistryKey guidKey = tlbKey.CreateSubKey(reg.Guid.ToString("B"))){
-        				using (RegistryKey verKey = guidKey.CreateSubKey(reg.Version.ToString())){
-        				  //TODO: verKey.SetValue("", contnet of AssemblyDescriptionAttr);
-        				  //TODO: are any flags needed?
-        				  //using (RegistryKey flags = verKey.CreateSubKey("FLAGS")){
-        				  	//flags.SetValue("","0");
-        				  //}
-        				}        		
-        			}
-        		}
-        	}
+
+        protected void registerTypeLib(RegistryKey classes, ITypeLibAttributes reg)
+        {
+            using (classes)
+            {
+                using (RegistryKey tlbKey = classes.CreateSubKey(TYPE_LIB))
+                {
+                    using (RegistryKey guidKey = tlbKey.CreateSubKey(reg.Guid.ToRegistry()))
+                    {
+                        using (RegistryKey verKey = guidKey.CreateSubKey(reg.Version.ToString()))
+                        {
+                            //TODO: verKey.SetValue("", contnet of AssemblyDescriptionAttr);
+                            //TODO: are any flags needed?
+                            //using (RegistryKey flags = verKey.CreateSubKey("FLAGS")){
+                            //flags.SetValue("","0");
+                            //}
+                        }
+                    }
+                }
+            }
+        }
+
+        protected void unregisterTypeLib(RegistryKey classes, ITypeLibAttributes reg)
+        {
+            using (classes)
+            {
+                using (RegistryKey tlbKey = classes.OpenSubKeyDeletion(TYPE_LIB))
+                {
+                    if (tlbKey != null) //NOTE: to be safe if can happen clean machine without any user specific installation
+                        tlbKey.DeleteSubKeyTree(reg.Guid.ToRegistry(), false);
+                }
+            }
         }
 
         protected void registerInterface(RegistryKey classes, ComInterfaceInfo reg)
-		{
-        	using(classes)
-        	{
-        		using (RegistryKey infKey = classes.CreateSubKey(INTERFACE)){
-        			using (RegistryKey guidKey = infKey.CreateSubKey(reg.Guid)){
-        				
-        				//some PSDispatch oleaut32 value needed
-        				using (RegistryKey ps32 = guidKey.CreateSubKey(ProxyStubClsid32Key)){
-        					ps32.SetValue("","{00020420-0000-0000-C000-000000000046}");
-        				}
-        				
-        				using (RegistryKey typeLibKey = guidKey.CreateSubKey(TypeLibKey)){
-        					typeLibKey.SetValue("",reg.TypeLib.Guid.ToString("B"));//with curly braces
-        					typeLibKey.SetValue("Version",reg.TypeLib.Version);
-        				}
-        			}
-        		}
-        	}
-		}
+        {
+            using (classes)
+            {
+                using (RegistryKey infKey = classes.CreateSubKey(INTERFACE))
+                {
+                    using (RegistryKey guidKey = infKey.CreateSubKey(reg.Guid))
+                    {
+
+                        //some PSDispatch oleaut32 value needed
+                        using (RegistryKey ps32 = guidKey.CreateSubKey(ProxyStubClsid32Key))
+                        {
+                            ps32.SetValue("", "{00020420-0000-0000-C000-000000000046}");
+                        }
+
+                        using (RegistryKey typeLibKey = guidKey.CreateSubKey(TYPE_LIB))
+                        {
+                            typeLibKey.SetValue("", reg.TypeLib.Guid.ToString("B"));//with curly braces
+                            typeLibKey.SetValue("Version", reg.TypeLib.Version);
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+        protected void unregisterInterface(RegistryKey classes, ComInterfaceInfo reg)
+        {
+            using (classes)
+            {
+                using (RegistryKey interfaceKey = classes.OpenSubKeyDeletion(INTERFACE))
+                {
+                    if (interfaceKey != null) //NOTE: to be safe if can happen clean machine without any user specific installation
+                        interfaceKey.DeleteSubKeyTree(reg.Guid, false);
+                }
+            }
+        }
 
         protected static void registerInProcServer(RegistryKey classes, ComClassInfo reg)
         {
@@ -120,9 +168,7 @@ namespace NRegFreeCom
         {
             using (classes)
             {
-                using (
-                    RegistryKey clsidKey = classes.OpenSubKey(CLSID, RegistryKeyPermissionCheck.ReadWriteSubTree,
-                        RegistryRights.Delete))
+                using (RegistryKey clsidKey = classes.OpenSubKeyDeletion(CLSID))
                 {
                     if (clsidKey != null) //NOTE: to be safe if can happen clean machine without any user specific installation
                         clsidKey.DeleteSubKeyTree(reg.Guid, false);

@@ -35,6 +35,18 @@ namespace NRegFreeCom.Tests
         }
 
         [Test]
+        public void IsComVisible_stringType_true()
+        {
+            Assert.IsTrue(ComClrInfoFactory.IsComVisible(typeof(string)));
+        }
+
+        [Test]
+        public void IsComVisible_NoComVisibleAttrClass_false()
+        {
+            Assert.IsFalse(ComClrInfoFactory.IsComVisible(typeof(NoComVisibleAttrClass)));
+        }
+
+        [Test]
         [ExpectedException(typeof(System.ArgumentException))]
         public void CreateClass_noComVisibleAttr_error()
         {

@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "MyAtlEventHandler.h"
 #include <assert.h>
-
+#include <iostream>
 
 MyAtlEventHandler::MyAtlEventHandler(void)
     :m_refCount(1)
@@ -21,12 +21,19 @@ _ATL_FUNC_INFO MyAtlEventHandler:: m_SimpleEmptyEventInfo = {CC_STDCALL, VT_EMPT
 
 STDMETHODIMP MyAtlEventHandler::FloatPropertyChanging(float NewValue, bool* Cancel)
 {
+	std::cout << "FloatPropertyChanging" << std::endl;
 	*Cancel = true;
     return S_OK;
 }
 
+void MyAtlEventHandler::Subscribe(IUnknown* unk){
+ HRESULT hr = DispEventAdvise(unk);
+ ATLASSERT(hr == S_OK);
+}
+
 STDMETHODIMP MyAtlEventHandler::PassStuct(RegFreeCom_Interfaces::MyCoolStuct val)
 {
+	std::cout << "PassStuct" << std::endl;
 	auto valval = val._Val;
 	auto valval2 = val._Val2;
 	m_val = val;
@@ -44,18 +51,20 @@ STDMETHODIMP MyAtlEventHandler::EnsureGCIsNotObstacle()
 
 STDMETHODIMP MyAtlEventHandler::SimpleEmptyEvent()
 {
-
+	std::cout << "SimpleEmptyEvent" << std::endl;
     return S_OK;
 }
 
 STDMETHODIMP MyAtlEventHandler::PassString(BSTR str)
 {
+	std::cout << "PassString" << std::endl;
 	m_str = str;
     return S_OK;
 }
 
 STDMETHODIMP MyAtlEventHandler::PassClass(RegFreeCom_Interfaces::IMyCoolClass* obj)
 {
+	std::cout << "PassClass" << std::endl;
 	BSTR val;
 	auto mv = obj->GetMyValue2(&val);
 	auto hr = obj->get_MyValue(&val);

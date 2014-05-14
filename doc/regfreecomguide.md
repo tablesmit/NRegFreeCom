@@ -5,7 +5,7 @@ There are several options regarding registry:
 Default way of Microsoft
 
 2. Register in Registry during runtime
-User `RegAsm`. It reflects upong CLR types and writes down them to registy. 
+User `RegAsm`. It reflects upon CLR types and writes down them to registry. 
 Is more low level (per type), managed (not uses native typelib implementation routines), not file based (like `regasm.exe`). 
 
 3. Use Activation manifests
