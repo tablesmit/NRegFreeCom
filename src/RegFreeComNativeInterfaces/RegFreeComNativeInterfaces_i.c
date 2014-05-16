@@ -6,7 +6,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0555 */
-/* at Wed May 14 13:45:01 2014
+/* at Fri May 16 19:15:17 2014
  */
 /* Compiler settings for RegFreeComNativeInterfaces.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 7.00.0555 

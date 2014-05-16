@@ -1,9 +1,9 @@
 ﻿
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
 using NUnit.Framework;
-
 
 namespace NRegFreeCom.Tests
 {
@@ -96,13 +96,9 @@ namespace NRegFreeCom.Tests
             RegAsm.User.UnregisterInterface(type, RegistryView.Default);
         }
         
-
-        [Test]
-        public void User_UnregisterTypeLib_Ok()
-        {
-            var asm = System.Reflection.Assembly.GetExecutingAssembly();
-            RegAsm.User.UnregisterTypeLib(asm, RegistryView.Default);
-        }
+        
+        
+      
 
 
 

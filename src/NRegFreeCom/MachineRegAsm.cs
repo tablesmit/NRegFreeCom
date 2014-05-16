@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Win32;
-
+using System.Collections.Generic;
+using System.Collections;
 
 namespace NRegFreeCom
 {
@@ -93,6 +94,10 @@ namespace NRegFreeCom
         public void UnregisterTypeLib(System.Reflection.Assembly typeLib, RegistryView registryView = RegistryView.Default)
         {
             throw new NotImplementedException();
+        }
+        
+        public void RegisterInterfaces(IEnumerable<Type> type, RegistryView registryView = RegistryView.Default){
+           throw new NotImplementedException();
         }
     }
 }

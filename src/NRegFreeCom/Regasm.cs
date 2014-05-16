@@ -3,6 +3,8 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Security.AccessControl;
 using System.Xml.Linq;
 using Microsoft.Win32;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace NRegFreeCom
 {
@@ -85,7 +87,13 @@ namespace NRegFreeCom
             {
                 using (RegistryKey infKey = classes.CreateSubKey(INTERFACE))
                 {
-                    using (RegistryKey guidKey = infKey.CreateSubKey(reg.Guid))
+                	registerInterfaceGuid(infKey,reg);
+                }
+            }
+        }
+        
+        private void registerInterfaceGuid(RegistryKey infKey,ComInterfaceInfo reg){
+        	using (RegistryKey guidKey = infKey.CreateSubKey(reg.Guid))
                     {
 
                         //some PSDispatch oleaut32 value needed
@@ -99,6 +107,17 @@ namespace NRegFreeCom
                             typeLibKey.SetValue("", reg.TypeLib.Guid.ToString("B"));//with curly braces
                             typeLibKey.SetValue("Version", reg.TypeLib.Version);
                         }
+                    }
+        }
+        
+        protected void registerInterfaces(RegistryKey classes, IEnumerable<ComInterfaceInfo> regs)
+        {
+            using (classes)
+            {
+                using (RegistryKey infKey = classes.CreateSubKey(INTERFACE))
+                {
+                    foreach (var reg in regs) {
+                		registerInterfaceGuid(infKey,reg);
                     }
                 }
             }

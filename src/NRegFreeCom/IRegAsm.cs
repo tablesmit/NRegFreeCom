@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.Win32;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace NRegFreeCom
 {
@@ -35,6 +37,8 @@ namespace NRegFreeCom
         /// <param name="type"></param>
         /// <param name="registryView"></param>
         void RegisterInterface(Type type, RegistryView registryView = RegistryView.Default);
+        
+        void RegisterInterfaces(IEnumerable<Type> type, RegistryView registryView = RegistryView.Default);
         
         /// <summary>
         /// Registers CLR assembly as COM TypeLib.

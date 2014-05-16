@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.Win32;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace NRegFreeCom
 {
@@ -102,5 +104,21 @@ namespace NRegFreeCom
         }
 
      
+    	
+		public void RegisterInterfaces(IEnumerable<Type> types, RegistryView registryView)
+		{
+			var regs = new List<ComInterfaceInfo>();
+			foreach (var type in types) {
+				regs.Add( ComClrInfoFactory.CreateInterface(type));
+			}
+        
+            #if NET35
+            throw new NotImplementedException("Need to backport 4.0 methods");
+#else
+            var root = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, registryView);
+            var classes = root.CreateSubKey(CLASSES);
+            registerInterfaces(classes, regs);
+#endif
+		}
     }
 }

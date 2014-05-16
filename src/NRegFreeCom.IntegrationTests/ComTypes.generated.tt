@@ -1,0 +1,34 @@
+﻿<#@ template language="C#" #>
+<#@ output extension=".cs" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Runtime.InteropServices;
+<#
+int count = 20;
+#>
+namespace NRegFreeCom.IntegrationTests
+{
+	internal static class ComTypes
+	{
+	    public static List<Type> ComInterfaces = new List<Type>{
+	      <#
+          for (int i=0;i< count;i++){
+  	      #>
+            typeof( IRuntimeComInterface<#=i#>),
+          <#}#>	
+        };
+	}
+	
+    <#
+    for (int i=0;i< count;i++){
+  	#>       
+    [GuidAttribute("<#=Guid.NewGuid().ToString()#>")]
+    [ComVisibleAttribute(true)]
+    public interface IRuntimeComInterface<#=i#> { }
+    <#}#>
+}

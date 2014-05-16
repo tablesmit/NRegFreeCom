@@ -151,7 +151,7 @@ Project design and reasoning:
 * automate Nuget build
 * generate reg file during COM registrations
 * add support for Record and dependency Class-Inteface Class-TypeLib Interface-TypeLib registration
-* measure registration perfromacne, add batch registration methods
+* add assembly batch registration methods RegisterTypeLibWithInterfaces, next is slow (	foreach (var type in ComTypes.ComInterfaces) {ComClrInfoFactory.CreateInterface(type);}
 * need to check guess that IDispEventImpl needs registry, but  IDispEventSimpleImpl - not, document this
 * avoid direct dependency on assembly to allow assembly touchless registration (e.g. if metadata was read out via Mono.Cecil)
 * add rgs parser, add xml with semantics of rgs, reg-xml-rgs translator
