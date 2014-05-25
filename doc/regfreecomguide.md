@@ -1,8 +1,8 @@
 
 There are several options regarding registry:
 
-Register in Registry during deployment.
----
+#### Register in Registry during deployment.
+
 Default way of Microsoft
 
 
